@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="KonnnMusic">
+    <meta name="author" content="KonnnMusic">
+    <meta name="keywords" content="KonnnMusic">
+    <meta name="image" content="">
+
+    <title>KonnnMusic</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- local style -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body style="min-height: 100vh;">
+    <div id="loading" class="d-flex justify-content-center align-items-center position-fixed w-100 h-100"
+        style="min-height: 100vh;">
+        <div class="text-center d-flex flex-column align-items-center">
+            <h1>KonnnMusic</h1>
+            <div class="first-loader"></div>
+        </div>
+    </div>
+
+    <div id="app">
+        <div id="main">
+            <div id="menu" class="bg-dark text-light d-flex flex-column justify-content-between">
+                <div class="d-flex flex-column justify-content-between">
+                    <div class="logo p-4">
+                        <h1>KonnnMusic</h1>
+                    </div>
+                    <nav class="navbar-nav">
+                        <a class="nav-item px-4 nav-link active" aria-current="page" href="#home">
+                            <i class="bi bi-house-door"></i>
+                            <span>Home</span>
+                        </a>
+                        <a class="nav-item px-4  nav-link" href="#playlist">
+                            <i class="bi bi-music-note-list"></i>
+                            <span>Playlist</span>
+                        </a>
+                        <a class="nav-item px-4  nav-link" href="#manager-music">
+                            <i class="bi bi-gear"></i>
+                            <span>Manager Music</span>
+                        </a>
+                    </nav>
+                </div>
+                <div class="info p-4">
+                    <h6>Follow us on</h6>
+                    <a href="https://facebook.com/konnn04" class="nav-link" target="_blank">
+                        <i class="bi bi-facebook"></i> Facebook
+                    </a>
+                    <hr>
+                    <div class="small text-secondary">
+                        <p class="mb-1">Version: 1.0.0</p>
+                        <p class="mb-1">Created by: <a href="https://konnn04.github.io" target="_blank"
+                                class="nav-link p-0">Konnn04</a></p>
+                        <a href="#readme" class="nav-link p-0">Read more</a>
+                    </div>
+                </div>
+            </div>
+            <div id="main-screen" style="flex: 1; overflow: hidden;">
+                <div id="home">
+                    <div class="header row p-4">
+                        <div class="col-8">
+                            <h2>Home</h2>
+                        </div>
+                        <div class="search-container col-4">
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary">
+                                    <i class="bi bi-search text-light"></i>
+                                </span>
+                                <input type="text" class="form-control bg-dark text-light border-secondary"
+                                    placeholder="Search for songs, artists..." aria-label="Search music">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="playlist-row p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>Recommended</h3>
+                            <span>See more</span>
+                        </div>
+                        <div class="playlist d-flex gap-4 py-2">
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="playlist-row p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>Recently</h3>
+                            <span>See more</span>
+                        </div>
+                        <div class="playlist d-flex gap-4 py-2">
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="song-item card pointer position-relative">
+                                <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Miside </h5>
+                                    <p class="card-text">OST from game Miside</p>
+                                </div>
+                                
+                                <div class="play-song">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="player-bar">
+            <div id="progress-bar" class="w-100 bg-secondary player_progress" style="height: 3px; cursor: pointer;">
+                <div id="progress" class="bg-light h-100 position-relative" style="width: 0%;"></div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center p-2">
+                <div id="control">
+                    <button id="prev" class="btn btn-link text-light player_prev">
+                        <i class="bi bi-skip-backward-fill"></i>
+                    </button>
+                    <button id="play" class="btn btn-link text-light player_pp">
+                        <i class="bi bi-play-fill"></i>
+                    </button>
+                    <button id="next" class="btn btn-link text-light player_next">
+                        <i class="bi bi-skip-forward-fill"></i>
+                    </button>
+                    <span class="player_currentTime"></span>/<span class="player_duration"></span>
+                </div>
+                <div id="info">
+                    <div class="d-flex align-items-center gap-2">
+                        <img id="thumbnail" src="" alt="thumbnail" style="width: 60px; height: 60px; object-fit: cover;"
+                            class="player_cover rounded">
+                        <div>
+                            <div id="title" class="player_title">Unknown</div>
+                            <div id="artist" class="player_artist">Unknown</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="util">
+                    <div class="d-flex align-items-center gap-2">
+                        <button id="shuffle" class="btn btn-link text-light">
+                            <i class="bi bi-shuffle"></i>
+                        </button>
+                        <button id="loop" class="btn btn-link text-light player_loop">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </button>
+                        <div class="volume-control d-flex align-items-center gap-2">
+                            <button id="volume" class="btn btn-link text-light">
+                                <i class="bi bi-volume-up"></i>
+                            </button>
+                            <input type="range" class="player_volume_range" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./assets/js/MusicPlayer.js"></script>
+    <script src="./assets/js/utils.js"></script>
+    <script src="./assets/js/app.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,185 @@
+
+:root {
+    --primary: #0060ba;
+    --secondary: #f9f871;
+    --tertiary: #f9f9f9;
+    --dark: #333;
+    --light: #fff;
+    --bg: #111;
+    --bg2: #212529;
+    --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* LOADER */
+#loading{
+    background-color: var(--bg);
+    z-index: 9;
+}
+
+.first-loader {
+    width: 60px;
+    display: flex;
+    align-items: flex-start;
+    aspect-ratio: 1;
+}
+.first-loader:before,
+.first-loader:after {
+    content: "";
+    flex: 1;
+    aspect-ratio: 1;
+    --g: conic-gradient(from -90deg at 10px 10px,#fff 90deg,#0000 0);
+    background: var(--g), var(--g), var(--g);
+    filter: drop-shadow(30px 30px 0 #fff);
+    animation: l20 1s infinite;
+}
+.first-loader:after {
+    transform: scaleX(-1);
+}
+
+@keyframes l20 {
+    0%   {background-position:0     0, 10px 10px, 20px 20px}
+    33%  {background-position:10px  10px}
+    66%  {background-position:0    20px,10px 10px,20px 0   }
+    100% {background-position:0     0, 10px 10px, 20px 20px}
+}
+
+/* COMMON */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: var(--light);
+    user-select: none;
+}
+
+html {
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg);
+    overflow: hidden;
+}
+
+.nav-item.active {
+    background-color: var(--primary);
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#main {
+    flex: 1 0 0;
+    display: flex;
+    width: 100vw;
+    height: calc(100vh - 80px);
+}
+
+#player-bar{
+    height: 78px;   
+    background-color: var(--bg2);
+}
+
+#loop{
+    opacity: 0.3;
+}
+
+#loop.active{
+    opacity: 1;
+}
+
+#main-screen>*{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+#menu{
+    width: 5rem;
+    font-size: 1.6rem;
+    transition: all 0.1s;
+}
+
+#menu span,
+#menu .logo,
+#menu .info{
+    display: none;
+}
+
+#menu:hover{
+    width: 300px;
+}
+
+#menu:hover .logo,
+#menu:hover .info{
+    display: block;
+    font-size: 1.2rem;
+}
+
+#menu:hover span{
+    display: inline;
+    font-size: 1.2rem;
+}
+
+.card{
+    width: 300px;
+    background-color: var(--bg2);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.card .card-body{
+    color: var(--light);
+}
+
+.card .play-song{
+    position: absolute;
+    opacity: 0;
+    transition: all 0.1s;
+    bottom: 4rem;
+    right: 1rem;
+    border-radius: 50%;
+    background-color: var(--primary);
+    width:  3rem;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(100%);
+}
+
+.card:hover .play-song{
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.playlist{
+    overflow-x: auto;
+}
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) var(--bg2);
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--bg2);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: var(--secondary);
+}
+
