@@ -59,6 +59,19 @@ class MusicPlayer extends Audio {
         this.loop = false
     }
 
+    on(ev, callback) {
+        if (!this.events) {
+            this.events = {};
+        }
+        this.events[ev] = callback;
+    }
+
+    trigger(ev) {
+        if (this.events && typeof this.events[ev] === 'function') {
+            this.events[ev]();
+        }
+    }
+
     isPlaying(){
         return this.isPlaying
     }
@@ -104,10 +117,12 @@ class MusicPlayer extends Audio {
         }else{
             console.error("Playlist is empty")
         }
+        this.trigger("playlistUpdate")
     }
 
     addSong(...song){
         this.songs.push(song)
+        this.trigger("playlistUpdate")
     }
 
     init(){
@@ -310,31 +325,27 @@ class MusicPlayer extends Audio {
 
     addSong(...song){
         this.songs.push(song)
+        this.trigger("playlistUpdate")
     }
 
-    on(ev, callback) {
-        if (!this.events) {
-            this.events = {};
-        }
-        this.events[ev] = callback;
-    }
     
-    trigger(ev) {
-        if (this.events && typeof this.events[ev] === 'function') {
-            this.events[ev]();
-        }
-    }
     
+    
+    
+    getPlaylist(){
+        return this.songs
+    }
     
 }
 
 class Song{
-    constructor(id, title, artist, url, cover, ){
+    constructor(id, title, artist, url, cover, duration){
         this.title = title ?? "Unknown"
         this.artist = artist ?? "Unknown"
         this.src = url ?? null
         this.cover = cover ?? "https://png.pngtree.com/png-vector/20231016/ourmid/pngtree-vinyl-disc-png-image_10188179.png",
         this.id = id ?? "0"
+        this.duration = duration ?? 0
     }
 
     getDuration(){
@@ -346,6 +357,15 @@ class Song{
         })
     }
 
+    getInfo() {
+        return {
+            id: this.id,
+            title: this.title,
+            artist: this.artist,
+            src: this.src,
+            cover: this.cover
+        }
+    }
 }
 
 
