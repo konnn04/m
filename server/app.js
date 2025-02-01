@@ -12,7 +12,13 @@ app.set('trust proxy', 1);
 
 
 // Use Railway's persistent storage or fallback to local directory
-const STORAGE_DIR = process.env.RAILWAY_VOLUME_MOUNT_PATH || path.join(__dirname, 'public');
+// const STORAGE_DIR = process.env.RAILWAY_VOLUME_MOUNT_PATH || path.join(__dirname, 'public');
+// const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
+// const AUDIO_DIR = path.join(PUBLIC_DIR, 'audios');
+// const INFO_DIR = path.join(PUBLIC_DIR, 'infos');
+
+// Use /tmp directory for storage
+const STORAGE_DIR = '/tmp';
 const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
 const AUDIO_DIR = path.join(PUBLIC_DIR, 'audios');
 const INFO_DIR = path.join(PUBLIC_DIR, 'infos');

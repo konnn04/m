@@ -3,9 +3,13 @@ const path = require('path');
 const { spawn } = require('child_process');
 
 const YTDLP_PATH = path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
-const INFOS_PATH = path.join(__dirname, './public/infos');
-const AUDIOS_PATH = path.join(__dirname, './public/audios');
+// const INFOS_PATH = path.join(__dirname, './public/infos');
+// const AUDIOS_PATH = path.join(__dirname, './public/audios');
 
+const STORAGE_DIR = '/tmp';
+const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
+const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
+const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
 
 async function getIDYT(url) {
     if (url.includes("youtube.com")) {
