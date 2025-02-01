@@ -14,26 +14,6 @@ const main = async () => {
     await player.init();
 };
 
-player.on("play", async () => {
-    const currentSong = player.getCurrentSong().getInfo();
-    let recentlyPlayed = JSON.parse(localStorage.getItem('recentlyPlayed')) || [];
-    recentlyPlayed = recentlyPlayed.filter(song => song.id !== currentSong.id);
-    recentlyPlayed.unshift(currentSong);
-    if (recentlyPlayed.length > 20) {
-        recentlyPlayed = recentlyPlayed.slice(0, 20);
-    }
-    localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayed));
-    updateRecentlyPlayed(recentlyPlayed);
-});
-
-player.on("next", () => {
-    updatePlaylist(player.getPlaylist())
-});
-
-player.on("prev", () => {
-    updatePlaylist(player.getPlaylist())
-});
-
 function updateRecentlyPlayed(recentlyPlayed) {
     const recentlyContainer = document.getElementById('recently');
     recentlyContainer.innerHTML = '';
@@ -96,6 +76,11 @@ function updatePlaylist(playlist) {
         });
         $("#current-playlist").append(div);
     });
+}
+
+function refreshPlaylistIndex() {
+    $(".list-item").removeClass("active");
+    $(".list-item").eq(player.getCurrrentSongIndex()).addClass("active");
 }
 
 const initEvent = () => {
@@ -234,7 +219,22 @@ const initEvent = () => {
             toasty("Error", "An error occurred while setting cookie\n" + error.message, "error");
         }
     });
+
+    player.on("play", async () => {
+        const currentSong = player.getCurrentSong().getInfo();
+        let recentlyPlayed = JSON.parse(localStorage.getItem('recentlyPlayed')) || [];
+        recentlyPlayed = recentlyPlayed.filter(song => song.id !== currentSong.id);
+        recentlyPlayed.unshift(currentSong);
+        if (recentlyPlayed.length > 20) {
+            recentlyPlayed = recentlyPlayed.slice(0, 20);
+        }
+        localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayed));
+        updateRecentlyPlayed(recentlyPlayed);
+        refreshPlaylistIndex()
+    });
 };
+
+
 
 function searchFunc(query) {
     $(".search-container input").attr("disabled", true);
