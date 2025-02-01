@@ -7,6 +7,18 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 app.use(cors());
+app.set('trust proxy', 1); 
+
+const mkdirSync = require('fs').mkdirSync;
+const existsSync = require('fs').existsSync;
+
+// Tạo thư mục nếu chưa tồn tại
+const dirs = ['./public', './public/audios', './public/infos'];
+dirs.forEach(dir => {
+    if (!existsSync(dir)) {
+        mkdirSync(dir, { recursive: true });
+    }
+});
 
 // Serve static files from 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
