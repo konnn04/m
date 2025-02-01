@@ -1,15 +1,16 @@
-{"dependencies": {
+{
+  "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0"
   },
-    "name": "konnnmusic",
-    "version": "1.0.0",
-    "engines": {
-      "node": "18.x"
-    },
-    "scripts": {
-      "start": "cd server && node app.js",
-      "postinstall": "cd server && mkdir -p tmp/lib tmp/public/audios tmp/public/infos && cp -r lib/* tmp/lib/ && chmod +x tmp/lib/yt-dlp && export YTDLP_PATH=tmp/lib/yt-dlp && npm install"
-    }
+  "name": "konnnmusic",
+  "version": "1.0.0",
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "start": "cd server && node app.js",
+    "postinstall": "cd server && mkdir -p tmp/lib tmp/public/audios tmp/public/infos && cp -r lib/* tmp/lib/ && chmod +x tmp/lib/yt-dlp && export YTDLP_PATH=tmp/lib/yt-dlp && npm install"
   }
+}
