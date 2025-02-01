@@ -10,28 +10,20 @@ const port = 3000;
 app.use(cors());
 app.set('trust proxy', 1); 
 
-const mkdirSync = require('fs').mkdirSync;
-const existsSync = require('fs').existsSync;
+const PUBLIC_DIR = path.join('/tmp', 'public');
+const AUDIO_DIR = path.join(PUBLIC_DIR, 'audios');
+const INFO_DIR = path.join(PUBLIC_DIR, 'infos');
 
-// Tạo thư mục nếu chưa tồn tại
-const dirs = [
-    path.join(__dirname, 'public'), 
-    path.join(__dirname, 'public/audios'), 
-    path.join(__dirname, 'public/infos')
-];
-
+const dirs = [PUBLIC_DIR, AUDIO_DIR, INFO_DIR];
 dirs.forEach(dir => {
-    try {
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
-        }
-    } catch (error) {
-        console.error(`Error creating directory ${dir}:`, error);
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
     }
 });
 
 // Serve static files from 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(PUBLIC_DIR));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 // Apply rate limiting to specific routes
 app.use('/api/search', rateLimit({

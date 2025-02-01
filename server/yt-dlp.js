@@ -2,11 +2,14 @@ const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
 
-
-const YTDLP_PATH = path.join(__dirname, './lib/yt-dlp');
 // const YTDLP_PATH = ("./lib/yt-dlp")
-const INFOS_PATH = path.join(__dirname, './public/infos');
-const AUDIOS_PATH = path.join(__dirname, './public/audios');
+// const YTDLP_PATH = path.join(__dirname, './lib/yt-dlp');
+// const INFOS_PATH = path.join(__dirname, './public/infos');
+// const AUDIOS_PATH = path.join(__dirname, './public/audios');
+
+const PUBLIC_DIR = path.join('/tmp', 'public');
+const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
+const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
 
 
 async function getIDYT(url) {
@@ -250,7 +253,9 @@ async function getMusicList(keyword) {
 
         return audioInfos;
     } catch (error) {
-        throw new Error(error.message);
+        // throw new Error(error.message);
+        console.error('Error in getMusicList:', error);
+        return [];
     }
 }
 
