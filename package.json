@@ -4,6 +4,10 @@
   "private": true,
   "main": "server/app.js",
   "scripts": {
-    "start": "cd server && node app.js"
+    "start": "cd server && node app.js",
+    "postinstall": "cd server && npm install"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
