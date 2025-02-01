@@ -1,1 +1,1 @@
-web: cd server && node app.js
+web: cd server && mkdir -p tmp/lib tmp/public/audios tmp/public/infos && cp -r lib/* tmp/lib/ && chmod +x tmp/lib/yt-dlp && export YTDLP_PATH=tmp/lib/yt-dlp && node app.js
