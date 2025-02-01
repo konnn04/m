@@ -1,3 +1,5 @@
+const { url } = require("inspector");
+
 // const host = "http://127.0.0.1:3000"
 const host = "https://kmusictest-4f44bf517a97.herokuapp.com"
 const player = new MusicPlayer();
@@ -84,6 +86,82 @@ const initEvent = () => {
         const query = $(".search-container input").val();
         await searchFunc(query);
     });
+
+    // Export URLs to clipboard
+    $("#export-urls").click(async function () {
+        try {
+            const urls = (await getSongs()).data.map(song => song.url).join('\n');
+            await navigator.clipboard.writeText(urls);
+            toasty("Success", "URLs copied to clipboard", "success");
+        } catch (error) {
+            console.error("Error exporting URLs:", error);
+            toasty("Error", "An error occurred while exporting URLs\n" + error.message, "error");
+        }
+    });
+
+    // Import URLs from clipboard
+    $("#import-urls-btn").click(async function () {
+        try {
+            $(this).attr("disabled", true);
+            const urls = document.getElementById('import-urls').value.split('\n').filter(url => url.trim() !== '');
+            if (urls.length === 0) {
+                toasty("Error", "No URLs to import", "error");
+                return;
+            }
+
+            if (urls.length > 10) {
+                toasty("Error", "Too many URLs to import, minimun is 10 urls", "error");
+                return;
+            }
+
+            for (let i = 0; i < urls.length; i++) {
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 5000));
+                    await downloadSong(urls[i]);
+                    toasty("Success", `Song ${i + 1} imported successfully`, "success");
+                } catch (error) {
+                    console.error(`Error importing URL ${i + 1}:`, error);
+                    toasty("Error", `An error occurred while importing URL ${i + 1}\n${error.message}`, "error");
+                }
+            }
+
+            toasty("Success", "Songs imported successfully", "success");
+        } catch (error) {
+            console.error("Error importing URLs:", error);
+            toasty("Error", "An error occurred while importing URLs\n" + error.message, "error");
+        } finally {
+            document.getElementById('import-urls').value = '';
+            $(this).attr("disabled", false);
+        }
+    });
+
+    // Export songs to local storage
+    $("#save-urls").click(async function () {
+        try {
+            const songs = (await getSongs()).data.map(song => song.url).join('\n');
+            localStorage.setItem('songs', JSON.stringify(songs));
+            toasty("Success", "Songs exported to local storage", "success");
+        } catch (error) {
+            console.error("Error exporting songs:", error);
+            toasty("Error", "An error occurred while exporting songs\n" + error.message, "error");
+        }
+    });
+
+    // Get songs from local storage
+    $("#get-urls").click(async function () {
+        try {
+            const songs = JSON.parse(localStorage.getItem('songs'));
+            if (!songs) {
+                toasty("Error", "No songs found in local storage", "error");
+                return;
+            }
+            document.getElementById('import-urls').value = songs;
+            toasty("Success", "Songs imported from local storage", "success");
+        } catch (error) {
+            console.error("Error importing songs:", error);
+            toasty("Error", "An error occurred while importing songs\n" + error.message, "error");
+        }
+    })
 };
 
 function searchFunc(query) {
@@ -311,6 +389,8 @@ function toasty(header, text, type) {
         hideAfter: 3000,
     })
 }
+
+
 
 window.onload = () => {
     setTimeout(() => {
