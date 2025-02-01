@@ -7,7 +7,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node app.js",
+    "build": "chmod -R 755 ./server && cd server && npm install"
   },
   "keywords": [],
   "author": "",

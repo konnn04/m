@@ -6,6 +6,10 @@
 
 KonnnMusic là một ứng dụng web cho phép người dùng tìm kiếm, phát và quản lý các bài hát từ YouTube. Ứng dụng này được xây dựng với mục đích học tập và không nhằm mục đích thương mại.
 
+## Demo
+
+Bạn có thể xem bản demo của ứng dụng tại đây: [KonnnMusic Demo](https://konnn04.github.io/m/)
+
 ## Cách chạy server
 
 ### Yêu cầu
