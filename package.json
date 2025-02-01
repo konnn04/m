@@ -1,0 +1,9 @@
+{
+  "name": "konnnmusic",
+  "version": "1.0.0",
+  "private": true,
+  "main": "server/app.js",
+  "scripts": {
+    "start": "cd server && node app.js"
+  }
+}
