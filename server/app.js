@@ -13,7 +13,11 @@ const mkdirSync = require('fs').mkdirSync;
 const existsSync = require('fs').existsSync;
 
 // Tạo thư mục nếu chưa tồn tại
-const dirs = ['./public', './public/audios', './public/infos'];
+const dirs = [
+    path.join(__dirname, 'public'), 
+    path.join(__dirname, 'public/audios'), 
+    path.join(__dirname, 'public/infos')
+];
 dirs.forEach(dir => {
     if (!existsSync(dir)) {
         mkdirSync(dir, { recursive: true });
