@@ -2,10 +2,8 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy root package.json first
+# Copy package files
 COPY package*.json ./
-
-# Copy server package.json
 COPY server/package*.json ./server/
 
 # Install dependencies
@@ -17,8 +15,8 @@ COPY . .
 # Create required directories
 RUN mkdir -p /data/public/audios /data/public/infos
 
-# Set permissions for yt-dlp
-RUN chmod +x server/lib/yt-dlp
+# Set proper permissions
+RUN chmod +x /app/server/lib/yt-dlp
 
 # Expose port
 EXPOSE 3000
