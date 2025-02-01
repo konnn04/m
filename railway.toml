@@ -6,7 +6,7 @@ buildCommand = "chmod +x server/lib/yt-dlp && cd server && npm install"
 startCommand = "cd server && npm start"
 healthcheckPath = "/api/songs"
 healthcheckTimeout = 100
-restartPolicyType = "on-failure"
+restartPolicy = "on-failure"
 
 [mount]
 source = "/data"
