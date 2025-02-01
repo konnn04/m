@@ -80,6 +80,7 @@ class MusicPlayer extends Audio {
         if (index < this.songs.length && index >= 0) {
             this.currentSong = this.songs[index]
             this.src = this.currentSong.src
+
             this.play()
             this.updateInfo()
         } else {
@@ -89,6 +90,9 @@ class MusicPlayer extends Audio {
     }
 
     updateInfo() {
+        if (!this.currentSong) {
+            return
+        }
         const title = document.querySelectorAll('.player_title')
         title.forEach(t => {
             t.textContent = this.currentSong.title
@@ -96,7 +100,7 @@ class MusicPlayer extends Audio {
 
         const artist = document.querySelectorAll('.player_artist')
         artist.forEach(a => {
-            a.textContent = this.currentSong.artist
+            a.textContent = this.currentSong.artist || this.currentSong.uploader || "Unknown"
         })
 
         const cover = document.querySelectorAll('.player_cover')
@@ -328,9 +332,9 @@ class MusicPlayer extends Audio {
         this.trigger("playlistUpdate")
     }
 
-    
-    
-    
+    getCurrrentSongIndex(){
+        return this.songs.indexOf(this.currentSong)
+    }
     
     getPlaylist(){
         return this.songs
@@ -339,9 +343,9 @@ class MusicPlayer extends Audio {
 }
 
 class Song{
-    constructor(id, title, artist, url, cover, duration){
+    constructor(id, title, uploader, url, cover, duration){
         this.title = title ?? "Unknown"
-        this.artist = artist ?? "Unknown"
+        this.uploader = uploader ?? "Unknown"
         this.src = url ?? null
         this.cover = cover ?? "https://png.pngtree.com/png-vector/20231016/ourmid/pngtree-vinyl-disc-png-image_10188179.png",
         this.id = id ?? "0"
@@ -361,7 +365,7 @@ class Song{
         return {
             id: this.id,
             title: this.title,
-            artist: this.artist,
+            uploader: this.uploader,
             src: this.src,
             cover: this.cover
         }

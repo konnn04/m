@@ -50,6 +50,69 @@
   }
 }
 
+
+/* HTML: <div class="loader-2"></div> */
+.loader-2 {
+  width: 40px;
+  aspect-ratio: 1;
+  position: relative;
+}
+.loader-2:before,
+.loader-2:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: -8px 0 0 -8px;
+  width: 16px;
+  aspect-ratio: 1;
+  background: #ffffff;
+  animation:
+    l1-1 2s  infinite,
+    l1-2 .5s infinite;
+}
+.loader-2:after {
+  background:#00000000;
+  border: 1px solid #ffffff;
+  animation-delay: -1s,0s;
+}
+@keyframes l1-1 {
+  0%   {top:0   ;left:0}
+  25%  {top:100%;left:0}
+  50%  {top:100%;left:100%}
+  75%  {top:0   ;left:100%}
+  100% {top:0   ;left:0}
+}
+@keyframes l1-2 {
+   80%,100% {transform: rotate(0.5turn)}
+}
+
+/* HTML: <div class="loader-3"></div> */
+.loader-3 {
+  width: 80px;
+  aspect-ratio: 1;
+  border: 10px solid #000;
+  box-sizing: border-box;
+  background: 
+    radial-gradient(farthest-side,#fff 98%,#0000) top,
+    radial-gradient(farthest-side,#fff 98%,#0000) top,
+    radial-gradient(farthest-side,#fff 98%,#0000) left,
+    radial-gradient(farthest-side,#fff 98%,#0000) right,
+    radial-gradient(farthest-side,#fff 98%,#0000) bottom,
+    #000;
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  filter: blur(4px) contrast(10); 
+  animation: l19 2s infinite;
+}
+@keyframes l19 {
+  0%   {background-position:top,top,left,right,bottom}
+  25%  {background-position:right,top,left,right,bottom}
+  50%  {background-position:bottom,top,left,right,bottom}
+  75%  {background-position:left,top,left,right,bottom}
+  100% {background-position:top,top,left,right,bottom}
+}
+
 /* COMMON */
 * {
   margin: 0;
@@ -236,10 +299,21 @@ body {
 .song-list {
   overflow-y: auto;
   height: 100%;
+  width: 100%;
 }
 
 .song-list .list-item {
   background: #11111179;
+  width: 100%;
+  overflow: hidden;
+}
+
+.song-list .list-item h5{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    font-size: 1.1rem;
+    overflow: hidden;
 }
 
 .song-list .list-item.active {
@@ -258,6 +332,11 @@ body {
 .disk-box {
   padding: 3rem 0;
   position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -265,9 +344,10 @@ body {
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: 50%;
-  width: 100%;
+  width: 80%;
   border: 2px solid #5e5e5e;
   animation: circle 10s infinite linear;
+  overflow: hidden;
 }
 
 @keyframes circle {
@@ -278,6 +358,14 @@ body {
   to{
     rotate: 360deg;
   }
+}
+
+#title,
+#artist {
+  max-width: 300px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .disk-box > div {
