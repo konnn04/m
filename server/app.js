@@ -20,8 +20,8 @@ app.set('trust proxy', 1);
 // Use /tmp directory for storage
 const STORAGE_DIR = '/opt/render/project/tmp';
 const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
-const AUDIO_DIR = path.join(PUBLIC_DIR, 'audios');
-const INFO_DIR = path.join(PUBLIC_DIR, 'infos');
+const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
+const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
 
 // Create directories if they don't exist
 [PUBLIC_DIR, INFOS_PATH, AUDIOS_PATH].forEach(dir => {
