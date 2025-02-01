@@ -1,13 +1,14 @@
 {
   "version": 2,
-  "builds": [
+ "builds": [
     { 
       "src": "server/app.js", 
       "use": "@vercel/node",
       "config": {
         "buildCommand": "chmod +x server/lib/yt-dlp && cd server && npm install",
         "includeFiles": [
-          "server/lib/**"
+          "server/lib/**",
+          "server/public/**"
         ]
       }
     }

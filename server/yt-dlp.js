@@ -11,6 +11,13 @@ const PUBLIC_DIR = path.join('/tmp', 'public');
 const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
 const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
 
+// Ensure yt-dlp is executable
+try {
+    fs.chmodSync(YTDLP_PATH, '755');
+} catch (error) {
+    console.error('Error setting yt-dlp permissions:', error);
+}
+
 
 async function getIDYT(url) {
     if (url.includes("youtube.com")) {
