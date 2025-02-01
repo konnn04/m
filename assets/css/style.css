@@ -425,3 +425,178 @@ body {
 #search.active{
     display: block;
 }
+
+@media screen and (max-width: 700px) {
+  #player-bar {
+    height: 80px;
+  }
+
+  .volume-control,
+  #player-bar span,
+  #shuffle{
+      display: none!important;
+  }
+  
+  .song-item{
+    width: 150px;
+  }
+
+  #info{
+    font-size: 1rem;
+    width: 60vw;
+    overflow: hidden;
+  }
+
+  #control button{
+    font-size: 1rem!important;
+    padding: 3px;
+  }
+
+  #play i{
+    font-size: 1.5rem!important;
+  }
+
+  #main{
+    position: relative;
+  }
+
+  #menu{
+    position: absolute;
+    z-index: 5;
+    top: -1rem;
+    left: 0;
+    height: 0;
+    font-size: 0;
+    width: 0;
+    /* overflow: hidden; */
+  }
+
+  #menu::after{
+    content: ">";
+    position: absolute;
+    top: 1rem;
+    left: 0;
+    width: 3rem;
+    height: 5rem;
+    /* padding: 1rem; */
+    background-color: #171717;
+    z-index: 15;
+    color: #9f9f9f;
+    font-size: 3rem;
+    border-radius: 20%;
+    padding-left: .5rem;
+  }
+
+  #main-screen{
+    padding-top: 80px;  
+  }
+
+  #menu:hover{
+    width: 80vw;
+    height: calc(100vh - 80px); 
+    top: 0;
+    left: 0;
+    font-size: 1.6rem;
+  }
+
+  #menu:hover::after{
+    content: "<";
+    left: 100vw;
+  }
+
+  .playlist{
+    width: 100vw;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 40vh;
+    overflow-y: auto  ;
+    gap: 5px!important;
+  }
+
+  .card{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    gap: 10px;
+    }
+
+  .card-img-top{
+    display: block;
+    width: 70px;
+    aspect-ratio: 1 ;
+    object-fit: cover;
+  }
+
+  .card-body{
+    flex: 1 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .card-title{
+    font-size: 1rem!important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    } 
+
+  .card-text{
+    font-size: .8rem!important;
+  }
+
+  .header>div:nth-child(1){
+    width: 40vw!important;
+    overflow: hidden;
+  }
+
+  .header>div:nth-child(2){
+    width: 50vw!important;
+    overflow: hidden;
+  }
+
+  .result-item {
+    flex-wrap: wrap;
+  }
+
+  .result-item h5{
+    font-size: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .result-item>div:nth-child(2){
+    overflow: hidden;
+    flex: none ;
+    width: calc(90% - 70px);
+  }
+
+  .result-item>div:nth-child(3) {
+    width: 100%;  
+    flex-shrink: 0;
+  }
+
+  .player-screen{
+    display: block!important;
+    overflow-y: auto;
+  }
+
+  .player-screen>div{
+    width: 100%;
+  }
+
+  .container_ {
+    padding: 1rem;
+  }
+
+  #current-playlist{
+    height: 50vh;
+  }
+  
+  #player-screen-bg{
+    z-index: 1;
+  }
+}
