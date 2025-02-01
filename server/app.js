@@ -24,9 +24,11 @@ const AUDIO_DIR = path.join(PUBLIC_DIR, 'audios');
 const INFO_DIR = path.join(PUBLIC_DIR, 'infos');
 
 // Create directories if they don't exist
-[PUBLIC_DIR, AUDIO_DIR, INFO_DIR].forEach(dir => {
+[PUBLIC_DIR, INFOS_PATH, AUDIOS_PATH].forEach(dir => {
     if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
+        fs.mkdirSync(dir, { recursive: true, mode: 0o777 });
+    } else {
+        fs.chmodSync(dir, 0o777);
     }
 });
 
