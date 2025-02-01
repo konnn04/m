@@ -8,11 +8,60 @@ const main = async () => {
         $("#current-playlist").empty();
     });
     $("#home").addClass("active");
-    initHome()
-    initDefaultPlaylist();
-    initEvent();
-    player.init();
+    await initHome()
+    await initDefaultPlaylist();
+    await initEvent();
+    await player.init();
 };
+
+player.on("play", async () => {
+    const currentSong = player.getCurrentSong().getInfo();
+    let recentlyPlayed = JSON.parse(localStorage.getItem('recentlyPlayed')) || [];
+
+    // Remove the song if it already exists in the list
+    recentlyPlayed = recentlyPlayed.filter(song => song.id !== currentSong.id);
+
+    // Add the current song to the beginning of the list
+    recentlyPlayed.unshift(currentSong);
+
+    // Limit the list to the last 20 songs
+    if (recentlyPlayed.length > 20) {
+        recentlyPlayed = recentlyPlayed.slice(0, 20);
+    }
+
+    // Save the updated list back to local storage
+    localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayed));
+
+    // Update the #recently element
+    updateRecentlyPlayed(recentlyPlayed);
+});
+
+function updateRecentlyPlayed(recentlyPlayed) {
+    const recentlyContainer = document.getElementById('recently');
+    recentlyContainer.innerHTML = '';
+
+    recentlyPlayed.forEach((song, index) => {
+        const div = document.createElement('div');
+        div.className = 'song-item card pointer position-relative';
+        div.innerHTML = `
+            <img class="card-img-top" src="${song.cover}" alt="Card image cap">
+            <div class="card-body">
+            <h5 class="card-title">${song.title}</h5>
+            <p class="card-text">${song.uploader}</p>
+            </div>
+            <div class="play-song">
+            <i class="bi bi-play-fill"></i>
+            </div>`;
+        div.addEventListener('click', function () {
+            const playlist = createPlaylist(recentlyPlayed);
+            player.setSongs(playlist);
+            player.playIndex(index);
+            updatePlaylist(player.getPlaylist());
+            $("#player-screen-bg").addClass("active");
+        });
+        recentlyContainer.appendChild(div);
+    });
+}
 
 async function initDefaultPlaylist() {
     const songs = await getSongs();
@@ -269,7 +318,7 @@ async function getSongs(params) {
 function createPlaylist(songs) {
     const playlist = [];
     songs.forEach((song) => {
-        playlist.push(new Song(song.id, song.title, song.uploader, host + song.path, song.thumbnail, song.duration));
+        playlist.push(new Song(song.id, song.title, song.uploader,  song.src || (host + song.path), song.thumbnail || song.cover, song.duration));
     });
     return playlist;
 }
@@ -310,6 +359,9 @@ async function initHome() {
     } finally {
         $(".search-container input").attr("disabled", false);
     }
+    // Recently played
+    const recentlyPlayed = JSON.parse(localStorage.getItem('recentlyPlayed')) || [];
+    updateRecentlyPlayed(recentlyPlayed);
 
 }
 

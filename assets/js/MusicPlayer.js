@@ -340,6 +340,9 @@ class MusicPlayer extends Audio {
         return this.songs
     }
     
+    getCurrentSong(){
+        return this.currentSong
+    }
 }
 
 class Song{
@@ -367,7 +370,8 @@ class Song{
             title: this.title,
             uploader: this.uploader,
             src: this.src,
-            cover: this.cover
+            cover: this.cover,
+            duration: this.duration
         }
     }
 }
