@@ -1,4 +1,4 @@
-const host = "http://127.0.0.1:3000";
+const host = "https://m-git-main-konnns-projects.vercel.app"
 const player = new MusicPlayer();
 
 const main = async () => {    
