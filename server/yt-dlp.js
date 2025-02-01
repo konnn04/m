@@ -2,16 +2,13 @@ const fs = require('fs');
 const path = require('path');
 const { spawn, execSync } = require('child_process');
 
-// const YTDLP_PATH = path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
+const YTDLP_PATH = path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
 
 // const COOKIE_PATH = path.join(__dirname, './lib/cookies.txt');
-// const INFOS_PATH = path.join(__dirname, './public/infos');
-// const AUDIOS_PATH = path.join(__dirname, './public/audios');
-const YTDLP_PATH = path.join('/opt/render/project/src/server/lib', 'yt-dlp');
-const STORAGE_DIR = '/opt/render/project/tmp';
-const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
-const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
-const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
+const INFOS_PATH = path.join(__dirname, './public/infos');
+const AUDIOS_PATH = path.join(__dirname, './public/audios');
+
+
 
 async function getIDYT(url) {
     if (url.includes("youtube.com")) {
