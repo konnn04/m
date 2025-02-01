@@ -39,8 +39,8 @@ app.use('/api/songs', rateLimit({
 
 app.use('/api/download', rateLimit({
     windowMs: 5000, // 5 seconds
-    max: 1, // limit each IP to 1 request per windowMs
-    message: { message: 'Too many requests, please try again after 3 seconds' }
+    max: 2, // limit each IP to 1 request per windowMs
+    message: { message: 'Too many requests, please try again after 5 seconds' }
 }));
 
 // API endpoint to get music list

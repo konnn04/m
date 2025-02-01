@@ -17,23 +17,21 @@ const main = async () => {
 player.on("play", async () => {
     const currentSong = player.getCurrentSong().getInfo();
     let recentlyPlayed = JSON.parse(localStorage.getItem('recentlyPlayed')) || [];
-
-    // Remove the song if it already exists in the list
     recentlyPlayed = recentlyPlayed.filter(song => song.id !== currentSong.id);
-
-    // Add the current song to the beginning of the list
     recentlyPlayed.unshift(currentSong);
-
-    // Limit the list to the last 20 songs
     if (recentlyPlayed.length > 20) {
         recentlyPlayed = recentlyPlayed.slice(0, 20);
     }
-
-    // Save the updated list back to local storage
     localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayed));
-
-    // Update the #recently element
     updateRecentlyPlayed(recentlyPlayed);
+});
+
+player.on("next", () => {
+    updatePlaylist(player.getPlaylist())
+});
+
+player.on("prev", () => {
+    updatePlaylist(player.getPlaylist())
 });
 
 function updateRecentlyPlayed(recentlyPlayed) {
@@ -150,6 +148,7 @@ const initEvent = () => {
     $("#import-urls-btn").click(async function () {
         try {
             $(this).attr("disabled", true);
+            $("#loading-4").addClass("loader-4");
             const urls = document.getElementById('import-urls').value.split('\n').filter(url => url.trim() !== '');
             if (urls.length === 0) {
                 toasty("Error", "No URLs to import", "error");
@@ -187,6 +186,7 @@ const initEvent = () => {
         } finally {
             document.getElementById('import-urls').value = '';
             $(this).attr("disabled", false);
+            $("#loading-4").removeClass("loader-4");
         }
     });
 

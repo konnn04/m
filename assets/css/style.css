@@ -113,6 +113,29 @@
   100% {background-position:top,top,left,right,bottom}
 }
 
+/* HTML: <div class="loader-4"></div> */
+.loader-4 {
+  width: fit-content;
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 30px;
+  background: linear-gradient(135deg,#0000 calc(50% - 0.5em),#00bfff 0 calc(50% + 0.5em),#0000 0) right/300% 100%;
+  animation: l22 2s infinite;
+}
+.loader-4::before {
+  content: "Downloading...";
+  color: #0000;
+  padding: 0 5px;
+  background: inherit;
+  background-image: linear-gradient(135deg,#ffffff calc(50% - 0.5em),#000000 0 calc(50% + 0.5em),#ffffff 0);
+  -webkit-background-clip:text;
+          background-clip:text;
+}
+
+@keyframes l22{
+  100%{background-position: left}
+}
+
 /* COMMON */
 * {
   margin: 0;
