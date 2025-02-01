@@ -11,6 +11,12 @@ app.use(cors());
 app.set('trust proxy', 1); 
 
 
+const STORAGE_DIR = process.env.RAILWAY_VOLUME_MOUNT_PATH || '/data';
+const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
+app.use(express.static(PUBLIC_DIR));
+
+// app.use(express.static(path.join(__dirname, 'public')));
+
 // Apply rate limiting to specific routes
 app.use('/api/search', rateLimit({
     windowMs: 3000, // 3 seconds

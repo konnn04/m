@@ -1,0 +1,13 @@
+[build]
+builder = "nixpacks"
+buildCommand = "chmod +x server/lib/yt-dlp && cd server && npm install"
+
+[deploy]
+startCommand = "cd server && npm start"
+healthcheckPath = "/api/songs"
+healthcheckTimeout = 100
+restartPolicyType = "on-failure"
+
+[mount]
+source = "/data"
+destination = "/server/public"
