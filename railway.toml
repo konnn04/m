@@ -1,13 +1,13 @@
 [build]
 builder = "nixpacks"
-buildCommand = "chmod +x server/lib/yt-dlp && cd server && npm install"
+buildCommand = "cd server && npm install"
 
 [deploy]
-startCommand = "cd server && npm start"
+startCommand = "cd server && node app.js"
 healthcheckPath = "/api/songs"
 healthcheckTimeout = 100
 restartPolicy = "on-failure"
 
-[mount]
-source = "/data"
-destination = "/server/public"
+[[services]]
+name = "web"
+persistentStorage = "/data"

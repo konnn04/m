@@ -11,8 +11,19 @@ app.use(cors());
 app.set('trust proxy', 1); 
 
 
-const STORAGE_DIR = process.env.RAILWAY_VOLUME_MOUNT_PATH || '/data';
+// Use Railway's persistent storage or fallback to local directory
+const STORAGE_DIR = process.env.RAILWAY_VOLUME_MOUNT_PATH || path.join(__dirname, 'public');
 const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
+const AUDIO_DIR = path.join(PUBLIC_DIR, 'audios');
+const INFO_DIR = path.join(PUBLIC_DIR, 'infos');
+
+// Create directories if they don't exist
+[PUBLIC_DIR, AUDIO_DIR, INFO_DIR].forEach(dir => {
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
+});
+
 app.use(express.static(PUBLIC_DIR));
 
 // app.use(express.static(path.join(__dirname, 'public')));

@@ -13,11 +13,11 @@ const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
 const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
 
 // Ensure directories exist
-[PUBLIC_DIR, INFOS_PATH, AUDIOS_PATH].forEach(dir => {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-    }
-});
+// [PUBLIC_DIR, INFOS_PATH, AUDIOS_PATH].forEach(dir => {
+//     if (!fs.existsSync(dir)) {
+//         fs.mkdirSync(dir, { recursive: true });
+//     }
+// });
 
 async function getIDYT(url) {
     if (url.includes("youtube.com")) {
