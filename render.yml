@@ -3,7 +3,7 @@ services:
     name: konnnmusic
     env: node
     buildCommand: |
-      apt-get update && apt-get install -y python3 curl ffmpeg
+      apt-get update && apt-get install -y python3 curl ffmpeg sudo
       curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
       chmod a+rx /usr/local/bin/yt-dlp
       npm install
