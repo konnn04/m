@@ -45,45 +45,67 @@ app.use('/api/download', rateLimit({
 
 // API endpoint to get music list
 app.get('/api/songs', async (req, res) => {
-    const query = req.query.q;
-    const list = await ytdlp.getMusicList(query);
-    for (const song of list) {
-        song.path = path.join('/audios', song.id + '.webm')
+    try {
+        const query = req.query.q;
+        const list = await ytdlp.getMusicList(query);
+        for (const song of list) {
+            song.path = path.join('/audios', song.id + '.webm');
+        }
+        res.json(list);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    } finally {
+        // Any cleanup code if necessary
     }
-    res.json(list);
 });
 
 // API endpoint to search for music
 app.get('/api/search', async (req, res) => {
-    const query = req.query.kw;
-    if (!query) {
-        res.status(400).json({ message: 'Missing query parameter `kw`' });
-        return
+    try {
+        const query = req.query.kw;
+        if (!query) {
+            res.status(400).json({ message: 'Missing query parameter `kw`' });
+            return;
+        }
+        const r = await ytdlp.searchByKeyword(query);
+        res.json(r);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-    const r = await ytdlp.searchByKeyword(query)
-    res.json(r);
 })
 
 // API endpoint to download music
 app.get('/api/download', async (req, res) => {
-    const url = req.query.url;
-    if (!url) {
-        res.status(400).json({ message: 'Missing query parameter `url`' });
-        return
+    try {
+        const url = req.query.url;
+        if (!url) {
+            res.status(400).json({ message: 'Missing query parameter `url`' });
+            return;
+        }
+        const r = await ytdlp.getAudio(url);
+        r.path = path.join('/audios', r.id + '.webm');
+        res.json(r);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-    const r = await ytdlp.getAudio(url)
-    r.path = path.join('/audios', r.id + '.webm')
-    res.json(r);
 })
 
 app.delete('/api/song/:id', async (req, res) => {
-    const id = req.params.id;
-    if (!id) {
-        res.status(400).json({ message: 'Missing query parameter `id`' });
-        return
+    try {
+        const id = req.params.id;
+        if (!id) {
+            res.status(400).json({ message: 'Missing query parameter `id`' });
+            return;
+        }
+        const r = await ytdlp.deleteAudio(id);
+        res.json(r);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-    const r = await ytdlp.deleteAudio(id)
-    res.json(r);
 })
 
 // Catch 404 and forward to error handler
