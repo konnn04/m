@@ -1,9 +1,9 @@
 [build]
 builder = "nixpacks"
-buildCommand = "npm install"
+buildCommand = "cd server && npm install"
 
 [deploy]
-startCommand = "node server/app.js"
+startCommand = "cd server && node app.js"
 healthcheckPath = "/api/songs"
 healthcheckTimeout = 100
 restartPolicy = "on-failure"
