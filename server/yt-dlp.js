@@ -74,7 +74,8 @@ async function searchByKeyword(keyword) {
                 }
                 resolve(results);
             } else {
-                reject(new Error('Lấy thông tin thất bại.'));
+                // reject(new Error('Lấy thông tin thất bại.'));
+                reject({ error: 'Lấy thông tin thất bại.' + code , results: JSON.stringify(results)});
             }
         });
 
