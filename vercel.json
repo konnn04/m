@@ -18,12 +18,7 @@
     { "src": "/public/(.*)", "dest": "server/public/$1" },
     { "src": "/(.*)", "dest": "server/app.js" }
   ],
-  "functions": {
-    "server/app.js": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  },
+
   "env": {
     "NODE_ENV": "production", 
     "PORT": "3000"
