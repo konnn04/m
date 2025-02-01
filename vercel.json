@@ -5,18 +5,18 @@
       "src": "server/app.js", 
       "use": "@vercel/node",
       "config": {
-        "buildCommand": "npm run build",
+        "buildCommand": "cd server && npm install",
         "includeFiles": [
-          "server/public/**",
-          "server/lib/**"
+          "public/**",
+          "lib/**"
         ]
       }
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "server/app.js" },
-    { "src": "/public/(.*)", "dest": "server/public/$1" },
-    { "src": "/(.*)", "dest": "server/app.js" }
+    { "src": "/api/(.*)", "dest": "/app.js" },
+    { "src": "/public/(.*)", "dest": "/public/$1" },
+    { "src": "/(.*)", "dest": "/app.js" }
   ],
   "env": {
     "NODE_ENV": "production"

@@ -3,6 +3,7 @@ const path = require('path');
 const ytdlp = require("./yt-dlp")
 const rateLimit = require('express-rate-limit');
 const cors = require('cors');
+const fs = require('fs');
 
 const app = express();
 const port = 3000;
@@ -14,13 +15,14 @@ const existsSync = require('fs').existsSync;
 
 // Tạo thư mục nếu chưa tồn tại
 const dirs = [
-    path.join(__dirname, 'public'), 
-    path.join(__dirname, 'public/audios'), 
-    path.join(__dirname, 'public/infos')
+    './public', 
+    './public/audios', 
+    './public/infos'
 ];
+
 dirs.forEach(dir => {
-    if (!existsSync(dir)) {
-        mkdirSync(dir, { recursive: true });
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
     }
 });
 
