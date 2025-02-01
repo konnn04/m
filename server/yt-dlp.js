@@ -13,7 +13,7 @@ const STORAGE_DIR = '/tmp';
 const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
 const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
 const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
-// const COOKIE_PATH = path.join(STORAGE_DIR, 'lib', 'cookies.txt');
+const COOKIE_PATH = path.join(STORAGE_DIR, 'lib', 'cookies.txt');
 
 try {
     if (!fs.existsSync(PUBLIC_DIR)) fs.mkdirSync(PUBLIC_DIR, { recursive: true });
@@ -48,7 +48,7 @@ async function searchByKeyword(keyword) {
             // '--cookies', COOKIE_PATH,
             '--flat-playlist',
             '--compat-options', 'no-youtube-unavailable-videos',
-            '--match-filter',   '!is_live & live_status!=is_upcoming'
+            '--match-filter', '!is_live & live_status!=is_upcoming'
         ]);
 
         let results = [];
@@ -65,7 +65,7 @@ async function searchByKeyword(keyword) {
                 const infoArray = infoString.split('\n').filter(line => line.trim() !== '');
                 // console.log(infoArray);  
                 for (let i = 0; i < infoArray.length; i += 4) {
-                    if (!/^(\d+:?){1,3}$/.test(infoArray[i+3])) {
+                    if (!/^(\d+:?){1,3}$/.test(infoArray[i + 3])) {
                         continue;
                     }
                     results.push({
@@ -119,14 +119,14 @@ async function getAudio(videoId) {
             const ytProcess = spawn(YTDLP_PATH, [
                 '-f', 'bestaudio[ext=webm]+bestaudio[ext=m4a]/bestaudio', // Tải luồng âm thanh tốt nhất, ưu tiên webm và m4a
                 '-o', `${AUDIOS_PATH}/%(id)s.%(ext)s`, // Lưu theo ID video và giữ nguyên định dạng gốc
-                '--cookies', path.join(__dirname, './lib/cookies.txt'),
-                // '--cookies', COOKIE_PATH,
+                // '--cookies', path.join(__dirname, './lib/cookies.txt'),
+                '--cookies', COOKIE_PATH,
                 '--force-ipv4',
                 '--no-playlist', // Không tải playlist
                 videoId,
             ]);
-            
-            ytProcess.on('close', async  (code) => {
+
+            ytProcess.on('close', async (code) => {
                 if (code === 0) {
                     resolve({
                         'path': audioFilePath,
@@ -172,8 +172,8 @@ async function getInformation(url) {
             '--no-warnings', '--skip-download',
             '--force-ipv4',
             '--encoding', 'utf-8',
-            '--cookies', path.join(__dirname, './lib/cookies.txt'),
-            // '--cookies', COOKIE_PATH,
+            // '--cookies', path.join(__dirname, './lib/cookies.txt'),
+            '--cookies', COOKIE_PATH,
             url,
         ]);
         let id = '';
@@ -191,28 +191,28 @@ async function getInformation(url) {
 
         ytProcess.on('close', async (code) => {
             if (code === 0) {
-            const infoString = info.join('');
-            const infoArray = infoString.split('\n').filter(line => line.trim() !== '');
-            title = infoArray[0];
-            id = infoArray[1];
-            thumbnail = 'https://img.youtube.com/vi/' + infoArray[1] + '/0.jpg';
-            duration = infoArray[3];
-            uploader = infoArray[2];
+                const infoString = info.join('');
+                const infoArray = infoString.split('\n').filter(line => line.trim() !== '');
+                title = infoArray[0];
+                id = infoArray[1];
+                thumbnail = 'https://img.youtube.com/vi/' + infoArray[1] + '/0.jpg';
+                duration = infoArray[3];
+                uploader = infoArray[2];
 
-            if (id && title && duration && thumbnail) {
-                const infoObject = {
-                id: id,
-                title: title,
-                duration: duration,
-                thumbnail: thumbnail,
-                uploader: uploader,
-                };
+                if (id && title && duration && thumbnail) {
+                    const infoObject = {
+                        id: id,
+                        title: title,
+                        duration: duration,
+                        thumbnail: thumbnail,
+                        uploader: uploader,
+                    };
 
-                await fs.writeFileSync(path.join(INFOS_PATH, `${id}.json`), JSON.stringify(infoObject));
-                resolve(infoObject);
-            } else {
-                reject({ error: 'Lấy thông tin thất bại.' });
-            }
+                    await fs.writeFileSync(path.join(INFOS_PATH, `${id}.json`), JSON.stringify(infoObject));
+                    resolve(infoObject);
+                } else {
+                    reject({ error: 'Lấy thông tin thất bại.' });
+                }
             } else {
                 console.error('Lỗi khi lấy thông tin:', code);
                 reject(new Error('Lấy thông tin thất bại.'));
@@ -230,8 +230,8 @@ async function getInformation(url) {
 async function getMusicList(keyword) {
     try {
 
-         // Create directories if they don't exist
-         if (!fs.existsSync(AUDIOS_PATH)) {
+        // Create directories if they don't exist
+        if (!fs.existsSync(AUDIOS_PATH)) {
             fs.mkdirSync(AUDIOS_PATH, { recursive: true });
         }
         if (!fs.existsSync(INFOS_PATH)) {
@@ -255,13 +255,13 @@ async function getMusicList(keyword) {
 
         if (keyword) {
             const filteredAudioInfos = audioInfos
-            .map(audioInfo => {
-                audioInfo.title_normalize = audioInfo.title.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-                return audioInfo;
-            })
-            .filter(audioInfo => 
-                audioInfo.title_normalize.includes(keyword.toLowerCase())
-            );
+                .map(audioInfo => {
+                    audioInfo.title_normalize = audioInfo.title.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                    return audioInfo;
+                })
+                .filter(audioInfo =>
+                    audioInfo.title_normalize.includes(keyword.toLowerCase())
+                );
             return filteredAudioInfos;
         }
 
@@ -292,10 +292,10 @@ function deleteAudio(id) {
 }
 
 module.exports = {
-    searchByKeyword : searchByKeyword,
-    getAudio : getAudio,
-    getInformation : getInformation,
-    getIDYT : getIDYT,
-    getMusicList : getMusicList,
-    deleteAudio : deleteAudio
+    searchByKeyword: searchByKeyword,
+    getAudio: getAudio,
+    getInformation: getInformation,
+    getIDYT: getIDYT,
+    getMusicList: getMusicList,
+    deleteAudio: deleteAudio
 }
