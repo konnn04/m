@@ -1,5 +1,3 @@
-const { url } = require("inspector");
-
 // const host = "http://127.0.0.1:3000"
 const host = "https://kmusictest-4f44bf517a97.herokuapp.com"
 const player = new MusicPlayer();
