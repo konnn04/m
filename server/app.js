@@ -18,7 +18,7 @@ app.set('trust proxy', 1);
 // const INFO_DIR = path.join(PUBLIC_DIR, 'infos');
 
 // Use /tmp directory for storage
-const STORAGE_DIR = '/tmp';
+const STORAGE_DIR = '/opt/render/project/tmp';
 const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
 const AUDIO_DIR = path.join(PUBLIC_DIR, 'audios');
 const INFO_DIR = path.join(PUBLIC_DIR, 'infos');

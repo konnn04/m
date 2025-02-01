@@ -3,13 +3,12 @@ const path = require('path');
 const { spawn } = require('child_process');
 
 // const YTDLP_PATH = path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
-const YTDLP_PATH = process.env.YTDLP_PATH || path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
-
+const YTDLP_PATH = '/usr/local/bin/yt-dlp';
 // const COOKIE_PATH = path.join(__dirname, './lib/cookies.txt');
 // const INFOS_PATH = path.join(__dirname, './public/infos');
 // const AUDIOS_PATH = path.join(__dirname, './public/audios');
 
-const STORAGE_DIR = '/tmp';
+const STORAGE_DIR = '/opt/render/project/tmp';
 const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
 const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
 const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
