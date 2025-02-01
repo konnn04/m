@@ -112,7 +112,15 @@ const initEvent = () => {
                 return;
             }
 
-            for (let i = 0; i < urls.length; i++) {
+            try {
+                await downloadSong(urls[0]);
+                toasty("Success", "Song 1 imported successfully", "success");
+            } catch (error) {
+                console.error("Error importing URL 1:", error);
+                toasty("Error", "An error occurred while importing URL 1\n" + error.message, "error");
+            }
+
+            for (let i = 1; i < urls.length; i++) {
                 try {
                     await new Promise(resolve => setTimeout(resolve, 5000));
                     await downloadSong(urls[i]);
