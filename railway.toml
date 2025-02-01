@@ -3,7 +3,7 @@ builder = "nixpacks"
 buildCommand = "cd server && npm install"
 
 [deploy]
-startCommand = "cd server && node app.js"
+startCommand = "node server/app.js"
 healthcheckPath = "/api/songs"
 healthcheckTimeout = 100
 restartPolicy = "on-failure"
