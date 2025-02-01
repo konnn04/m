@@ -1,13 +1,11 @@
 {
-  "name": "konnnmusic",
-  "version": "1.0.0",
-  "private": true,
-  "main": "server/app.js",
-  "scripts": {
-    "start": "cd server && node app.js",
-    "build": "chmod +x server/lib/yt-dlp && mkdir -p /tmp/public/audios /tmp/public/infos && cd server && npm install"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "name": "konnnmusic",
+    "version": "1.0.0",
+    "engines": {
+      "node": "18.x"
+    },
+    "scripts": {
+      "start": "cd server && node app.js",
+      "postinstall": "cd server && npm install"
+    }
   }
-}

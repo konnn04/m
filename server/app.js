@@ -10,30 +10,18 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.set('trust proxy', 1); 
 
+const STORAGE_DIR = '/tmp';
+const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
+const AUDIO_DIR = path.join(PUBLIC_DIR, 'audios');
+const INFO_DIR = path.join(PUBLIC_DIR, 'infos');
 
-// Use Railway's persistent storage or fallback to local directory
-// const STORAGE_DIR = process.env.RAILWAY_VOLUME_MOUNT_PATH || path.join(__dirname, 'public');
-// const PUBLIC_DIR = path.join(__dirname, 'public');
-// const AUDIO_DIR = path.join(PUBLIC_DIR, 'audios');
-// const INFO_DIR = path.join(PUBLIC_DIR, 'infos');
-
-// Use /tmp directory for storage
-// const STORAGE_DIR = '/opt/render/project/tmp';
-// const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
-// const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
-// const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
-
-// // Create directories if they don't exist
-// [PUBLIC_DIR, INFOS_PATH, AUDIOS_PATH].forEach(dir => {
-//     if (!fs.existsSync(dir)) {
-//         fs.mkdirSync(dir, { recursive: true, mode: 0o777 });
-//     } else {
-//         fs.chmodSync(dir, 0o777);
-//     }
-// });
+[PUBLIC_DIR, AUDIO_DIR, INFO_DIR].forEach(dir => {
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
+});
 
 app.use(express.static(PUBLIC_DIR));
-
 // app.use(express.static(path.join(__dirname, 'public')));
 
 // Apply rate limiting to specific routes
