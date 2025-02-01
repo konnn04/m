@@ -220,13 +220,13 @@ const initEvent = () => {
 
     //Postcookie
     $("#set-cookie-btn").click(async function () {
-        if ($("#youtube-cookie").text().trim() === "") {
+        if ($("#youtube-cookie").val().trim() === "") {
             toasty("Error", "No cookie found", "error");
             return;
         }
         try {
             const res = await axios.post(`${host}/api/cookie`, {
-                cookie: $("#youtube-cookie").text(),
+                cookie: $("#youtube-cookie").val(),
             });
             toasty("Success", res.data.message, "success");
         } catch (error) {
