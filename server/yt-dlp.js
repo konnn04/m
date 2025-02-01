@@ -15,10 +15,11 @@ const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
 const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
 const COOKIE_PATH = path.join(STORAGE_DIR, 'lib', 'cookies.txt');
 
+// Create directories if they don't exist
 try {
-    if (!fs.existsSync(PUBLIC_DIR)) fs.mkdirSync(PUBLIC_DIR, { recursive: true });
-    if (!fs.existsSync(AUDIOS_PATH)) fs.mkdirSync(AUDIOS_PATH, { recursive: true });
-    if (!fs.existsSync(INFOS_PATH)) fs.mkdirSync(INFOS_PATH, { recursive: true });
+    [STORAGE_DIR, PUBLIC_DIR, AUDIOS_PATH, INFOS_PATH, path.dirname(COOKIE_PATH)].forEach(dir => {
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    });
 } catch (err) {
     console.error('Error creating directories:', err);
 }
@@ -57,6 +58,10 @@ async function searchByKeyword(keyword) {
 
         ytProcess.stdout.on('data', (data) => {
             info.push(data.toString());
+        });
+
+        ytProcess.stderr.on('data', (data) => {
+            console.error('yt-dlp stderr:', data.toString());
         });
 
         ytProcess.on('close', (code) => {
@@ -126,6 +131,10 @@ async function getAudio(videoId) {
                 videoId,
             ]);
 
+            ytProcess.stderr.on('data', (data) => {
+                console.error('yt-dlp stderr:', data.toString());
+            });
+
             ytProcess.on('close', async (code) => {
                 if (code === 0) {
                     resolve({
@@ -187,6 +196,10 @@ async function getInformation(url) {
         ytProcess.stdout.on('data', (data) => {
             info.push(data.toString());
             console.log(data.toString());
+        });
+
+        ytProcess.stderr.on('data', (data) => {
+            console.error('yt-dlp stderr:', data.toString());
         });
 
         ytProcess.on('close', async (code) => {
