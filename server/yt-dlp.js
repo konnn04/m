@@ -4,19 +4,14 @@ const { spawn } = require('child_process');
 
 // const YTDLP_PATH = ("./lib/yt-dlp")
 const YTDLP_PATH = path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
-// const INFOS_PATH = path.join(__dirname, './public/infos');
-// const AUDIOS_PATH = path.join(__dirname, './public/audios');
+const INFOS_PATH = path.join(__dirname, './public/infos');
+const AUDIOS_PATH = path.join(__dirname, './public/audios');
 
-const PUBLIC_DIR = path.join('/tmp', 'public');
-const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
-const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
+// const PUBLIC_DIR = path.join('/tmp', 'public');
+// const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
+// const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
 
 // Ensure yt-dlp is executable
-try {
-    fs.chmodSync(YTDLP_PATH, '755');
-} catch (error) {
-    console.error('Error setting yt-dlp permissions:', error);
-}
 
 
 async function getIDYT(url) {
@@ -74,8 +69,7 @@ async function searchByKeyword(keyword) {
                 }
                 resolve(results);
             } else {
-                // reject(new Error('Lấy thông tin thất bại.'));
-                reject({ error: 'Lấy thông tin thất bại.' + code , results: JSON.stringify(results)});
+                reject(new Error('Lấy thông tin thất bại.'));
             }
         });
 

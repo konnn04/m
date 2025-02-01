@@ -10,20 +10,6 @@ const port = 3000;
 app.use(cors());
 app.set('trust proxy', 1); 
 
-const PUBLIC_DIR = path.join('/tmp', 'public');
-const AUDIO_DIR = path.join(PUBLIC_DIR, 'audios');
-const INFO_DIR = path.join(PUBLIC_DIR, 'infos');
-
-const dirs = [PUBLIC_DIR, AUDIO_DIR, INFO_DIR];
-dirs.forEach(dir => {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-    }
-});
-
-// Serve static files from 'public' directory
-app.use('/public', express.static(PUBLIC_DIR));
-// app.use(express.static(path.join(__dirname, 'public')));
 
 // Apply rate limiting to specific routes
 app.use('/api/search', rateLimit({
