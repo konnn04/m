@@ -2,8 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { spawn, execSync } = require('child_process');
 
-// const YTDLP_PATH = path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
-const YTDLP_PATH = '/usr/local/bin/yt-dlp';
+const ytDlpPath = path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
 // const COOKIE_PATH = path.join(__dirname, './lib/cookies.txt');
 // const INFOS_PATH = path.join(__dirname, './public/infos');
 // const AUDIOS_PATH = path.join(__dirname, './public/audios');
@@ -12,40 +11,6 @@ const STORAGE_DIR = '/opt/render/project/tmp';
 const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
 const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
 const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
-
-async function installYtDlp() {
-    try {
-        execSync('curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp');
-        execSync('chmod a+rx /usr/local/bin/yt-dlp');
-        execSync('apt-get update && apt-get install -y python3 ffmpeg');
-    } catch (error) {
-        console.error('Failed to install yt-dlp:', error);
-        throw error;
-    }
-}
-
-// Initialize function to set up required directories and dependencies
-async function initialize() {
-    try {
-        // Create directories with proper permissions
-        [PUBLIC_DIR, INFOS_PATH, AUDIOS_PATH].forEach(dir => {
-            if (!fs.existsSync(dir)) {
-                fs.mkdirSync(dir, { recursive: true, mode: 0o777 });
-            }
-        });
-
-        // Install yt-dlp if not exists
-        if (!fs.existsSync(YTDLP_PATH)) {
-            await installYtDlp();
-        }
-    } catch (error) {
-        console.error('Initialization failed:', error);
-        throw error;
-    }
-}
-
-// Call initialize before starting server
-initialize().catch(console.error);
 
 async function getIDYT(url) {
     if (url.includes("youtube.com")) {
