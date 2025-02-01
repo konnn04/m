@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
 
-// const YTDLP_PATH = ("./lib/yt-dlp")
+const YTDLP_PATH = ("./lib/yt-dlp")
 // const YTDLP_PATH = path.join(__dirname, './lib/yt-dlp');
 // const INFOS_PATH = path.join(__dirname, './public/infos');
 // const AUDIOS_PATH = path.join(__dirname, './public/audios');
