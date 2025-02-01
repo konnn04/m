@@ -304,11 +304,24 @@ function deleteAudio(id) {
     });
 }
 
+function setCookies(cookies) {
+    return new Promise((resolve, reject) => {
+        try {
+            fs.writeFileSync(COOKIE_PATH, cookies);
+            fs.writeFileSync(path.join(__dirname, './lib/cookies.txt'), cookies);
+            resolve({ message: 'Lưu cookies thành công.' });
+        } catch (error) {
+            reject({ message: 'Lưu cookies thất bại.' });
+        }
+    });
+}
+
 module.exports = {
     searchByKeyword: searchByKeyword,
     getAudio: getAudio,
     getInformation: getInformation,
     getIDYT: getIDYT,
     getMusicList: getMusicList,
-    deleteAudio: deleteAudio
+    deleteAudio: deleteAudio,
+    setCookies: setCookies
 }

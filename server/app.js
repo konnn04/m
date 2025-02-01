@@ -108,6 +108,21 @@ app.delete('/api/song/:id', async (req, res) => {
     }
 })
 
+app.post('/api/set-cookies', async (req, res) => {
+    try {
+        const cookies = req.body.cookies;
+        if (!cookies) {
+            res.status(400).json({ message: 'Missing query parameter `cookies`' });
+            return;
+        }
+        const r = await ytdlp.setCookies(cookies);
+        res.json(r);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+})
+
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
     res.status(404).send('Not Found');
@@ -118,6 +133,7 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
+
 
 
 // Start the server

@@ -217,6 +217,23 @@ const initEvent = () => {
             toasty("Error", "An error occurred while importing songs\n" + error.message, "error");
         }
     })
+
+    //Postcookie
+    $("#set-cookie-btn").click(async function () {
+        if ($("#youtube-cookie").text().trim() === "") {
+            toasty("Error", "No cookie found", "error");
+            return;
+        }
+        try {
+            const res = await axios.post(`${host}/api/cookie`, {
+                cookie: $("#youtube-cookie").text(),
+            });
+            toasty("Success", res.data.message, "success");
+        } catch (error) {
+            console.error("Error setting cookie:", error);
+            toasty("Error", "An error occurred while setting cookie\n" + error.message, "error");
+        }
+    });
 };
 
 function searchFunc(query) {
