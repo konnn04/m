@@ -1,5 +1,5 @@
 // const host = "http://127.0.0.1:3000"
-const host = "https://just-passion-production-324b.up.railway.app"
+const host = "https://m-dxce.onrender.com/"
 const player = new MusicPlayer();
 
 const main = async () => {    
