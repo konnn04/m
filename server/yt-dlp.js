@@ -13,7 +13,7 @@ const STORAGE_DIR = '/tmp';
 const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
 const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
 const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
-const COOKIE_PATH = path.join(STORAGE_DIR, 'lib', 'cookies.txt');
+// const COOKIE_PATH = path.join(STORAGE_DIR, 'lib', 'cookies.txt');
 
 try {
     if (!fs.existsSync(PUBLIC_DIR)) fs.mkdirSync(PUBLIC_DIR, { recursive: true });
@@ -44,8 +44,8 @@ async function searchByKeyword(keyword) {
             '--no-warnings', '--skip-download',
             '--force-ipv4',
             '--encoding', 'utf-8',
-            // '--cookies', path.join(__dirname, './lib/cookies.txt'),
-            '--cookies', COOKIE_PATH,
+            '--cookies', path.join(__dirname, './lib/cookies.txt'),
+            // '--cookies', COOKIE_PATH,
             '--flat-playlist',
             '--compat-options', 'no-youtube-unavailable-videos',
             '--match-filter',   '!is_live & live_status!=is_upcoming'
@@ -119,8 +119,8 @@ async function getAudio(videoId) {
             const ytProcess = spawn(YTDLP_PATH, [
                 '-f', 'bestaudio[ext=webm]+bestaudio[ext=m4a]/bestaudio', // Tải luồng âm thanh tốt nhất, ưu tiên webm và m4a
                 '-o', `${AUDIOS_PATH}/%(id)s.%(ext)s`, // Lưu theo ID video và giữ nguyên định dạng gốc
-                // '--cookies', path.join(__dirname, './lib/cookies.txt'),
-                '--cookies', COOKIE_PATH,
+                '--cookies', path.join(__dirname, './lib/cookies.txt'),
+                // '--cookies', COOKIE_PATH,
                 '--force-ipv4',
                 '--no-playlist', // Không tải playlist
                 videoId,
@@ -172,8 +172,8 @@ async function getInformation(url) {
             '--no-warnings', '--skip-download',
             '--force-ipv4',
             '--encoding', 'utf-8',
-            // '--cookies', path.join(__dirname, './lib/cookies.txt'),
-            '--cookies', COOKIE_PATH,
+            '--cookies', path.join(__dirname, './lib/cookies.txt'),
+            // '--cookies', COOKIE_PATH,
             url,
         ]);
         let id = '';
