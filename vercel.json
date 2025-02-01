@@ -5,7 +5,7 @@
       "src": "server/app.js", 
       "use": "@vercel/node",
       "config": {
-        "buildCommand": "cd server && npm install",
+        "buildCommand": "chmod +x server/lib/yt-dlp && cd server && npm install",
         "includeFiles": [
           "server/lib/**"
         ]
