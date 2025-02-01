@@ -5,7 +5,7 @@
       "src": "server/app.js", 
       "use": "@vercel/node",
       "config": {
-        "buildCommand": "cd server && npm install",
+        "buildCommand": "npm run build",
         "includeFiles": [
           "public/**",
           "lib/**"
