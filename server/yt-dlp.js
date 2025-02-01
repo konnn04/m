@@ -212,7 +212,22 @@ async function getInformation(url) {
 
 async function getMusicList(keyword) {
     try {
-        const audioFiles = fs.readdirSync(AUDIOS_PATH);
+
+         // Create directories if they don't exist
+         if (!fs.existsSync(AUDIOS_PATH)) {
+            fs.mkdirSync(AUDIOS_PATH, { recursive: true });
+        }
+        if (!fs.existsSync(INFOS_PATH)) {
+            fs.mkdirSync(INFOS_PATH, { recursive: true });
+        }
+
+        // Return empty array if directory is empty
+        const audioFiles = fs.existsSync(AUDIOS_PATH) ? fs.readdirSync(AUDIOS_PATH) : [];
+        if (audioFiles.length === 0) {
+            return [];
+        }
+
+        // const audioFiles = fs.readdirSync(AUDIOS_PATH);
         const audioInfos = audioFiles.map(file => {
             const info = fs.readFileSync(path.join(INFOS_PATH, `${file.split('.')[0]}.json`));
             const audioInfo = JSON.parse(info);
