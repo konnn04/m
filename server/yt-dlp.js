@@ -124,8 +124,8 @@ async function getAudio(videoId) {
             const ytProcess = spawn(YTDLP_PATH, [
                 '-f', 'bestaudio[ext=webm]+bestaudio[ext=m4a]/bestaudio', // Tải luồng âm thanh tốt nhất, ưu tiên webm và m4a
                 '-o', `${AUDIOS_PATH}/%(id)s.%(ext)s`, // Lưu theo ID video và giữ nguyên định dạng gốc
-                // '--cookies', path.join(__dirname, './lib/cookies.txt'),
-                '--cookies', COOKIE_PATH,
+                '--cookies', path.join(__dirname, './lib/cookies.txt'),
+                // '--cookies', COOKIE_PATH,
                 '--force-ipv4',
                 '--no-playlist', // Không tải playlist
                 videoId,
@@ -181,8 +181,8 @@ async function getInformation(url) {
             '--no-warnings', '--skip-download',
             '--force-ipv4',
             '--encoding', 'utf-8',
-            // '--cookies', path.join(__dirname, './lib/cookies.txt'),
-            '--cookies', COOKIE_PATH,
+            '--cookies', path.join(__dirname, './lib/cookies.txt'),
+            // '--cookies', COOKIE_PATH,
             url,
         ]);
         let id = '';
