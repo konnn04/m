@@ -4,6 +4,8 @@ const { spawn } = require('child_process');
 
 // const YTDLP_PATH = path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
 const YTDLP_PATH = process.env.YTDLP_PATH || path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
+
+// const COOKIE_PATH = path.join(__dirname, './lib/cookies.txt');
 // const INFOS_PATH = path.join(__dirname, './public/infos');
 // const AUDIOS_PATH = path.join(__dirname, './public/audios');
 
