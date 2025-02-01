@@ -3,17 +3,23 @@ services:
     name: konnnmusic
     env: node
     buildCommand: |
+      # Install dependencies
       apt-get update && apt-get install -y python3 curl ffmpeg
+
+      # Set permissions for entire project directory
+      chmod -R 755 /opt/render/project/src
+
+      # Download and set up yt-dlp
       curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o ./server/lib/yt-dlp
       chmod +x ./server/lib/yt-dlp
-      chmod +x ./server/app.js
+
+      # Create storage directories with permissions
       mkdir -p /opt/render/project/tmp/public/{audios,infos}
+      chmod -R 777 /opt/render/project/tmp
+
+      # Install node packages
       npm install
     startCommand: cd server && node app.js
     envVars:
       - key: NODE_ENV
         value: production
-      - key: YTDLP_PATH
-        value: ./server/lib/yt-dlp
-      - key: STORAGE_DIR 
-        value: /opt/render/project/tmp
