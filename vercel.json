@@ -10,6 +10,10 @@
     {
       "src": "(.*)",
       "dest": "server/app.js"
+    },
+    {
+      "src": "(.*)",
+      "dest": "index.html"
     }
   ],
   "env": {
