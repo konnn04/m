@@ -18,7 +18,7 @@
   "buildCommand": "npm run postinstall",
   "functions": {
     "server/app.js": {
-      "includeFiles": ["server/lib/**"]
+      "includeFiles": "server/lib/**"
     }
   }
 }
