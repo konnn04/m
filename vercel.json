@@ -15,5 +15,10 @@
   "env": {
     "YTDLP_PATH": "server/lib/yt-dlp"
   },
-  "buildCommand": "npm run postinstall"
+  "buildCommand": "npm run postinstall",
+  "functions": {
+    "server/app.js": {
+      "includeFiles": "server/lib/**"
+    }
+  }
 }
