@@ -12,6 +12,9 @@
   "directories": {
     "lib": "lib"
   },
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
