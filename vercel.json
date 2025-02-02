@@ -8,16 +8,12 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "(.*)",
       "dest": "server/app.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "index.html"
     }
   ],
   "env": {
     "YTDLP_PATH": "/tmp/lib/yt-dlp"
   },
-  "buildCommand": "npm install && cd server && mkdir -p tmp/lib tmp/public/audios tmp/public/infos && cp -r lib/* tmp/lib/ && chmod +x tmp/lib/yt-dlp"
+  "buildCommand": "npm run postinstall"
 }
