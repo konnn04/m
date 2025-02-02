@@ -87,12 +87,12 @@ module.exports = {
 
 
 
-// Example usage of fetchTranscript
-const url = 'kPa7bsKwL-c';
-fetchTranscript(url).then((transcript) => {
-    console.log(transcript);
-}).catch((error) => {
-    console.error(error);
-});
+// // Example usage of fetchTranscript
+// const url = 'kPa7bsKwL-c';
+// fetchTranscript(url).then((transcript) => {
+//     console.log(transcript);
+// }).catch((error) => {
+//     console.error(error);
+// });
 
 
