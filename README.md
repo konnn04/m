@@ -82,3 +82,38 @@ Server sẽ chạy tại `http://127.0.0.1:3000`.
 ## Liên hệ
 
 Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua email: [trieukon1011@gmail.com](mailto:trieukon1011@gmail.com]).
+
+
+## Demo Screenshots
+
+<div class="slider" style="overflow:hidden; position:relative; width:100%; max-width:800px; margin:0 auto;">
+    <div class="slides" style="display:flex; transition:transform 0.5s ease;">
+        <img src="./screenshots/home.jpg" alt="Home Screen" style="width:100%; flex-shrink:0;">
+        <img src="./screenshots/player1.jpg" alt="Player Screen" style="width:100%; flex-shrink:0;">
+        <img src="./screenshots/player2.jpg" alt="Playlist Screen" style="width:100%; flex-shrink:0;">
+        <img src="./screenshots/searching.jpg" alt="Searching Screen" style="width:100%; flex-shrink:0;">
+        <img src="./screenshots/mobile.jpg" alt="Mobile Screen" style="width:100%; flex-shrink:0;">
+    </div>
+    <button onclick="prevSlide()" style="position:absolute; left:10px; top:50%;">&#10094;</button>
+    <button onclick="nextSlide()" style="position:absolute; right:10px; top:50%;">&#10095;</button>
+</div>
+
+<script>
+let slideIndex = 0;
+const slides = document.querySelector('.slides');
+
+function showSlide(n) {
+    slideIndex = n;
+    slides.style.transform = `translateX(-${slideIndex * 100}%)`;
+}
+
+function nextSlide() {
+    slideIndex = (slideIndex + 1) % 3;
+    showSlide(slideIndex);
+}
+
+function prevSlide() {
+    slideIndex = (slideIndex - 1 + 3) % 3;
+    showSlide(slideIndex);
+}
+</script>
