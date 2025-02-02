@@ -1,5 +1,5 @@
 [build]
-  command = "chmod +x ./server/lib/yt-dlp && npm run postinstall"
+  command = "chmod +x ./server/lib/yt-dlp && npm run postinstall && mkdir -p public"
   publish = "public"
 
 [[redirects]]
