@@ -1,6 +1,8 @@
 
 
+const { text } = require('express');
 const { YoutubeTranscript } = require('youtube-transcript')
+const {Innertube}  = require('youtubei.js')
 
 function getTranscript(videoId, lang) {
     return new Promise((resolve, reject) => {
@@ -13,12 +15,12 @@ function getTranscript(videoId, lang) {
             console.log(err)
             const key = 'Available languages:';
             if (!msg.includes(key)) {
-                reject({ 
+                reject([{
                     text: 'No transcript found',
                     duration: 0,
                     offset: 0,
-                    lang: 'vi',
-                });
+                    lang: 'none',
+                }]);
                 return;
             }
             const lang = msg.substring(msg.indexOf(key) + key.length + 1);
@@ -28,15 +30,44 @@ function getTranscript(videoId, lang) {
                 });
                 resolve(data);
             } catch (err) {
-                reject({ 
+                reject([{
                     text: 'No transcript found',
                     duration: 0,
                     offset: 0,
-                    lang: lang,
-                });
+                    lang: 'none',
+                }]);
             }
         });
     });
+}
+
+async function fetchTranscript(url) {
+    const youtube = await Innertube.create({
+        gl: 'VN',
+        hl: 'vi',
+        retrieve_player: false,
+    });
+
+    try {
+        const info = await youtube.getInfo(url);
+        const transcriptData = await info.getTranscript();
+        return transcriptData.transcript.content.body.initial_segments.map((segment) => {
+            return {
+                text: segment.snippet.text,
+                duration: (segment.end_ms - segment.start_ms) / 1000,
+                offset: segment.start_ms / 1000,
+                lang: 'none'
+            };
+        });
+    } catch (error) {
+        console.error('Error fetching transcript:', error);
+        return [{
+            text: 'No transcript found',
+            duration: 0,
+            offset: 0,
+            lang: 'none',
+        }]
+    }
 }
 
 // getTranscript('https://youtu.be/QQzt-veR3fY?list=RDabPmZCZZrFA').then((transcript) => {
@@ -47,4 +78,21 @@ function getTranscript(videoId, lang) {
 
 module.exports = {
     getTranscript,
+    fetchTranscript,
 };
+
+
+
+
+
+
+
+// Example usage of fetchTranscript
+const url = 'kPa7bsKwL-c';
+fetchTranscript(url).then((transcript) => {
+    console.log(transcript);
+}).catch((error) => {
+    console.error(error);
+});
+
+

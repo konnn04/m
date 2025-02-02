@@ -4,7 +4,7 @@ const ytdlp = require("./yt-dlp")
 const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const fs = require('fs');
-const { getTranscript } = require('./utils');
+const { getTranscript, fetchTranscript } = require('./utils');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -131,7 +131,7 @@ app.get('/api/get-subtitles', async (req, res) => {
             res.status(400).json({ message: 'Missing query parameter `videoId`' });
             return;
         }
-        const r = await getTranscript(videoId);
+        const r = await fetchTranscript(videoId);
         res.json(r);
     } catch (error) {
         console.error(error);
