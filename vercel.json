@@ -22,5 +22,5 @@
   "env": {
     "YTDLP_PATH": "/var/task/server/lib/yt-dlp"
   },
-  "buildCommand": "npm run postinstall"
+  "buildCommand": "sudo apt update && sudo apt upgrade libz && npm run postinstall"
 }
