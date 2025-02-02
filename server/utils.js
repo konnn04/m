@@ -10,6 +10,7 @@ function getTranscript(videoId, lang) {
             resolve(data);
         }).catch(async (err) => {
             const msg = err.message;
+            console.log(err)
             const key = 'Available languages:';
             if (!msg.includes(key)) {
                 reject({ 
