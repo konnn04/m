@@ -309,16 +309,18 @@ const initEvent = () => {
     }
 
     document.querySelector(".lyric-box").addEventListener("click", setUserInteracting);
-    document.querySelector(".lyric-box").addEventListener("scroll", setUserInteracting);
+    document.querySelector(".lyric-box").addEventListener("scroll", (e) => {
+        setUserInteracting(500);
+    });
     document.querySelector(".lyric-box").addEventListener("touchstart", setUserInteracting);
     document.querySelector(".lyric-box").addEventListener("touchmove", setUserInteracting);
 
-    function setUserInteracting() {
+    function setUserInteracting(time=5000) {
         userInteracting = true;
         clearTimeout(userInteractingTimeout);
         userInteractingTimeout = setTimeout(() => {
             userInteracting = false;
-        }, 5000);
+        }, time);
     }
 
     let userInteractingTimeout;
