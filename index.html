@@ -238,6 +238,35 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="mobile-layout">
+                            <div class="player-controls d-flex flex-column align-items-center">
+                                <div class="player-info mb-3 w-100 px-4">
+                                    <h5 id="m-song-title" class="player_title">Song Title</h5>
+                                    <p id="m-song-artist" class="player_artist">Artist Name</p>
+                                </div>
+                                <div class="player-buttons d-flex justify-content-center align-items-center gap-3 mb-3">
+                                    <button id="m-prev-song" class="btn btn-link text-light rounded-circle player_prev" style="font-size: 1.4rem; backdrop-filter: blur(5px) brightness(50%);">
+                                        <i class="bi bi-skip-backward-fill"></i>
+                                    </button>
+                                    <button id="m-play-pause" class="btn btn-link text-light rounded-circle player_pp" style="font-size: 1.4rem; backdrop-filter: blur(5px) brightness(50%);">
+                                        <i class="bi bi-play-fill"></i>
+                                    </button>
+                                    <button id="m-next-song" class="btn btn-link text-light rounded-circle player_next" style="font-size: 1.4rem; backdrop-filter: blur(5px) brightness(50%);">
+                                        <i class="bi bi-skip-forward-fill"></i>
+                                    </button>
+                                    <button id="m-loop-song" class="btn btn-link text-light rounded-circle player_loop" style="font-size: 1.4rem; backdrop-filter: blur(5px) brightness(50%);">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                    </button>
+                                </div>
+                                <div class="d-flex justify-content-between w-100 px-4">
+                                    <span class="player_currentTime">0:00</span>
+                                    <span class="player_duration">0:00</span>
+                                </div>
+                                <div class="w-100 mb-3 p-2">
+                                    <input type="range" class="player_seek_range w-100" min="0" max="100" value="0">
+                                </div>
+                            </div>
+                        </div>
                         <div class="song-list-box col-6">
                             <div class="container_">
                                 <h4>Playlist</h4>

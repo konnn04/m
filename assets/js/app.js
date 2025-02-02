@@ -474,4 +474,21 @@ window.onload = () => {
         });
     }, 1000);
     main();
+
+    // Request fullscreen on page load
+    if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+        document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+        document.documentElement.webkitRequestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+        document.documentElement.msRequestFullscreen();
+    }
+
+    if (window.innerWidth < 940) {
+        setTimeout(() => {
+            player.volume = 1;
+        }, 1000);
+    }
 };

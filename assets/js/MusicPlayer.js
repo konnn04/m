@@ -343,6 +343,10 @@ class MusicPlayer extends Audio {
     getCurrentSong(){
         return this.currentSong
     }
+
+    setVolume(volume){
+        this.volume = volume
+    }
 }
 
 class Song{
