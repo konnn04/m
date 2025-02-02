@@ -2,9 +2,6 @@
   command = "chmod +x ./server/lib/yt-dlp && npm run postinstall"
   publish = "public"
 
-[build.environment]
-  NODE_VERSION = "22.x"
-
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
