@@ -40,7 +40,7 @@ Server sẽ chạy tại `http://127.0.0.1:3000`.
 ## Cách hoạt động
 
 1. Khi người dùng tìm kiếm bài hát, ứng dụng sẽ gửi yêu cầu đến server để tìm kiếm thông tin bài hát từ YouTube.
-2. Server sử dụng [yt-dlp](http://_vscodecontentref_/1) để lấy thông tin và tải xuống các bài hát từ YouTube.
+2. Server sử dụng [youtubei.js](https://github.com/LuanRT/YouTube.js) và [yt-dlp](http://_vscodecontentref_/1) để tương tác với YouTube API và tải xuống nội dung.
 3. Các bài hát sau khi tải xuống sẽ được lưu trữ trong thư mục `public/audios`.
 4. Người dùng có thể phát các bài hát đã tải xuống, quản lý danh sách phát và xóa các bài hát không cần thiết.
 
@@ -50,6 +50,7 @@ Server sẽ chạy tại `http://127.0.0.1:3000`.
 - **cors**: Middleware cho phép chia sẻ tài nguyên giữa các nguồn khác nhau.
 - **express-rate-limit**: Middleware giới hạn số lượng yêu cầu từ một IP trong một khoảng thời gian nhất định.
 - **axios**: Thư viện HTTP client cho việc gửi các yêu cầu HTTP từ trình duyệt.
+- **youtubei.js**: Thư viện không chính thức để tương tác với YouTube API.
 - **yt-dlp**: Công cụ tải video từ YouTube và các trang web khác.
 
 ## Cấu trúc thư mục
