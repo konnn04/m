@@ -247,6 +247,7 @@ const initEvent = () => {
 
     // Request lyrics
     $("#request-lyric").click(async function () {
+        $(this).attr("disabled", true);
         $(".lyric-content").empty();
         const currentSongId = player.getCurrentSong().getInfo().id;
         try {
@@ -280,6 +281,7 @@ const initEvent = () => {
             // toasty("Error", "An error occurred while fetching subtitles\n" + error.message, "error");
         }finally{
             $("#request-lyric").hide();
+            $(this).attr("disabled", false);
         }
     });
 
