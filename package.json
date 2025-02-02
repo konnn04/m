@@ -12,6 +12,6 @@
   },
   "scripts": {
     "start": "cd server && node app.js",
-    "postinstall": "cd server && chmod -R 777 lib/yt-dlp && mkdir -p tmp/lib tmp/public/audios tmp/public/infos && cp -r lib/* tmp/lib/ && chmod -R 777 tmp/lib/yt-dlp && export YTDLP_PATH=tmp/lib/yt-dlp && npm install"
+    "postinstall": "chmod +x /opt/render/project/src/server/lib/yt-dlp && cd server && mkdir -p tmp/lib tmp/public/audios tmp/public/infos && cp -r lib/* tmp/lib/ && chmod -R 777 tmp/lib/yt-dlp && export YTDLP_PATH=tmp/lib/yt-dlp && npm install"
   }
 }
