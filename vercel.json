@@ -1,23 +1,25 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "server/app.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "server/app.js"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "index.html"
-      }
-    ],
-    "env": {
-      "YTDLP_PATH": "/tmp/lib/yt-dlp"
+  "version": 2,
+  "builds": [
+    {
+      "src": "server/app.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "server/app.js"
     },
-    "buildCommand": "npm install && cd server && mkdir -p tmp/lib tmp/public/audios tmp/public/infos && cp -r lib/* tmp/lib/ && chmod +x tmp/lib/yt-dlp"
-  }
+    {
+      "src": "/(.*)",
+      "dest": "index.html"
+    }
+  ],
+  "env": {
+    "YTDLP_PATH": "/tmp/lib/yt-dlp"
+  },
+  "buildCommand": "npm install && cd server && mkdir -p tmp/lib tmp/public/audios tmp/public/infos && cp -r lib/* tmp/lib/ && chmod +x tmp/lib/yt-dlp",
+  "framework": "node",
+  "nodeVersion": "18.x"
+}
