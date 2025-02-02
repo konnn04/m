@@ -585,6 +585,7 @@ body {
     max-height: 40vh;
     overflow-y: auto  ;
     gap: 5px!important;
+    align-items: start;
   }
 
   .card{
