@@ -299,7 +299,7 @@ const initEvent = () => {
             const end = parseFloat(lyric.getAttribute("duration")) + start;
             if (currentTime >= start && currentTime <= end) {
                 lyric.classList.add("active");
-                if ($("#container-toggle").hasClass("active") && !userInteracting) {
+                if ($("#player-screen-bg").hasClass("active") && $("#container-toggle").hasClass("active") && !userInteracting) {
                     lyric.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
                 }
             } else {
