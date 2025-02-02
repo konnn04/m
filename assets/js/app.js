@@ -286,7 +286,7 @@ const initEvent = () => {
     
 
     player.on("timeupdate", () => {
-        if (userInteracting || !$("#container-toggle").hasClass("active")) return;
+        
         updateLyrics();
         
     });
@@ -299,7 +299,9 @@ const initEvent = () => {
             const end = parseFloat(lyric.getAttribute("duration")) + start;
             if (currentTime >= start && currentTime <= end) {
                 lyric.classList.add("active");
-                lyric.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+                if ($("#container-toggle").hasClass("active") && !userInteracting) {
+                    lyric.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+                }
             } else {
                 lyric.classList.remove("active");
             }
