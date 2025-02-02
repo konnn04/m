@@ -2,11 +2,11 @@
 
 const { YoutubeTranscript } = require('youtube-transcript')
 
-function getTranscript(videoId, lang='vi') {
+function getTranscript(videoId, lang) {
     return new Promise((resolve, reject) => {
-        YoutubeTranscript.fetchTranscript(videoId, {
+        YoutubeTranscript.fetchTranscript(videoId, lang?{
             lang: lang,
-        }).then((data) => {
+        }:{}).then((data) => {
             resolve(data);
         }).catch(async (err) => {
             const msg = err.message;
