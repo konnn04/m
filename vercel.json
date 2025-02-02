@@ -3,7 +3,10 @@
   "builds": [
     {
       "src": "server/app.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["server/lib/**"]
+      }
     }
   ],
   "routes": [
@@ -20,9 +23,4 @@
     "YTDLP_PATH": "server/lib/yt-dlp"
   },
   "buildCommand": "npm run postinstall",
-  "functions": {
-    "server/app.js": {
-      "includeFiles": "server/lib/**"
-    }
-  }
 }
