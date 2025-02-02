@@ -19,6 +19,5 @@
   "env": {
     "YTDLP_PATH": "/tmp/lib/yt-dlp"
   },
-  "buildCommand": "npm install && cd server && mkdir -p tmp/lib tmp/public/audios tmp/public/infos && cp -r lib/* tmp/lib/ && chmod +x tmp/lib/yt-dlp",
-  "framework": "node"
+  "buildCommand": "npm install && cd server && mkdir -p tmp/lib tmp/public/audios tmp/public/infos && cp -r lib/* tmp/lib/ && chmod +x tmp/lib/yt-dlp"
 }
