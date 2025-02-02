@@ -250,6 +250,14 @@ class MusicPlayer extends Audio {
                 fill.style.width = `${(this.currentTime / this.duration) * 100}%`
             })
         },100)
+        const shuffleButton = document.querySelectorAll('.player_shuffle')
+        shuffleButton.forEach(button => {
+            button.addEventListener('click', () => {
+                this.songs = this.songs.sort(() => Math.random() - 0.5)
+                this.trigger('playlistUpdate')
+            })
+            
+        })
         this.trigger('ready')
     }
 

@@ -8,6 +8,7 @@ const main = async () => {
     //Update current playlist
     player.on("playlistUpdate", () => {
         $("#current-playlist").empty();
+        updatePlaylist(player.getPlaylist());
     });
     $("#home").addClass("active");
     await initHome()
@@ -248,11 +249,17 @@ const initEvent = () => {
     // Request lyrics
     $("#request-lyric").click(async function () {
         $(this).attr("disabled", true);
-        $(".lyric-content").empty();
+        $(".lyric-content").html(`
+            <div class="d-flex flex-column align-items-center gap-3 w-100 p-3">
+            <div class="loader-2"></div> 
+            <span class="text-secondary">Fetching lyrics...</span>
+            </div>
+        `);
         const currentSongId = player.getCurrentSong().getInfo().id;
         try {
             console.log("Fetching subtitles for video:", currentSongId);
             const response = await axios.get(`${host}/api/get-subtitles?videoId=${currentSongId}`);
+            $(".lyric-content").empty();
             const subtitles = response.data;
             subtitles.forEach((subtitle) => {
                 const p = document.createElement("p");
@@ -288,9 +295,7 @@ const initEvent = () => {
     
 
     player.on("timeupdate", () => {
-        
         updateLyrics();
-        
     });
 
     function updateLyrics() {
@@ -302,7 +307,10 @@ const initEvent = () => {
             if (currentTime >= start && currentTime <= end) {
                 lyric.classList.add("active");
                 if ($("#player-screen-bg").hasClass("active") && $("#container-toggle").hasClass("active") && !userInteracting) {
-                    lyric.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+                    document.querySelector(".lyric-box").scrollTo({
+                        top: lyric.offsetTop - document.querySelector(".lyric-box").offsetTop - document.querySelector(".lyric-box").clientHeight / 2 + lyric.clientHeight / 2,
+                        behavior: 'smooth'
+                    });
                 }
             } else {
                 lyric.classList.remove("active");
@@ -327,29 +335,21 @@ const initEvent = () => {
 
     let userInteractingTimeout;
 
-    player.on("next", () => {
-        $("#request-lyric").show();
+    player.on("update", () => {
+        // $("#request-lyric").show();
         $(".lyric-content").empty();
+        $("#request-lyric").click();
     });
-
-    player.on("previous", () => {
-        $("#request-lyric").show();
-        $(".lyric-content").empty();
-    });
-
-
 };
 
 
 
 function searchFunc(query) {
     $(".search-container input").attr("disabled", true);
-
     $("#home").removeClass("active");
     $("#player-screen-bg").removeClass("active");
     $("#search").addClass("active");
     $("manager-music").removeClass("active");
-    
     $(".search-container input").val(query);
     $("#kw").text(query);
     $("#result-length").text(0 + " results");
@@ -582,16 +582,7 @@ window.onload = () => {
     main();
 
     // Request fullscreen on page load
-    if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
-    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-        document.documentElement.mozRequestFullScreen();
-    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
-        document.documentElement.webkitRequestFullscreen();
-    } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-        document.documentElement.msRequestFullscreen();
-    }
-
+    // document.documentElement.requestFullscreen();
     if (window.innerWidth < 940) {
         setTimeout(() => {
             player.volume = 1;

@@ -4,12 +4,68 @@
   --tertiary: #f9f9f9;
   --dark: #333;
   --light: #fff;
-  --bg: #111;
+  --bg: #1a1a1a;
   --bg2: #212529;
   --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+img{
+  object-fit: cover;
+}
+
+html, body, #app {
+  height: 100%!important;
+}
+
 /* LOADER */
+.first-loader2 {
+  display: flex;
+}
+
+.first-loader2 .item {
+  background-color: white;
+  height: 40px;
+  width: 6px;
+  margin: 0 3px;
+  border-radius: 10px;
+  animation: loading 0.8s linear infinite;
+  transform-origin: bottom;
+}
+
+.first-loader2 .item:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.first-loader2 .item:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.first-loader2 .item:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.first-loader2 .item:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.first-loader2 .item:nth-child(6) {
+  animation-delay: 0.5s;
+}
+.first-loader2 .item:nth-child(7) {
+  animation-delay: 0.6s;
+}
+.first-loader2 .item:nth-child(8) {
+  animation-delay: 0.7s;
+}
+
+@keyframes loading {
+  0% {
+    transform: scaleY(0);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(0);
+  }
+}
+
 #loading {
   background-color: var(--bg);
   z-index: 9;
@@ -163,14 +219,14 @@ body {
 #app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  /* min-height: 100vh; */
 }
 
 #main {
   flex: 1 0 0;
   display: flex;
   width: 100vw;
-  height: calc(100vh - 80px);
+  height: calc(100% - 80px);
 }
 
 #player-bar {
@@ -487,7 +543,28 @@ body {
   flex-shrink: 0;
 }
 
+#toggle-menu{
+    display: none;
+}
+
 @media screen and (max-width: 960px) {
+  #toggle-menu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 1rem;
+    left: 0;
+    z-index: 10;
+    font-size: 2rem;
+    width: 50px;
+    aspect-ratio: 1;
+    background-color: var(--bg);
+  }
+
+  #menu:hover #toggle-menu{
+    display: none;
+  }
 
   #mobile-layout{
     display: block;
@@ -545,24 +622,8 @@ body {
     /* overflow: hidden; */
   }
 
-  #menu::after{
-    content: ">";
-    position: absolute;
-    top: 1rem;
-    left: 0;
-    width: 3rem;
-    height: 5rem;
-    /* padding: 1rem; */
-    background-color: #171717;
-    z-index: 15;
-    color: #9f9f9f;
-    font-size: 3rem;
-    border-radius: 20%;
-    padding-left: .5rem;
-  }
-
   #main-screen{
-    padding-top: 80px;  
+    padding-top: 40px;  
   }
 
   #menu:hover{
@@ -571,11 +632,6 @@ body {
     top: 0;
     left: 0;
     font-size: 1.6rem;
-  }
-
-  #menu:hover::after{
-    content: "<";
-    left: 100vw;
   }
 
   .playlist{

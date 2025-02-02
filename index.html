@@ -26,18 +26,29 @@
 
 </head>
 
-<body style="min-height: 100vh;">
+<body style="min-height: 100%; background-color: #1a1a1a;">
     <div id="loading" class="d-flex justify-content-center align-items-center position-fixed w-100 h-100"
-        style="min-height: 100vh;">
+        style="min-height: 100%">
         <div class="text-center d-flex flex-column align-items-center">
             <h1>KonnnMusic</h1>
-            <div class="first-loader"></div>
+            <div class="first-loader2">
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+            </div>
         </div>
     </div>
 
     <div id="app">
         <div id="main">
             <div id="menu" class="bg-dark text-light d-flex flex-column justify-content-between">
+                <div id="toggle-menu">
+                    <i class="bi bi-list text-light"></i>
+                </div>
                 <div class="d-flex flex-column justify-content-between">
                     <div class="logo p-4">
                         <h1>KonnnMusic</h1>
@@ -93,7 +104,7 @@
                             <h3>All for you</h3>
                             <span>See more</span>
                         </div>
-                        <div class="playlist d-flex gap-4 py-2 align-items-start" id="all-for-you">
+                        <div class="playlist d-flex gap-4 py-2" id="all-for-you">
                             
                             <!-- <div class="song-item card pointer position-relative">
                                 <img class="card-img-top" src="https://i.ytimg.com/vi/MphqBbeYatk/0.jpg"
@@ -235,7 +246,7 @@
                                 <div id="container-toggle" class="toggle-container">
                                     <div class="disk-box">
                                         <img src="" alt="" class="player_cover">
-                                        <div></div>
+                                        <!-- <div></div> -->
                                     </div>
                                     <div class="lyric-box text-center">
                                         <div class="lyric-content text-start">
@@ -260,6 +271,9 @@
                                         <p id="m-song-artist" class="player_artist">Artist Name</p>
                                     </div> -->
                                     <div class="player-buttons d-flex justify-content-center align-items-center gap-3 mb-3">
+                                        <button id="m-shuffle" class="btn btn-link text-light rounded-circle player_shuffle" style="font-size: 1.4rem; backdrop-filter: blur(5px) ;">
+                                            <i class="bi bi-shuffle"></i>
+                                        </button>
                                         <button id="m-prev-song" class="btn btn-link text-light rounded-circle player_prev" style="font-size: 1.4rem; backdrop-filter: blur(5px) brightness(50%);">
                                             <i class="bi bi-skip-backward-fill"></i>
                                         </button>
@@ -329,14 +343,14 @@
                 </div>
                 <div id="util">
                     <div class="d-flex align-items-center gap-2">
-                        <button id="shuffle" class="btn btn-link text-light">
+                        <button id="shuffle" class="btn btn-link text-light player_shuffle">
                             <i class="bi bi-shuffle"></i>
                         </button>
                         <button id="loop" class="btn btn-link text-light player_loop">
                             <i class="bi bi-arrow-repeat"></i>
                         </button>
                         <div class="volume-control d-flex align-items-center gap-2">
-                            <button id="volume" class="btn btn-link text-light">
+                            <button id="volume" class="btn btn-link text-light player_volume_toggle">
                                 <i class="bi bi-volume-up"></i>
                             </button>
                             <input type="range" class="player_volume_range" min="0" max="100" value="50">
