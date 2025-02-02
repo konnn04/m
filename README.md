@@ -98,22 +98,4 @@ Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng t�
     <button onclick="nextSlide()" style="position:absolute; right:10px; top:50%;">&#10095;</button>
 </div>
 
-<script>
-let slideIndex = 0;
-const slides = document.querySelector('.slides');
 
-function showSlide(n) {
-    slideIndex = n;
-    slides.style.transform = `translateX(-${slideIndex * 100}%)`;
-}
-
-function nextSlide() {
-    slideIndex = (slideIndex + 1) % 3;
-    showSlide(slideIndex);
-}
-
-function prevSlide() {
-    slideIndex = (slideIndex - 1 + 3) % 3;
-    showSlide(slideIndex);
-}
-</script>
