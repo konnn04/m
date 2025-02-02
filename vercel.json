@@ -13,7 +13,7 @@
     }
   ],
   "env": {
-    "YTDLP_PATH": "/tmp/lib/yt-dlp"
+    "YTDLP_PATH": "server/lib/yt-dlp"
   },
   "buildCommand": "npm run postinstall"
 }
