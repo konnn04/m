@@ -86,16 +86,10 @@ Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng t�
 
 ## Demo Screenshots
 
-<div class="slider" style="overflow:hidden; position:relative; width:100%; max-width:800px; margin:0 auto;">
-    <div class="slides" style="display:flex; transition:transform 0.5s ease;">
-        <img src="./screenshots/home.jpg" alt="Home Screen" style="width:100%; flex-shrink:0;">
-        <img src="./screenshots/player1.jpg" alt="Player Screen" style="width:100%; flex-shrink:0;">
-        <img src="./screenshots/player2.jpg" alt="Playlist Screen" style="width:100%; flex-shrink:0;">
-        <img src="./screenshots/searching.jpg" alt="Searching Screen" style="width:100%; flex-shrink:0;">
-        <img src="./screenshots/mobile.jpg" alt="Mobile Screen" style="width:100%; flex-shrink:0;">
-    </div>
-    <button onclick="prevSlide()" style="position:absolute; left:10px; top:50%;">&#10094;</button>
-    <button onclick="nextSlide()" style="position:absolute; right:10px; top:50%;">&#10095;</button>
-</div>
+![Home Screen](./screenshots/home.jpg)
+![Player Screen](./screenshots/player1.jpg)
+![Playlist Screen](./screenshots/player2.jpg)
+![Searching Screen](./screenshots/searching.jpg)
+![Mobile Screen](./screenshots/mobile.jpg)
 
 
