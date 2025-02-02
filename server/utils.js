@@ -70,22 +70,35 @@ async function fetchTranscript(url) {
     }
 }
 
-// getTranscript('https://youtu.be/QQzt-veR3fY?list=RDabPmZCZZrFA').then((transcript) => {
-//     console.log(transcript);
-// }).catch((error) => {
-//     console.error(error);
-// });
+// Export trendingSongs function
+async function testFunc() {
+    const youtube = await Innertube.create({
+        gl: 'VN',
+        hl: 'vi',
+        retrieve_player: false,
+    });
+    const trending = await youtube.getHomeFeed();
+    return trending;
+}
 
 module.exports = {
     getTranscript,
     fetchTranscript,
 };
 
+// // Example usage of trendingSongs
+testFunc().then((data) => {
+    console.log(data);
+}).catch((error) => {
+    console.error(error);
+});
 
-
-
-
-
+// // Example usage of getTranscript
+// getTranscript('https://youtu.be/QQzt-veR3fY?list=RDabPmZCZZrFA').then((transcript) => {
+//     console.log(transcript);
+// }).catch((error) => {
+//     console.error(error);
+// });
 
 // // Example usage of fetchTranscript
 // const url = 'kPa7bsKwL-c';

@@ -350,9 +350,10 @@ body {
 }
 
 .container_ {
-  padding: 2rem;
-  height: 100%;
+  padding: 4rem 2rem;
   overflow: hidden!important;
+  width: 100%;
+  height: 100%;
 }
 
 .disk-box {
@@ -374,6 +375,44 @@ body {
   border: 2px solid #5e5e5e;
   animation: circle 10s infinite linear;
   overflow: hidden;
+}
+
+#toggle-lyrics{
+  margin: 1rem 0;
+}
+
+.lyric-text{
+  font-size: 1.4rem!important;
+  text-align: center;
+  opacity: 0.5;
+  font-weight: 500;
+  padding: .5rem 1rem;
+}
+
+.lyric-text.active{
+  opacity: 1;
+}
+
+#container-toggle{
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 70vh;
+}
+
+.lyric-box{
+    width: 100%;
+    aspect-ratio: 1;
+    overflow-y: auto;
+}
+
+.lyric-content{
+    
+    width: 100%;
+}
+
+.lyric-content p{
+  width: 100%;
+
 }
 
 @keyframes circle {
@@ -543,7 +582,7 @@ body {
     width: 100vw;
     flex-wrap: wrap;
     width: 100%;
-    height: 40vh;
+    max-height: 40vh;
     overflow-y: auto  ;
     gap: 5px!important;
   }
@@ -626,7 +665,6 @@ body {
 
   .container_ {
     padding: 1rem;
-    
   }
 
   #current-playlist{
@@ -636,6 +674,13 @@ body {
   #player-screen-bg{
     z-index: 1;
   }
+
+  .lyric-text{
+    font-size: 1.2rem!important;
+    padding: 0.5rem 1rem;
+  }
+
+
 }
 
 /* RANGE INPUT CSS */

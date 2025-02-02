@@ -231,7 +231,9 @@ class MusicPlayer extends Audio {
         }, false);
         
         this.loopFunc = setInterval(() => {
-
+            if (this.isPlaying) {
+                this.trigger("timeupdate")
+            }
             seekSlider.forEach(slider => { 
                 slider.max = this.duration*10
                 slider.value = this.currentTime*10
@@ -346,6 +348,16 @@ class MusicPlayer extends Audio {
 
     setVolume(volume){
         this.volume = volume
+    }
+
+    getCurrentTime(){
+        return this.currentTime
+    }
+
+    setCurrentTime(time){
+        if (time < this.duration){
+            this.currentTime = time
+        }
     }
 }
 

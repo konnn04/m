@@ -2,6 +2,8 @@
 const host = "https://kmusictest-4f44bf517a97.herokuapp.com"
 const player = new MusicPlayer();
 
+let userInteracting = false;
+
 const main = async () => {    
     //Update current playlist
     player.on("playlistUpdate", () => {
@@ -255,8 +257,17 @@ const initEvent = () => {
                 const p = document.createElement("p");
                 p.className = "lyric-text"
                 p.style.fontSize = "1.8rem";
+                p.setAttribute("offset",subtitle.offset)
+                p.setAttribute("duration",subtitle.duration)
                 p.textContent = subtitle.text;
                 $(".lyric-content").append(p);  
+                p.addEventListener("click", function () {
+                    setTimeout(() => {
+                        userInteracting = false;
+                    }, 100);
+                    player.setCurrentTime(parseFloat(this.getAttribute("offset")));
+                    
+                });
             });
         } catch (error) {
             const p = document.createElement("p");
@@ -272,8 +283,46 @@ const initEvent = () => {
         }
     });
 
+    
+
+    player.on("timeupdate", () => {
+        if (userInteracting || !$("#container-toggle").hasClass("active")) return;
+        updateLyrics();
+        
+    });
+
+    function updateLyrics() {
+        const currentTime = player.getCurrentTime();
+        const lyrics = document.querySelectorAll(".lyric-text");
+        lyrics.forEach((lyric, index) => {
+            const start = parseFloat(lyric.getAttribute("offset"));
+            const end = parseFloat(lyric.getAttribute("duration")) + start;
+            if (currentTime >= start && currentTime <= end) {
+                lyric.classList.add("active");
+                lyric.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+            } else {
+                lyric.classList.remove("active");
+            }
+        })
+    }
+
+    document.querySelector(".lyric-content").addEventListener("click", setUserInteracting);
+    document.querySelector(".lyric-content").addEventListener("scroll", setUserInteracting);
+    document.querySelector(".lyric-content").addEventListener("touchstart", setUserInteracting);
+    document.querySelector(".lyric-content").addEventListener("touchmove", setUserInteracting);
+
+    function setUserInteracting() {
+        userInteracting = true;
+        clearTimeout(userInteractingTimeout);
+        userInteractingTimeout = setTimeout(() => {
+            userInteracting = false;
+        }, 5000);
+    }
+
+    let userInteractingTimeout;
+
     player.on("next", () => {
-        $("#request-lyric").hide();
+        $("#request-lyric").show();
         $(".lyric-content").empty();
     });
 
@@ -281,6 +330,8 @@ const initEvent = () => {
         $("#request-lyric").show();
         $(".lyric-content").empty();
     });
+
+
 };
 
 
