@@ -306,10 +306,10 @@ const initEvent = () => {
         })
     }
 
-    document.querySelector(".lyric-content").addEventListener("click", setUserInteracting);
-    document.querySelector(".lyric-content").addEventListener("scroll", setUserInteracting);
-    document.querySelector(".lyric-content").addEventListener("touchstart", setUserInteracting);
-    document.querySelector(".lyric-content").addEventListener("touchmove", setUserInteracting);
+    document.querySelector(".lyric-box").addEventListener("click", setUserInteracting);
+    document.querySelector(".lyric-box").addEventListener("scroll", setUserInteracting);
+    document.querySelector(".lyric-box").addEventListener("touchstart", setUserInteracting);
+    document.querySelector(".lyric-box").addEventListener("touchmove", setUserInteracting);
 
     function setUserInteracting() {
         userInteracting = true;
