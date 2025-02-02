@@ -229,12 +229,22 @@
                         <div class="primary-screen col-6">
                             <div class="container_ d-flex justify-content-center align-items-center flex-column">
                                 <div id="toggle-lyrics">
-                                    <b>See lyric</b>
+                                    <b class="badge bg-secondary" style="font-size: 1rem;">Show Lyrics</b>
                                 </div>
     
-                                <div class="disk-box">
-                                    <img src="" alt="" class="player_cover">
-                                    <div></div>
+                                <div id="container-toggle" class="toggle-container">
+                                    <div class="disk-box">
+                                        <img src="" alt="" class="player_cover">
+                                        <div></div>
+                                    </div>
+                                    <div class="lyric-box text-center">
+                                        <div class="lyric-content text-start">
+                                            <!-- <p class="lyric-text" style="font-size: 2rem;">Lyric</p> -->
+                                        </div>
+                                        <button id="request-lyric" class="btn btn-primary mt-3">
+                                            <i class="bi bi-music-note"></i> Request Lyric
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

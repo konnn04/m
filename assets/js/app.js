@@ -140,8 +140,8 @@ const initEvent = () => {
                 return;
             }
 
-            if (urls.length > 10) {
-                toasty("Error", "Too many URLs to import, minimun is 10 urls", "error");
+            if (urls.length > 30) {
+                toasty("Error", "Too many URLs to import, minimun is 30 urls", "error");
                 return;
             }
 
@@ -231,6 +231,55 @@ const initEvent = () => {
         localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayed));
         updateRecentlyPlayed(recentlyPlayed);
         refreshPlaylistIndex()
+    });
+
+    // Toogle lyrics
+    $("#toggle-lyrics").click(function () {
+        $("#container-toggle").toggleClass("active");
+        if ($("#container-toggle").hasClass("active")) {
+            $("#toggle-lyrics b").text("Hide Lyrics");
+        } else {
+            $("#toggle-lyrics b").text("Show Lyrics");
+        }
+    });
+
+    // Request lyrics
+    $("#request-lyric").click(async function () {
+        $(".lyric-content").empty();
+        const currentSongId = player.getCurrentSong().getInfo().id;
+        try {
+            console.log("Fetching subtitles for video:", currentSongId);
+            const response = await axios.get(`${host}/api/get-subtitles?videoId=${currentSongId}`);
+            const subtitles = response.data;
+            subtitles.forEach((subtitle) => {
+                const p = document.createElement("p");
+                p.className = "lyric-text"
+                p.style.fontSize = "1.8rem";
+                p.textContent = subtitle.text;
+                $(".lyric-content").append(p);  
+            });
+        } catch (error) {
+            const p = document.createElement("p");
+            p.className = "lyric-text"
+            p.style.fontSize = "1.8rem";
+            p.textContent = "No lyrics found";
+            $(".lyric-content").append(p);  
+
+            console.error("Error fetching subtitles:", error);
+            // toasty("Error", "An error occurred while fetching subtitles\n" + error.message, "error");
+        }finally{
+            $("#request-lyric").hide();
+        }
+    });
+
+    player.on("next", () => {
+        $("#request-lyric").hide();
+        $(".lyric-content").empty();
+    });
+
+    player.on("previous", () => {
+        $("#request-lyric").show();
+        $(".lyric-content").empty();
     });
 };
 

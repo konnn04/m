@@ -352,6 +352,7 @@ body {
 .container_ {
   padding: 2rem;
   height: 100%;
+  overflow: hidden!important;
 }
 
 .disk-box {
@@ -430,6 +431,21 @@ body {
 
 #mobile-layout{
     display: none;
+}
+
+.toggle-container {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  /* overflow: hidden; */
+  gap: 50%;
+  z-index: 1;
+}
+.toggle-container.active {
+  transform: translateX(-150%);
+}
+.disk-box, .lyric-box {
+  width: 100%!important;
+  flex-shrink: 0;
 }
 
 @media screen and (max-width: 960px) {
@@ -610,6 +626,7 @@ body {
 
   .container_ {
     padding: 1rem;
+    
   }
 
   #current-playlist{
