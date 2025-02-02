@@ -4,6 +4,7 @@ const ytdlp = require("./yt-dlp")
 const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const fs = require('fs');
+const { getTranscript } = require('./utils');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -116,6 +117,21 @@ app.post('/api/set-cookies', async (req, res) => {
             return;
         }
         const r = await ytdlp.setCookies(cookies);
+        res.json(r);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+})
+
+app.get('/api/get-subtitles', async (req, res) => {
+    try {
+        const videoId = req.query.videoId;
+        if (!videoId) {
+            res.status(400).json({ message: 'Missing query parameter `videoId`' });
+            return;
+        }
+        const r = await getTranscript(videoId);
         res.json(r);
     } catch (error) {
         console.error(error);
