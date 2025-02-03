@@ -97,7 +97,7 @@ async function searchByKeyword(keyword) {
 }
 
 async function getAudio(videoId) {
-    const videoId =""
+    const videoId = await getIDYT(videoId)
     return new Promise(async (resolve, reject) => {
         try {
             const audioFilePath = path.join(AUDIOS_PATH, `${videoId}.webm`); // Sử dụng định dạng mặc định của yt-dlp
