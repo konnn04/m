@@ -1,6 +1,6 @@
-// const host = "https://gregarious-connection-production.up.railway.app"
+const host = "https://gregarious-connection-production.up.railway.app"
 // const host = "https://m-dxce.onrender.com"
-const host = "http://localhost:3000"
+// const host = "http://localhost:3000"
 const player = new MusicPlayer();
 let allSongCache = [];
 let userInteracting = false;
