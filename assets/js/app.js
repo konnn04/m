@@ -1,14 +1,15 @@
 const host = "https://gregarious-connection-production.up.railway.app"
 // const host = "https://m-dxce.onrender.com"
 const player = new MusicPlayer();
-
+let allSongCache = [];
 let userInteracting = false;
 
 const main = async () => {    
     //Update current playlist
-    player.on("playlistUpdate", () => {
+    player.on("playlistUpdate", async () => {
         $("#current-playlist").empty();
-        updatePlaylist(player.getPlaylist());
+        await updatePlaylist(player.getPlaylist());
+        
     });
     $("#home").addClass("active");
     await initHome()
@@ -33,11 +34,31 @@ function updateRecentlyPlayed(recentlyPlayed) {
             <div class="play-song">
             <i class="bi bi-play-fill"></i>
             </div>`;
-        div.addEventListener('click', function () {
+        div.addEventListener('click', async function () {
+            const id_list = recentlyPlayed.map(song => song.id);
+            if (!id_list.includes(song.id)) {
+                // Remove it in localstorage and refresh the list
+                recentlyPlayed = recentlyPlayed.filter(song => song.id !== song.id);
+                localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayed));
+                updateRecentlyPlayed(recentlyPlayed);
+                toasty("Error", "This song is not in the list", "error");
+                // Auto downloading
+                try {
+                    toasty("Info", "This song is downloading", "info");
+                    const data = await downloadSong(song.id);
+                    toasty("Success", "Song downloaded successfully", "success");
+                } catch (error) {
+                    toasty("Error", "An error occurred while downloading the song", "error");
+                    console.error(error);
+                } finally {
+                }
+                return;
+            }
+
             const playlist = createPlaylist(recentlyPlayed);
             player.setSongs(playlist);
             player.playIndex(index);
-            updatePlaylist(player.getPlaylist());
+            // updatePlaylist(player.getPlaylist());
             $("#player-screen-bg").addClass("active");
         });
         recentlyContainer.appendChild(div);
@@ -47,15 +68,16 @@ function updateRecentlyPlayed(recentlyPlayed) {
 async function initDefaultPlaylist() {
     const songs = await getSongs();
     const playlist = createPlaylist(songs.data);
+    allSongCache = playlist;
     player.setSongs(playlist);
     updatePlaylist(player.getPlaylist());
 }
 
-function updatePlaylist(playlist) {
-    playlist.forEach((song, index) => {
-        const info = song.getInfo();
+async function updatePlaylist(playlist) {
+    for (const [index, song] of playlist.entries()) {
+        const info = await song.getInfo();
         const div = document.createElement("div");
-        div.className = "list-item d-flex align-items-center gap-3 p-3"
+        div.className = "list-item d-flex align-items-center gap-3 p-3";
         if (index === player.getCurrrentSongIndex()) {
             div.classList.add("active");
         }
@@ -74,16 +96,22 @@ function updatePlaylist(playlist) {
               </div>`;
         div.addEventListener("click", function () {
             player.playIndex(index);
-            $(".list-item").removeClass("active");
-            $(this).addClass("active");
         });
+        
         $("#current-playlist").append(div);
-    });
+    }
+
 }
 
 function refreshPlaylistIndex() {
     $(".list-item").removeClass("active");
     $(".list-item").eq(player.getCurrrentSongIndex()).addClass("active");
+    setTimeout(() => {
+        document.getElementById("current-playlist").scrollTo({
+            top: document.querySelector(".list-item.active").offsetTop - document.getElementById("current-playlist").offsetTop,
+            behavior: "smooth"
+        })
+    }, 100);
 }
 
 const initEvent = () => {
@@ -257,7 +285,7 @@ const initEvent = () => {
         `);
         const currentSongId = player.getCurrentSong().getInfo().id;
         try {
-            console.log("Fetching subtitles for video:", currentSongId);
+            // console.log("Fetching subtitles for video:", currentSongId);
             const response = await axios.get(`${host}/api/get-subtitles?videoId=${currentSongId}`);
             $(".lyric-content").empty();
             const subtitles = response.data;
@@ -380,6 +408,9 @@ function searchFunc(query) {
                     </div>
                     <div class="d-flex align-items-center gap-3">
                         <span class="text-secondary">${e.duration}</span>
+                        <button class="btn btn-link text-light demo-btn result-item-demo" title="Demo">
+                            <i class="bi bi-youtube"></i>
+                        </button>
                         <button class="btn btn-link text-light download-btn result-iten-download" title="Download">
                             <i class="bi bi-download"></i>
                         </button>
@@ -387,6 +418,8 @@ function searchFunc(query) {
                             <i class="bi bi-play-fill"></i>
                         </button>
                     </div>`;
+
+
             $(".search-results").append(div);
         });
 
@@ -401,7 +434,7 @@ function searchFunc(query) {
                 player.setSongs([song]);
                 player.playIndex(0);
                 $("#player-screen-bg").addClass("active");
-                updatePlaylist(player.getPlaylist());
+                // updatePlaylist(player.getPlaylist());
             } catch (error) {
                 toasty("Error", "An error occurred while downloading the song", "error");
                 console.error(error);
@@ -409,6 +442,34 @@ function searchFunc(query) {
                 $(this).attr("disabled", false);
                 $(this).find("i").removeClass("bi-hourglass-split").addClass("bi-play-fill");
             }
+        });
+
+        $(".result-iten-download").click(async function () {
+            try {
+                toasty("Downloading", "This song is downloading", "info");
+                $(this).attr("disabled", true);
+                $(this).find("i").removeClass("bi-download").addClass("bi-hourglass-split");
+                const id = $(this).closest(".result-item").attr("video_id");
+                await downloadSong(id);
+                toasty("Success", "Song downloaded successfully", "success");
+            } catch (error) {
+                toasty("Error", "An error occurred while downloading the song", "error");
+                console.error(error);
+            } finally {
+                $(this).attr("disabled", false);
+                $(this).find("i").removeClass("bi-hourglass-split").addClass("bi-download");
+            }
+        });
+
+        $(".result-item-demo").click(function () {
+            const videoId = $(this).closest(".result-item").attr("video_id");
+            $(".preview-box").remove(); // Remove any existing preview box
+            const previewBox = document.createElement("div");
+            previewBox.className = "preview-box";
+            previewBox.innerHTML = `
+                <iframe width="100%" style="max-width: 560px; aspect-ratio: 16/9;" src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            `;
+            $(this).closest(".result-item").after(previewBox);
         });
 
     })
@@ -470,7 +531,7 @@ async function initHome() {
                 const pl = createPlaylist(allSongs.data);
                 player.setSongs(pl);
                 player.playIndex(i);
-                updatePlaylist(player.getPlaylist());
+                // updatePlaylist(player.getPlaylist());
                 $("#player-screen-bg").addClass("active");
             });
             $("#all-for-you").append(div);
@@ -545,7 +606,9 @@ function fetchSongs() {
                         <div class="text-secondary">${song.uploader}</div>
                     </td>
                     <td>
-                        <button class="btn btn-danger btn-sm" onclick="deleteSong('${song.id}')">Delete</button>
+                        <button class="btn btn-primary btn-sm"><i class="bi bi-play-fill"></i></button>
+                        <a class="btn btn-info btn-sm" href="https://www.youtube.com/watch?v=${song.id}" target="_blank"><i class="bi bi-youtube"></i></a>
+                        <button class="btn btn-danger btn-sm" onclick="deleteSong('${song.id}')"><i class="bi bi-trash"></i></button>
                     </td>
                 `;
                 songList.appendChild(row);
@@ -588,4 +651,6 @@ window.onload = () => {
             player.volume = 1;
         }, 1000);
     }
+
+    console.log("%cHey there! Please don't open the Dev Tools. Let's keep the magic alive! 🎩✨", "font-size: 16px;");
 };

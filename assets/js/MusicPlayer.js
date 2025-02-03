@@ -367,6 +367,8 @@ class MusicPlayer extends Audio {
             this.currentTime = time
         }
     }
+
+
 }
 
 class Song{
