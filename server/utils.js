@@ -142,11 +142,11 @@ module.exports = {
 };
 
 // // // Example usage of trendingSongs
-searchVideo("Vũ").then((data) => {
-    console.log(data);
-}).catch((error) => {
-    console.error(error);
-});
+// searchVideo("Vũ").then((data) => {
+//     console.log(data);
+// }).catch((error) => {
+//     console.error(error);
+// });
 
 // // Example usage of getTranscript
 // getTranscript('https://youtu.be/QQzt-veR3fY?list=RDabPmZCZZrFA').then((transcript) => {

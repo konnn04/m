@@ -69,7 +69,7 @@ app.get('/api/search', async (req, res) => {
             res.status(400).json({ message: 'Missing query parameter `kw`' });
             return;
         }
-        const r = await ytdlp.searchVideo(query);
+        const r = await searchVideo(query);
         res.json(r);
     } catch (error) {
         console.error(error);
