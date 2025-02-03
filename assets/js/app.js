@@ -35,10 +35,10 @@ function updateRecentlyPlayed(recentlyPlayed) {
             <i class="bi bi-play-fill"></i>
             </div>`;
         div.addEventListener('click', async function () {
-            const id_list = recentlyPlayed.map(song => song.id);
+            const id_list = allSongCache.map(song => song.id);
             if (!id_list.includes(song.id)) {
                 // Remove it in localstorage and refresh the list
-                recentlyPlayed = recentlyPlayed.filter(song => song.id !== song.id);
+                recentlyPlayed = recentlyPlayed.filter(song_ => song_.id !== song.id);
                 localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayed));
                 updateRecentlyPlayed(recentlyPlayed);
                 toasty("Error", "This song is not in the list", "error");
