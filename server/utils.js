@@ -3,6 +3,13 @@
 const { text } = require('express');
 const { YoutubeTranscript } = require('youtube-transcript')
 const {Innertube}  = require('youtubei.js')
+const fs = require('fs');
+const path = require('path');
+
+const STORAGE_DIR = '/tmp';
+const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
+const AUDIOS_PATH = path.join(PUBLIC_DIR, 'audios');
+const INFOS_PATH = path.join(PUBLIC_DIR, 'infos');
 
 function getTranscript(videoId, lang) {
     return new Promise((resolve, reject) => {
@@ -70,24 +77,72 @@ async function fetchTranscript(url) {
     }
 }
 
+// Convert seconds to time format HH:MM:SS
+const secToTime = (sec) => {
+    const hours = Math.floor(sec / 3600);
+    const minutes = Math.floor((sec % 3600) / 60);
+    const seconds = Math.floor(sec % 60);
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
 // Export trendingSongs function
-async function testFunc() {
+async function getInfo(url) {
     const youtube = await Innertube.create({
         gl: 'VN',
         hl: 'vi',
         retrieve_player: false,
     });
-    const trending = await youtube.getHomeFeed();
-    return trending;
+    const data = await youtube.getInfo(url)
+    // return data
+    return {
+        id: data?.basic_info?.id,
+        channel_id: data?.basic_info?.channel_id,
+        title_: data?.basic_info?.title,
+        title: data?.primary_info?.title?.text,
+        duration: secToTime(parseInt(data?.basic_info?.duration ) || 0),
+        view_count: data?.basic_info?.view_count,
+        uploader: data?.basic_info?.author,
+        category: data?.basic_info?.category,
+        publish_date: data?.primary_info?.published?.text,
+        description: data?.secondary_info?.description,
+        thumbnail : 'https://img.youtube.com/vi/' + data?.basic_info?.id + '/0.jpg',
+        timestamp: new Date().getTime(),
+        }
+}
+
+async function searchVideo(query) {
+    const youtube = await Innertube.create({
+        gl: 'VN',
+        hl: 'vi',
+        retrieve_player: false,
+    });
+    const data = await youtube.search(query, {type: 'video'})
+    return data.results
+    .filter((item) => item.type === 'Video')
+    .map((item) => {
+        return {
+            title: item?.title?.text,
+            id: item?.id,
+            thumbnail: 'https://i.ytimg.com/vi/' + item?.id + '/hqdefault.jpg',
+            duration: item?.duration?.text,
+            view_count: item?.short_view_count?.text,
+            uploader: item?.author?.name,
+            publish_date: item?.published,
+            url: 'https://www.youtube.com/watch?v=' + item?.id,
+            downloaded: fs.existsSync(path.join(AUDIOS_PATH, item?.id + '.webm')),
+        }
+    })
 }
 
 module.exports = {
     getTranscript,
     fetchTranscript,
+    getInfo,
+    searchVideo
 };
 
-// // Example usage of trendingSongs
-testFunc().then((data) => {
+// // // Example usage of trendingSongs
+searchVideo("Vũ").then((data) => {
     console.log(data);
 }).catch((error) => {
     console.error(error);

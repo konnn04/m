@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { getInfo, searchVideo } = require('./utils');
 const { spawn, execSync } = require('child_process');
 
 // const YTDLP_PATH = path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
@@ -76,7 +77,7 @@ async function searchByKeyword(keyword) {
                     results.push({
                         title: infoArray[i],
                         id: infoArray[i + 1],
-                        thumbnail: 'https://i.ytimg.com/vi/' + infoArray[i + 1] + '/0.jpg',
+                        thumbnail: 'https://i.ytimg.com/vi/' + infoArray[i + 1] + '/hqdefault.jpg',
                         duration: infoArray[i + 3],
                         uploader: infoArray[i + 2],
                         url: `https://www.youtube.com/watch?v=${infoArray[i + 1]}`
@@ -107,16 +108,24 @@ async function getAudio(videoId) {
                 );
                 return resolve({
                     'path': audioFilePath,
+                    'id': info.id,
                     'title': info.title,
+                    'title_': info.title_,
                     'thumbnail': info.thumbnail,
                     'duration': info.duration,
-                    'id': info.id,
                     'uploader': info.uploader,
-                    'url': 'https://www.youtube.com/watch?v=' + info.id
+                    'url': 'https://www.youtube.com/watch?v=' + info.id,
+                    'view_count': info.view_count,
+                    'category': info.category,
+                    'publish_date': info.publish_date,
+                    'description': info.description,
+                    'timestamp': info.timestamp,
+                    'dowmloaded': true
                 });
             }
 
-            const info = await getInformation(videoId)
+            // const info = await getInformation(videoId)
+            const info = await getInfo(videoId)
             if ('error' in info) {
                 return reject(info);
             }
@@ -140,11 +149,18 @@ async function getAudio(videoId) {
                     resolve({
                         'path': audioFilePath,
                         'title': info.title,
+                        'title_': info.title_,
                         'thumbnail': info.thumbnail,
                         'duration': info.duration,
                         'uploader': info.uploader,
                         'id': info.id,
-                        'url': 'https://www.youtube.com/watch?v=' + info.id
+                        'url': 'https://www.youtube.com/watch?v=' + info.id,
+                        'view_count': info.view_count,
+                        'category': info.category,
+                        'publish_date': info.publish_date,
+                        'description': info.description,
+                        'timestamp': info.timestamp,
+                        'dowmloaded': true,
                     });
                 } else {
                     console.error(`Lỗi khi tải file: ${code}`);
@@ -208,7 +224,7 @@ async function getInformation(url) {
                 const infoArray = infoString.split('\n').filter(line => line.trim() !== '');
                 title = infoArray[0];
                 id = infoArray[1];
-                thumbnail = 'https://img.youtube.com/vi/' + infoArray[1] + '/0.jpg';
+                thumbnail = 'https://img.youtube.com/vi/' + infoArray[1] + '/hqdefault.jpg';
                 duration = infoArray[3];
                 uploader = infoArray[2];
 

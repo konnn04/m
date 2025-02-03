@@ -4,7 +4,7 @@ const ytdlp = require("./yt-dlp")
 const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const fs = require('fs');
-const { getTranscript, fetchTranscript } = require('./utils');
+const { getTranscript, fetchTranscript, searchVideo } = require('./utils');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -69,7 +69,7 @@ app.get('/api/search', async (req, res) => {
             res.status(400).json({ message: 'Missing query parameter `kw`' });
             return;
         }
-        const r = await ytdlp.searchByKeyword(query);
+        const r = await ytdlp.searchVideo(query);
         res.json(r);
     } catch (error) {
         console.error(error);
