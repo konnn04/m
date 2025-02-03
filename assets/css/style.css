@@ -554,12 +554,11 @@ body {
     align-items: center;
     position: absolute;
     top: 1rem;
-    left: 0;
+    left: 50px;
     z-index: 10;
     font-size: 2rem;
     width: 50px;
     aspect-ratio: 1;
-    background-color: var(--bg);
   }
 
   #menu:hover #toggle-menu{
@@ -615,7 +614,7 @@ body {
     position: absolute;
     z-index: 5;
     top: -1rem;
-    left: 0;
+    left: -50px;
     height: 0;
     font-size: 0;
     width: 0;
