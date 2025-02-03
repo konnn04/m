@@ -126,7 +126,7 @@ async function getAudio(videoId) {
             }
 
             // const info = await getInformation(videoId)
-            const info = await getInfo(videoId)
+            const info = await getInfo(getIDYT(videoId))
             if ('error' in info) {
                 return reject(info);
             }
