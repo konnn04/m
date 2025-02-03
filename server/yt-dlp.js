@@ -1,4 +1,4 @@
-const fs = require('fs');
+nóconst fs = require('fs');
 const path = require('path');
 const { getInfo, searchVideo } = require('./utils');
 const { spawn, execSync } = require('child_process');
@@ -97,6 +97,7 @@ async function searchByKeyword(keyword) {
 }
 
 async function getAudio(videoId) {
+    const videoId =""
     return new Promise(async (resolve, reject) => {
         try {
             const audioFilePath = path.join(AUDIOS_PATH, `${videoId}.webm`); // Sử dụng định dạng mặc định của yt-dlp
@@ -126,7 +127,7 @@ async function getAudio(videoId) {
             }
 
             // const info = await getInformation(videoId)
-            const info = await getInfo(getIDYT(videoId))
+            const info = await getInfo(videoId)
             if ('error' in info) {
                 return reject(info);
             }
