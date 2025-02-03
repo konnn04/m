@@ -9,12 +9,14 @@
   --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-img{
+img {
   object-fit: cover;
 }
 
-html, body, #app {
-  height: 100%!important;
+html,
+body,
+#app {
+  height: 100% !important;
 }
 
 /* LOADER */
@@ -106,7 +108,6 @@ html, body, #app {
   }
 }
 
-
 /* HTML: <div class="loader-2"></div> */
 .loader-2 {
   width: 40px;
@@ -123,24 +124,40 @@ html, body, #app {
   width: 16px;
   aspect-ratio: 1;
   background: #ffffff;
-  animation:
-    l1-1 2s  infinite,
-    l1-2 .5s infinite;
+  animation: l1-1 2s infinite, l1-2 0.5s infinite;
 }
 .loader-2:after {
-  background:#00000000;
+  background: #00000000;
   border: 1px solid #ffffff;
-  animation-delay: -1s,0s;
+  animation-delay: -1s, 0s;
 }
 @keyframes l1-1 {
-  0%   {top:0   ;left:0}
-  25%  {top:100%;left:0}
-  50%  {top:100%;left:100%}
-  75%  {top:0   ;left:100%}
-  100% {top:0   ;left:0}
+  0% {
+    top: 0;
+    left: 0;
+  }
+  25% {
+    top: 100%;
+    left: 0;
+  }
+  50% {
+    top: 100%;
+    left: 100%;
+  }
+  75% {
+    top: 0;
+    left: 100%;
+  }
+  100% {
+    top: 0;
+    left: 0;
+  }
 }
 @keyframes l1-2 {
-   80%,100% {transform: rotate(0.5turn)}
+  80%,
+  100% {
+    transform: rotate(0.5turn);
+  }
 }
 
 /* HTML: <div class="loader-3"></div> */
@@ -149,24 +166,32 @@ html, body, #app {
   aspect-ratio: 1;
   border: 10px solid #000;
   box-sizing: border-box;
-  background: 
-    radial-gradient(farthest-side,#fff 98%,#0000) top,
-    radial-gradient(farthest-side,#fff 98%,#0000) top,
-    radial-gradient(farthest-side,#fff 98%,#0000) left,
-    radial-gradient(farthest-side,#fff 98%,#0000) right,
-    radial-gradient(farthest-side,#fff 98%,#0000) bottom,
-    #000;
+  background: radial-gradient(farthest-side, #fff 98%, #0000) top,
+    radial-gradient(farthest-side, #fff 98%, #0000) top,
+    radial-gradient(farthest-side, #fff 98%, #0000) left,
+    radial-gradient(farthest-side, #fff 98%, #0000) right,
+    radial-gradient(farthest-side, #fff 98%, #0000) bottom, #000;
   background-size: 20px 20px;
   background-repeat: no-repeat;
-  filter: blur(4px) contrast(10); 
+  filter: blur(4px) contrast(10);
   animation: l19 2s infinite;
 }
 @keyframes l19 {
-  0%   {background-position:top,top,left,right,bottom}
-  25%  {background-position:right,top,left,right,bottom}
-  50%  {background-position:bottom,top,left,right,bottom}
-  75%  {background-position:left,top,left,right,bottom}
-  100% {background-position:top,top,left,right,bottom}
+  0% {
+    background-position: top, top, left, right, bottom;
+  }
+  25% {
+    background-position: right, top, left, right, bottom;
+  }
+  50% {
+    background-position: bottom, top, left, right, bottom;
+  }
+  75% {
+    background-position: left, top, left, right, bottom;
+  }
+  100% {
+    background-position: top, top, left, right, bottom;
+  }
 }
 
 /* HTML: <div class="loader-4"></div> */
@@ -175,7 +200,13 @@ html, body, #app {
   font-weight: bold;
   font-family: monospace;
   font-size: 30px;
-  background: linear-gradient(135deg,#0000 calc(50% - 0.5em),#00bfff 0 calc(50% + 0.5em),#0000 0) right/300% 100%;
+  background: linear-gradient(
+      135deg,
+      #0000 calc(50% - 0.5em),
+      #00bfff 0 calc(50% + 0.5em),
+      #0000 0
+    )
+    right/300% 100%;
   animation: l22 2s infinite;
 }
 .loader-4::before {
@@ -183,13 +214,20 @@ html, body, #app {
   color: #0000;
   padding: 0 5px;
   background: inherit;
-  background-image: linear-gradient(135deg,#ffffff calc(50% - 0.5em),#000000 0 calc(50% + 0.5em),#ffffff 0);
-  -webkit-background-clip:text;
-          background-clip:text;
+  background-image: linear-gradient(
+    135deg,
+    #ffffff calc(50% - 0.5em),
+    #000000 0 calc(50% + 0.5em),
+    #ffffff 0
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
-@keyframes l22{
-  100%{background-position: left}
+@keyframes l22 {
+  100% {
+    background-position: left;
+  }
 }
 
 /* COMMON */
@@ -237,12 +275,12 @@ body {
 
 #loop,
 #m-loop-song {
-  opacity: 0.3!important;
+  opacity: 0.3 !important;
 }
 
 #loop.active,
 #m-loop-song.active {
-  opacity: 1!important;
+  opacity: 1 !important;
 }
 
 #main-screen {
@@ -267,8 +305,8 @@ body {
   display: none;
 }
 
-#menu .info{
-    min-width: 350px;
+#menu .info {
+  min-width: 350px;
 }
 
 #menu:hover {
@@ -287,7 +325,7 @@ body {
 }
 
 .card {
-  width: 300px;
+  width: 200px;
   background-color: var(--bg2);
   overflow: hidden;
   flex-shrink: 0;
@@ -363,12 +401,12 @@ body {
   opacity: 0;
   transform: translateY(100%);
 
-  transition: all .3s ;
+  transition: all 0.3s;
 }
 
-#player-screen-bg.active{
-    opacity: 1;
-    transform: translateY(0);
+#player-screen-bg.active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 #player-screen-bg > div {
@@ -389,12 +427,12 @@ body {
   overflow: hidden;
 }
 
-.song-list .list-item h5{
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100%;
-    font-size: 1.1rem;
-    overflow: hidden;
+.song-list .list-item h5 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  font-size: 1.1rem;
+  overflow: hidden;
 }
 
 .song-list .list-item.active {
@@ -407,7 +445,7 @@ body {
 
 .container_ {
   padding: 4rem 2rem;
-  overflow: hidden!important;
+  overflow: hidden !important;
   width: 100%;
   height: 100%;
 }
@@ -422,7 +460,6 @@ body {
   align-items: center;
 }
 
-
 .disk-box img {
   aspect-ratio: 1;
   object-fit: cover;
@@ -433,42 +470,40 @@ body {
   overflow: hidden;
 }
 
-#toggle-lyrics{
+#toggle-lyrics {
   margin: 1rem 0;
 }
 
-.lyric-text{
-  font-size: 1.4rem!important;
+.lyric-text {
+  font-size: 1.4rem !important;
   text-align: center;
   opacity: 0.5;
   font-weight: 500;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
 }
 
-.lyric-text.active{
+.lyric-text.active {
   opacity: 1;
 }
 
-#container-toggle{
+#container-toggle {
   width: 100%;
   aspect-ratio: 1;
   max-width: 70vh;
 }
 
-.lyric-box{
-    width: 100%;
-    aspect-ratio: 1;
-    overflow-y: auto;
-}
-
-.lyric-content{
-    
-    width: 100%;
-}
-
-.lyric-content p{
+.lyric-box {
   width: 100%;
+  aspect-ratio: 1;
+  overflow-y: auto;
+}
 
+.lyric-content {
+  width: 100%;
+}
+
+.lyric-content p {
+  width: 100%;
 }
 
 @keyframes circle {
@@ -476,7 +511,7 @@ body {
     rotate: 0deg;
   }
 
-  to{
+  to {
     rotate: 360deg;
   }
 }
@@ -499,33 +534,33 @@ body {
   background-color: #111;
 }
 
-#progress-bar{
-    position: absolute;
-    bottom: 100%;
-    z-index: 6;
-    transition: all .2s ;
+#progress-bar {
+  position: absolute;
+  bottom: 100%;
+  z-index: 6;
+  transition: all 0.2s;
 }
 
-#progress-bar>div{
-    background-color: #ba0000;
+#progress-bar > div {
+  background-color: #ba0000;
 }
 
-#progress-bar:hover{
-    height: 10px!important;
+#progress-bar:hover {
+  height: 10px !important;
 }
 
 #home,
-#search{
-    display: none;
+#search {
+  display: none;
 }
 
 #home.active,
-#search.active{
-    display: block;
+#search.active {
+  display: block;
 }
 
-#mobile-layout{
-    display: none;
+#mobile-layout {
+  display: none;
 }
 
 .toggle-container {
@@ -538,17 +573,23 @@ body {
 .toggle-container.active {
   transform: translateX(-150%);
 }
-.disk-box, .lyric-box {
-  width: 100%!important;
+.disk-box,
+.lyric-box {
+  width: 100% !important;
   flex-shrink: 0;
 }
 
-#toggle-menu{
-    display: none;
+#toggle-menu {
+  display: none;
 }
 
 @media screen and (max-width: 960px) {
-  #toggle-menu{
+  .card:hover .play-song {
+    opacity: 1;
+    transform: translateY(100%);
+  }
+
+  #toggle-menu {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -561,11 +602,11 @@ body {
     aspect-ratio: 1;
   }
 
-  #menu:hover #toggle-menu{
+  #menu:hover #toggle-menu {
     display: none;
   }
 
-  #mobile-layout{
+  #mobile-layout {
     display: block;
   }
 
@@ -579,38 +620,34 @@ body {
   #prev,
   #next,
   #progress-bar,
-  #shuffle{
-      display: none!important;
-  }
-  
-  #progress-bar + div{
-    justify-content: center!important;
+  #shuffle {
+    display: none !important;
   }
 
-  .song-item{
-    width: 150px;
+  #progress-bar + div {
+    justify-content: center !important;
   }
 
-  #info{
+  #info {
     font-size: 1rem;
     width: 80vw;
     overflow: hidden;
   }
 
-  #control button{
-    font-size: 1rem!important;
+  #control button {
+    font-size: 1rem !important;
     padding: 0 1rem;
   }
 
-  #play i{
-    font-size: 1.5rem!important;
+  #play i {
+    font-size: 1.5rem !important;
   }
 
-  #main{
+  #main {
     position: relative;
   }
 
-  #menu{
+  #menu {
     position: absolute;
     z-index: 5;
     top: -1rem;
@@ -621,69 +658,79 @@ body {
     /* overflow: hidden; */
   }
 
-  #main-screen{
-    padding-top: 40px;  
+  #main-screen {
+    padding-top: 40px;
   }
 
-  #menu:hover{
+  #menu:hover {
     width: 80vw;
-    height: calc(100vh - 80px); 
+    height: calc(100vh - 80px);
     top: 0;
     left: 0;
     font-size: 1.6rem;
   }
 
-  .playlist{
+  .playlist {
     width: 100vw;
     flex-wrap: wrap;
     width: 100%;
     max-height: 40vh;
-    overflow-y: auto  ;
-    gap: 5px!important;
+    overflow-y: auto;
+    gap: 5px !important;
     align-items: start;
   }
 
-  .card{
+  .artist-groups {
     width: 100%;
+    align-items: start;
+  }
+
+  .card {
+    width: 100% !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: nowrap;
     flex-direction: row;
     gap: 10px;
-    }
+  }
 
-  .card-img-top{
+  .artist-group img {
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  .card-img-top {
     display: block;
     width: 70px;
-    aspect-ratio: 1 ;
+    aspect-ratio: 1;
     object-fit: cover;
   }
 
-  .card-body{
+  .card-body {
     flex: 1 0;
     padding: 0;
     overflow: hidden;
   }
 
-  .card-title{
-    font-size: 1rem!important;
+  .card-title {
+    font-size: 1rem !important;
     overflow: hidden;
     text-overflow: ellipsis;
     text-wrap: nowrap;
-    } 
-
-  .card-text{
-    font-size: .8rem!important;
   }
 
-  .header>div:nth-child(1){
-    width: 40vw!important;
+  .card-text {
+    font-size: 0.8rem !important;
+  }
+
+  .header > div:nth-child(1) {
+    width: 40vw !important;
     overflow: hidden;
   }
 
-  .header>div:nth-child(2){
-    width: 50vw!important;
+  .header > div:nth-child(2) {
+    width: 50vw !important;
     overflow: hidden;
   }
 
@@ -691,31 +738,31 @@ body {
     flex-wrap: wrap;
   }
 
-  .result-item h5{
+  .result-item h5 {
     font-size: 1rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .result-item>div:nth-child(2){
+  .result-item > div:nth-child(2) {
     overflow: hidden;
-    flex: none ;
+    flex: none;
     width: calc(90% - 70px);
   }
 
-  .result-item>div:nth-child(3) {
-    width: 100%;  
+  .result-item > div:nth-child(3) {
+    width: 100%;
     flex-shrink: 0;
   }
 
-  .player-screen{
-    display: block!important;
+  .player-screen {
+    display: block !important;
     overflow-y: auto;
     padding-top: 4rem;
   }
 
-  .player-screen>div{
+  .player-screen > div {
     width: 100%;
   }
 
@@ -723,197 +770,195 @@ body {
     padding: 1rem;
   }
 
-  #current-playlist{
+  #current-playlist {
     height: 50vh;
   }
-  
-  #player-screen-bg{
+
+  #player-screen-bg {
     z-index: 1;
   }
 
-  .lyric-text{
-    font-size: 1.2rem!important;
+  .lyric-text {
+    font-size: 1.2rem !important;
     padding: 0.5rem 1rem;
   }
-
-
 }
 
 /* RANGE INPUT CSS */
 input[type="range"] {
-	font-size: 1.5rem;
-	/* width: 12.5em; */
+  font-size: 1.5rem;
+  /* width: 12.5em; */
 }
 
 input[type="range"] {
-	color: #ef233c;
-	--thumb-height: 1.125em;
-	--track-height: 0.125em;
-	--track-color: rgba(0, 0, 0, 0.2);
-	--brightness-hover: 180%;
-	--brightness-down: 80%;
-	--clip-edges: 0.125em;
+  color: #ef233c;
+  --thumb-height: 1.125em;
+  --track-height: 0.125em;
+  --track-color: rgba(0, 0, 0, 0.2);
+  --brightness-hover: 180%;
+  --brightness-down: 80%;
+  --clip-edges: 0.125em;
 }
 
-input[type="range"]{
-	color: #2b2d42;
+input[type="range"] {
+  color: #2b2d42;
 
-	--thumb-height: .8em;
-	--thumb-width: 0.3em;
-	--clip-edges: 0.0125em;
+  --thumb-height: 0.8em;
+  --thumb-width: 0.3em;
+  --clip-edges: 0.0125em;
 }
 
 @media (prefers-color-scheme: dark) {
-	html {
-		background-color: #000;
-	}
+  html {
+    background-color: #000;
+  }
 
-	html::before {
-		background: radial-gradient(circle at center, #101112, #000);
-	}
+  html::before {
+    background: radial-gradient(circle at center, #101112, #000);
+  }
 
-	input[type="range"] {
-		color: #fd3a2c;
-		--track-color: rgba(255, 255, 255, 0.1);
-	}
+  input[type="range"] {
+    color: #fd3a2c;
+    --track-color: rgba(255, 255, 255, 0.1);
+  }
 }
 
 input[type="range"] {
-	position: relative;
-	background: #fff0;
-	overflow: hidden;
+  position: relative;
+  background: #fff0;
+  overflow: hidden;
 }
 
 input[type="range"]:active {
-	cursor: grabbing;
+  cursor: grabbing;
 }
 
 input[type="range"]:disabled {
-	filter: grayscale(1);
-	opacity: 0.3;
-	cursor: not-allowed;
+  filter: grayscale(1);
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 /* === WebKit specific styles === */
 input[type="range"],
 input[type="range"]::-webkit-slider-runnable-track,
 input[type="range"]::-webkit-slider-thumb {
-	-webkit-appearance: none;
-	transition: all ease 100ms;
-	height: var(--thumb-height);
+  -webkit-appearance: none;
+  transition: all ease 100ms;
+  height: var(--thumb-height);
 }
 
 input[type="range"]::-webkit-slider-runnable-track,
 input[type="range"]::-webkit-slider-thumb {
-	position: relative;
+  position: relative;
 }
 
 input[type="range"]::-webkit-slider-thumb {
-	--thumb-radius: calc((var(--thumb-height) * 0.5) - 1px);
-	--clip-top: calc((var(--thumb-height) - var(--track-height)) * 0.5 - 0.5px);
-	--clip-bottom: calc(var(--thumb-height) - var(--clip-top));
-	--clip-further: calc(100% + 1px);
-	--box-fill: calc(-100vmax - var(--thumb-width, var(--thumb-height))) 0 0
-		100vmax currentColor;
+  --thumb-radius: calc((var(--thumb-height) * 0.5) - 1px);
+  --clip-top: calc((var(--thumb-height) - var(--track-height)) * 0.5 - 0.5px);
+  --clip-bottom: calc(var(--thumb-height) - var(--clip-top));
+  --clip-further: calc(100% + 1px);
+  --box-fill: calc(-100vmax - var(--thumb-width, var(--thumb-height))) 0 0
+    100vmax currentColor;
 
-	width: var(--thumb-width, var(--thumb-height));
-	background: linear-gradient(currentColor 0 0) scroll no-repeat left center /
-		50% calc(var(--track-height) + 1px);
-	background-color: currentColor;
-	box-shadow: var(--box-fill);
-	border-radius: var(--thumb-width, var(--thumb-height));
+  width: var(--thumb-width, var(--thumb-height));
+  background: linear-gradient(currentColor 0 0) scroll no-repeat left center /
+    50% calc(var(--track-height) + 1px);
+  background-color: currentColor;
+  box-shadow: var(--box-fill);
+  border-radius: var(--thumb-width, var(--thumb-height));
 
-	filter: brightness(100%);
-	clip-path: polygon(
-		100% -1px,
-		var(--clip-edges) -1px,
-		0 var(--clip-top),
-		-100vmax var(--clip-top),
-		-100vmax var(--clip-bottom),
-		0 var(--clip-bottom),
-		var(--clip-edges) 100%,
-		var(--clip-further) var(--clip-further)
-	);
+  filter: brightness(100%);
+  clip-path: polygon(
+    100% -1px,
+    var(--clip-edges) -1px,
+    0 var(--clip-top),
+    -100vmax var(--clip-top),
+    -100vmax var(--clip-bottom),
+    0 var(--clip-bottom),
+    var(--clip-edges) 100%,
+    var(--clip-further) var(--clip-further)
+  );
 }
 
 input[type="range"]:hover::-webkit-slider-thumb {
-	filter: brightness(var(--brightness-hover));
-	cursor: grab;
+  filter: brightness(var(--brightness-hover));
+  cursor: grab;
 }
 
 input[type="range"]:active::-webkit-slider-thumb {
-	filter: brightness(var(--brightness-down));
-	cursor: grabbing;
+  filter: brightness(var(--brightness-down));
+  cursor: grabbing;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-	background: linear-gradient(var(--track-color) 0 0) scroll no-repeat center /
-		100% calc(var(--track-height) + 1px);
+  background: linear-gradient(var(--track-color) 0 0) scroll no-repeat center /
+    100% calc(var(--track-height) + 1px);
 }
 
 input[type="range"]:disabled::-webkit-slider-thumb {
-	cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 /* === Firefox specific styles === */
 input[type="range"],
 input[type="range"]::-moz-range-track,
 input[type="range"]::-moz-range-thumb {
-	appearance: none;
-	transition: all ease 100ms;
-	height: var(--thumb-height);
+  appearance: none;
+  transition: all ease 100ms;
+  height: var(--thumb-height);
 }
 
 input[type="range"]::-moz-range-track,
 input[type="range"]::-moz-range-thumb,
 input[type="range"]::-moz-range-progress {
-	background: #fff0;
+  background: #fff0;
 }
 
 input[type="range"]::-moz-range-thumb {
-	background: currentColor;
-	border: 0;
-	width: var(--thumb-width, var(--thumb-height));
-	border-radius: var(--thumb-width, var(--thumb-height));
-	cursor: grab;
+  background: currentColor;
+  border: 0;
+  width: var(--thumb-width, var(--thumb-height));
+  border-radius: var(--thumb-width, var(--thumb-height));
+  cursor: grab;
 }
 
 input[type="range"]:active::-moz-range-thumb {
-	cursor: grabbing;
+  cursor: grabbing;
 }
 
 input[type="range"]::-moz-range-track {
-	width: 100%;
-	background: var(--track-color);
+  width: 100%;
+  background: var(--track-color);
 }
 
 input[type="range"]::-moz-range-progress {
-	appearance: none;
-	background: currentColor;
-	transition-delay: 30ms;
+  appearance: none;
+  background: currentColor;
+  transition-delay: 30ms;
 }
 
 input[type="range"]::-moz-range-track,
 input[type="range"]::-moz-range-progress {
-	height: calc(var(--track-height) + 1px);
-	border-radius: var(--track-height);
+  height: calc(var(--track-height) + 1px);
+  border-radius: var(--track-height);
 }
 
 input[type="range"]::-moz-range-thumb,
 input[type="range"]::-moz-range-progress {
-	filter: brightness(100%);
+  filter: brightness(100%);
 }
 
 input[type="range"]:hover::-moz-range-thumb,
 input[type="range"]:hover::-moz-range-progress {
-	filter: brightness(var(--brightness-hover));
+  filter: brightness(var(--brightness-hover));
 }
 
 input[type="range"]:active::-moz-range-thumb,
 input[type="range"]:active::-moz-range-progress {
-	filter: brightness(var(--brightness-down));
+  filter: brightness(var(--brightness-down));
 }
 
 input[type="range"]:disabled::-moz-range-thumb {
-	cursor: not-allowed;
+  cursor: not-allowed;
 }

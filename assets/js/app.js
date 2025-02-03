@@ -1,5 +1,6 @@
-const host = "https://gregarious-connection-production.up.railway.app"
+// const host = "https://gregarious-connection-production.up.railway.app"
 // const host = "https://m-dxce.onrender.com"
+const host = "http://localhost:3000"
 const player = new MusicPlayer();
 let allSongCache = [];
 let userInteracting = false;
@@ -70,7 +71,7 @@ async function initDefaultPlaylist() {
     const playlist = createPlaylist(songs.data);
     allSongCache = playlist;
     player.setSongs(playlist);
-    updatePlaylist(player.getPlaylist());
+    // updatePlaylist(player.getPlaylist());
 }
 
 async function updatePlaylist(playlist) {
@@ -82,7 +83,7 @@ async function updatePlaylist(playlist) {
             div.classList.add("active");
         }
         div.innerHTML = `
-              <img src="https://i.ytimg.com/vi/${info.id}/0.jpg" alt="thumbnail"
+              <img src="https://i.ytimg.com/vi/${info.id}/hqdefault.jpg" alt="thumbnail"
                   class="rounded" style="width: 64px; height: 64px; object-fit: cover;">
               <div class="flex-grow-1 overflow-hidden">
                   <h5 class="mb-1">${info.title}</h5>
@@ -510,32 +511,9 @@ function createPlaylist(songs) {
 async function initHome() {
     // All tab
     $("#all-for-you").html(`<div class="loader-2"></div> <p class="text-secondary">Loading...</p>`);
+    let allSongs = [];
     try {
-        const allSongs = await getSongs();
-        $("#all-for-you").empty();
-        allSongs.data.forEach((e, i) => {
-            const div = document.createElement("div");
-            div.className = "song-item card pointer position-relative";
-            div.setAttribute("video_id", e.id);
-            div.innerHTML = `
-            <img class="card-img-top" src="${e.thumbnail}" alt="Thumbnail">
-            <div class="card-body">
-                <h5 class="card-title">${e.title}</h5>
-                <p class="card-text">${e.uploader}</p>
-            </div>
-
-            <div class="play-song">
-                <i class="bi bi-play-fill"></i>
-            </div>`;
-            div.addEventListener("click", function () {
-                const pl = createPlaylist(allSongs.data);
-                player.setSongs(pl);
-                player.playIndex(i);
-                // updatePlaylist(player.getPlaylist());
-                $("#player-screen-bg").addClass("active");
-            });
-            $("#all-for-you").append(div);
-        });
+        allSongs = await getSongs();
     } catch (error) {
         console.error("Error loading songs:", error);
         toasty("Error", "An error occurred while loading songs\n" + error.message, "error");
@@ -543,9 +521,135 @@ async function initHome() {
     } finally {
         $(".search-container input").attr("disabled", false);
     }
+
+    $("#all-for-you").empty();
+    allSongs.data.forEach((e, i) => {
+        const div = document.createElement("div");
+        div.className = "song-item card pointer position-relative";
+        div.setAttribute("video_id", e.id);
+        div.innerHTML = `
+        <img class="card-img-top" src="${e.thumbnail}" alt="Thumbnail">
+        <div class="card-body">
+            <h5 class="card-title">${e.title}</h5>
+            <p class="card-text">${e.uploader}</p>
+        </div>
+
+        <div class="play-song">
+            <i class="bi bi-play-fill"></i>
+        </div>`;
+        div.addEventListener("click", function () {
+            const pl = createPlaylist(allSongs.data);
+            player.setSongs(pl);
+            player.playIndex(i);
+            // updatePlaylist(player.getPlaylist());
+            $("#player-screen-bg").addClass("active");
+        });
+        $("#all-for-you").append(div);
+    });
     // Recently played
     const recentlyPlayed = JSON.parse(localStorage.getItem('recentlyPlayed')) || [];
     updateRecentlyPlayed(recentlyPlayed);
+    // Singles
+    // Singles section
+    const uploaderGroups = {};
+
+    allSongs.data.forEach(song => {
+        if (song.category === 'Music') {
+            if (!uploaderGroups[song.uploader]) {
+                uploaderGroups[song.uploader] = {
+                    name: song.uploader,
+                    avatar: song.avatar,
+                    songs: []
+                };
+            }
+            uploaderGroups[song.uploader].songs.push(song);
+        }
+    });
+
+    // Sort uploaders by number of songs
+    const sortedUploaders = Object.values(uploaderGroups)
+        .sort((a, b) => b.songs.length - a.songs.length);
+
+    // Clear and create container for artist groups
+    $("#singles").empty();
+    const $artistSection = $('<div>', {
+        class: 'artist-groups d-flex gap-3 flex-wrap'
+    }).appendTo("#singles");
+
+    // Show all uploaders as group items
+    sortedUploaders.forEach((uploader) => {
+        if (uploader.songs.length < 2) return;
+        const $groupDiv = $('<div>', {
+            class: 'artist-group card pointer position-relative',
+            css: { width: '200px' }
+        });
+
+        $groupDiv.html(`
+            <img class="card-img-top" src="${uploader.avatar}" alt="Artist" 
+                style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">${uploader.name}</h5>
+                <p class="card-text">${uploader.songs.length} songs</p>
+            </div>
+            <div class="play-song">
+                <i class="bi bi-play-fill"></i>
+            </div>
+        `);
+        
+        // Play all songs from this artist when clicked
+        $groupDiv.on('click', () => {
+            const playlist = createPlaylist(uploader.songs);
+            player.setSongs(playlist);
+            player.playIndex(0);
+            $("#player-screen-bg").addClass("active");
+        });
+
+        $artistSection.append($groupDiv);
+    });
+
+    // Create language groups
+    const vpopSongs = allSongs.data.filter(song => song.lang === 'vie');
+    const jpopSongs = allSongs.data.filter(song => song.lang === 'jpn'); 
+    const usukSongs = allSongs.data.filter(song => song.lang === 'eng');
+
+    // Helper function to create song cards
+    const createSongCard = (song, playlist, index) => {
+        return $('<div>', {
+            class: 'song-item card pointer position-relative'
+        }).append(`
+            <img class="card-img-top" src="${song.thumbnail}" alt="Thumbnail">
+            <div class="card-body">
+                <h5 class="card-title">${song.title}</h5>
+                <p class="card-text">${song.uploader}</p>
+            </div>
+            <div class="play-song">
+                <i class="bi bi-play-fill"></i>
+            </div>
+        `).on('click', () => {
+            const pl = createPlaylist(playlist);
+            player.setSongs(pl);
+            player.playIndex(index);
+            $("#player-screen-bg").addClass("active");
+        });
+    };
+
+    // Populate V-Pop section
+    $('#v-pop').empty();
+    vpopSongs.forEach((song, index) => {
+        $('#v-pop').append(createSongCard(song, vpopSongs, index));
+    });
+
+    // Populate J-Pop section
+    $('#j-pop').empty();  
+    jpopSongs.forEach((song, index) => {
+        $('#j-pop').append(createSongCard(song, jpopSongs, index));
+    });
+
+    // Populate US-UK section
+    $('#usuk').empty();
+    usukSongs.forEach((song, index) => {
+        $('#usuk').append(createSongCard(song, usukSongs, index));
+    });
 
 }
 

@@ -5,6 +5,7 @@ const { YoutubeTranscript } = require('youtube-transcript')
 const {Innertube}  = require('youtubei.js')
 const fs = require('fs');
 const path = require('path');
+const {franc} = require('franc');
 
 const STORAGE_DIR = '/tmp';
 const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
@@ -85,6 +86,19 @@ const secToTime = (sec) => {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
+async function getAvatarUploader(url) {
+    const youtube = await Innertube.create({
+        gl: 'VN',
+        hl: 'vi',
+        retrieve_player: false,
+    });
+    return youtube.getChannel(url).then((data) => {
+        return data?.metadata?.avatar[0]?.url
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+
 // Export trendingSongs function
 async function getInfo(url) {
     const youtube = await Innertube.create({
@@ -94,7 +108,7 @@ async function getInfo(url) {
     });
     const data = await youtube.getInfo(url)
     // return data
-    return {
+    const video = {
         id: data?.basic_info?.id,
         channel_id: data?.basic_info?.channel_id,
         title_: data?.basic_info?.title,
@@ -104,10 +118,15 @@ async function getInfo(url) {
         uploader: data?.basic_info?.author,
         category: data?.basic_info?.category,
         publish_date: data?.primary_info?.published?.text,
-        description: data?.secondary_info?.description,
-        thumbnail : 'https://img.youtube.com/vi/' + data?.basic_info?.id + '/0.jpg',
+        description: data?.secondary_info?.description?.text,
+        thumbnail : 'https://img.youtube.com/vi/' + data?.basic_info?.id + '/hqdefault.jpg',
         timestamp: new Date().getTime(),
-        }
+        avatar: await getAvatarUploader(data?.basic_info?.channel_id),
+        lang: await franc(data?.basic_info?.title + ' ' + data?.secondary_info?.description?.text),
+    }
+
+    await writeFile(JSON.stringify(video), path.join(INFOS_PATH, video.id + '.json'));
+    return video;
 }
 
 async function searchVideo(query) {
@@ -134,15 +153,28 @@ async function searchVideo(query) {
     })
 }
 
+function writeFile(data, path) {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(path, data, (err) => {
+            if (err) {
+                reject(err);
+            }
+            resolve();
+        });
+    });
+}
+
+
+
 module.exports = {
     getTranscript,
     fetchTranscript,
     getInfo,
-    searchVideo
+    searchVideo,
+    getAvatarUploader
 };
 
-// // // Example usage of trendingSongs
-// searchVideo("Vũ").then((data) => {
+// getInfo('ZRtdQ81jPUQ').then((data) => {
 //     console.log(data);
 // }).catch((error) => {
 //     console.error(error);

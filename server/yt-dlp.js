@@ -120,7 +120,8 @@ async function getAudio(videoId) {
                     'publish_date': info.publish_date,
                     'description': info.description,
                     'timestamp': info.timestamp,
-                    'dowmloaded': true
+                    'dowmloaded': true,
+                    'avatar': info.avatar,
                 });
             }
 
@@ -161,6 +162,8 @@ async function getAudio(videoId) {
                         'description': info.description,
                         'timestamp': info.timestamp,
                         'dowmloaded': true,
+                        'avatar': info.avatar,
+                        'lang': info.lang,
                     });
                 } else {
                     console.error(`Lỗi khi tải file: ${code}`);
