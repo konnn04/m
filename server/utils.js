@@ -46,7 +46,7 @@ function getTranscript(videoId, lang) {
     });
 }
 
-async function fetchTranscript(url) {
+async function fetchTranscript(id) {
     const youtube = await Innertube.create({
         gl: 'VN',
         hl: 'vi',
@@ -54,7 +54,7 @@ async function fetchTranscript(url) {
     });
 
     try {
-        const info = await youtube.getInfo(url);
+        const info = await youtube.getInfo(id);
         const transcriptData = await info.getTranscript();
         return transcriptData.transcript.content.body.initial_segments.map((segment) => {
             return {
@@ -97,33 +97,38 @@ async function getAvatarUploader(url) {
 }
 
 // Export trendingSongs function
-async function getInfo(url) {
-    const youtube = await Innertube.create({
-        gl: 'VN',
-        hl: 'vi',
-        retrieve_player: false,
-    });
-    const data = await youtube.getInfo(url)
-    // return data
-    const video = {
-        id: data?.basic_info?.id,
-        channel_id: data?.basic_info?.channel_id,
-        title_: data?.basic_info?.title,
-        title: data?.primary_info?.title?.text,
-        duration: secToTime(parseInt(data?.basic_info?.duration ) || 0),
-        view_count: data?.basic_info?.view_count,
-        uploader: data?.basic_info?.author,
-        category: data?.basic_info?.category,
-        publish_date: data?.primary_info?.published?.text,
-        description: data?.basic_info?.short_description,
-        thumbnail : 'https://img.youtube.com/vi/' + data?.basic_info?.id + '/hqdefault.jpg',
-        timestamp: new Date().getTime(),
-        avatar: await getAvatarUploader(data?.basic_info?.channel_id),
-        lang: await franc(data?.basic_info?.title + ' ' + data?.secondary_info?.description?.text),
+async function getInfo(id) {
+    try {
+        const youtube = await Innertube.create({
+            gl: 'VN',
+            hl: 'vi',
+            retrieve_player: false,
+        });
+        const data = await youtube.getInfo(id);
+        
+        const video = {
+            id: data?.basic_info?.id,
+            channel_id: data?.basic_info?.channel_id,
+            title_: data?.basic_info?.title,
+            title: data?.primary_info?.title?.text,
+            duration: secToTime(parseInt(data?.basic_info?.duration ) || 0),
+            view_count: data?.basic_info?.view_count,
+            uploader: data?.basic_info?.author,
+            category: data?.basic_info?.category,
+            publish_date: data?.primary_info?.published?.text,
+            description: data?.basic_info?.short_description,
+            thumbnail : 'https://img.youtube.com/vi/' + data?.basic_info?.id + '/hqdefault.jpg',
+            timestamp: new Date().getTime(),
+            avatar: await getAvatarUploader(data?.basic_info?.channel_id),
+            lang: franc(data?.basic_info?.title + ' ' + data?.secondary_info?.description?.text),
+        }
+
+        await writeFile(JSON.stringify(video), path.join(INFOS_PATH, video.id + '.json'));
+        return video;
+    } catch (error) {
+        console.error('Error in getInfo:', error);
+        throw error; // Re-throw the error to be handled by the caller
     }
-    console.log(video.data)
-    await writeFile(JSON.stringify(video), path.join(INFOS_PATH, video.id + '.json'));
-    return video;
 }
 
 // getInfo('QQzt-veR3fY').then(console.log).catch(console.error);
