@@ -372,13 +372,14 @@ class MusicPlayer extends Audio {
 }
 
 class Song{
-    constructor(id, title, uploader, url, cover, duration){
+    constructor(id, title, uploader, url, cover, duration, lang='eng'){
         this.title = title ?? "Unknown"
         this.uploader = uploader ?? "Unknown"
         this.src = url ?? null
         this.cover = cover ?? "https://png.pngtree.com/png-vector/20231016/ourmid/pngtree-vinyl-disc-png-image_10188179.png",
         this.id = id ?? "0"
         this.duration = duration ?? 0
+        this.lang = lang
     }
 
     getDuration(){
@@ -397,7 +398,8 @@ class Song{
             uploader: this.uploader,
             src: this.src,
             cover: this.cover,
-            duration: this.duration
+            duration: this.duration,
+            lang: this.lang
         }
     }
 }

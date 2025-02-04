@@ -1,5 +1,3 @@
-import e = require("cors");
-
 const host = "https://gregarious-connection-production.up.railway.app"
 // const host = "https://m-dxce.onrender.com"
 // const host = "http://localhost:3000"
@@ -481,7 +479,7 @@ function searchFunc(query) {
                                 ${item.downloaded ? 'disabled' : ''}>
                             <i class="bi ${item.downloaded ? 'bi-check-lg' : 'bi-download'}"></i>
                         </button>
-                        <button class="btn btn-link text-light play-btn result-item-play" title="Play" ${item.downloaded ? '' : 'downloaded'}>
+                        <button class="btn btn-link text-light play-btn result-item-play ${item.downloaded ? 'downloaded' : ''}" title="Play" >
                             <i class="bi bi-play-fill"></i>
                         </button>
                     </div>`;
@@ -492,7 +490,7 @@ function searchFunc(query) {
 
         $(".result-item-play").click(async function (ee) {
             try {
-                if (!this.hasAttribute("downloaded")) {
+                if (!$(this).hasClass("downloaded")) {
                     toasty("Playing", "This song is downloading and will be played soon", "info");
                 }
                 $(this).attr("disabled", true);
@@ -509,6 +507,8 @@ function searchFunc(query) {
                 console.error(error);
             } finally {
                 $(this).attr("disabled", false);
+                $(this).parent().find(".download-btn").attr("disabled", false);
+                $(this).parent().find(".download-btn").find("i").removeClass("bi-hourglass-split").addClass("bi-download");
                 $(this).find("i").removeClass("bi-hourglass-split").addClass("bi-play-fill");
             }
         });
@@ -556,12 +556,14 @@ function recommendedSongs(song) {
     const pl = []
     pl.push(new Song(song.id, song.title, song.uploader, host + song.path, song.thumbnail, song.duration));
 
+    allSongCache.sort(() => Math.random() - 0.5);
+
     allSongCache.forEach((e) => {
-        if (e.lang === song.lang && e.id !== song.id) {
+        if (e.lang == song.lang && e.id != song.id) {
             pl.push(e);
         }
     });
-    pl.sort(() => Math.random() - 0.5);
+    
     return pl;
 }
 
@@ -584,7 +586,7 @@ async function getSongs(params) {
 function createPlaylist(songs) {
     const playlist = [];
     songs.forEach((song) => {
-        playlist.push(new Song(song.id, song.title, song.uploader,  song.src || (host + song.path), song.thumbnail || song.cover, song.duration));
+        playlist.push(new Song(song.id, song.title, song.uploader,  song.src || (host + song.path), song.thumbnail || song.cover, song.duration, song.lang));
     });
     return playlist;
 }
