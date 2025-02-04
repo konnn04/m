@@ -1,3 +1,5 @@
+import e = require("cors");
+
 const host = "https://gregarious-connection-production.up.railway.app"
 // const host = "https://m-dxce.onrender.com"
 // const host = "http://localhost:3000"
@@ -64,6 +66,10 @@ function updateRecentlyPlayed(recentlyPlayed) {
         });
         recentlyContainer.appendChild(div);
     });
+
+    $("#recently").parent().find('.see-more').click(() => {
+        showPlayDetail(recentlyPlayed);
+    });
 }
 
 async function initDefaultPlaylist() {
@@ -116,11 +122,20 @@ function refreshPlaylistIndex() {
 }
 
 const initEvent = () => {
+    $("#back-to-home").click(function () {
+        $("#home").addClass("active");
+        $("#player-screen-bg").removeClass("active");
+        $("#playlist-detail").removeClass("active");
+        $("#search").removeClass("active");
+        $("manager-music").removeClass("active");
+    });
+
     $(".nav-item").click(function (e) {
         e.preventDefault();
         $(".nav-item").removeClass("active");
         $(this).addClass("active");
         $("#player-screen-bg").removeClass("active");
+        $("#playlist-detail").removeClass("active");
         $("#search").removeClass("active");
         $("#home").removeClass("active");
         $("manager-music").removeClass("active");
@@ -367,16 +382,67 @@ const initEvent = () => {
         $(".lyric-content").empty();
         $("#request-lyric").click();
     });
+
+    // See more detail
+
 };
 
+function showPlayDetail(songs, title = "All Songs") {
+    $("#playlist-detail").toggleClass("active");
+    $("#home").removeClass("active");
+    $("#player-screen-bg").removeClass("active");
+    $("#manager-music").removeClass("active");
+
+    $("#playlist-detail-img img:nth-child(1)").attr("src", songs[0]?.thumbnail);
+    $("#playlist-detail-img img:nth-child(2)").attr("src", songs[1]?.thumbnail || songs[0]?.thumbnail);
+    $("#playlist-detail-img img:nth-child(3)").attr("src", songs[2]?.thumbnail || songs[0]?.thumbnail);
+
+    $(".playlist-title").text(title);
+    $("#play-playlist-detail").off("click");
+    $("#play-playlist-detail").click(function () {
+        const pl = createPlaylist(songs);
+        player.setSongs(pl);
+        player.playIndex(0);
+        // updatePlaylist(player.getPlaylist());
+        $("#player-screen-bg").addClass("active");
+    });
+
+    $("#playlist-detail-list").empty();
+    songs.forEach((song, index) => {
+        const div = document.createElement("div");
+        div.className = "playlist-item d-flex align-items-center gap-3 p-3";
+        div.innerHTML = `
+            <img src="${song.thumbnail}" alt="thumbnail" class="rounded" style="width: 64px; height: 64px; object-fit: cover;">
+            <div class="flex-grow-1 overflow-hidden">
+                <h5 class="mb-1">${song.title}</h5>
+                <p class="text-secondary mb-0">${song.uploader}</p>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <span class="text-secondary">${song.duration}</span>
+                <button class="btn btn-link text-light">
+                    <i class="bi bi-play-fill"></i>
+                </button>
+            </div>
+        `;
+        div.addEventListener("click", function() {
+            const pl = createPlaylist(songs);
+            player.setSongs(pl); 
+            player.playIndex(index);
+            $("#player-screen-bg").addClass("active");
+        });
+        $("#playlist-detail-list").append(div);
+    });
+}
 
 
 function searchFunc(query) {
     $(".search-container input").attr("disabled", true);
     $("#home").removeClass("active");
-    $("#player-screen-bg").removeClass("active");
-    $("#search").addClass("active");
+    $("#player-screen-bg").removeClass("active");    
     $("manager-music").removeClass("active");
+    $("#playlist-detail").removeClass("active");
+
+    $("#search").addClass("active");
     $(".search-container input").val(query);
     $("#kw").text(query);
     $("#result-length").text(0 + " results");
@@ -395,25 +461,27 @@ function searchFunc(query) {
         const data = response.data;
         $(".search-results").empty();
         $("#result-length").text(data.length + " results");
-        data.forEach((e, i) => {
+        data.forEach((item, i) => {
             const div = document.createElement("div");
             div.className = "result-item d-flex align-items-center gap-3 p-3";
-            div.setAttribute("video_id", e.id);
-            div.innerHTML = `<img src="${e.thumbnail}" alt="thumbnail" class="rounded"
+            div.setAttribute("video_id", item.id);
+            div.innerHTML = `<img src="${item.thumbnail}" alt="thumbnail" class="rounded"
                     style="width: 64px; height: 64px; object-fit: cover;">
                     <div class="flex-grow-1">
-                        <h5 class="mb-1">${e.title}</h5>
-                        <p class="text-secondary mb-0">${e.uploader}</p>
+                        <h5 class="mb-1">${item.title}</h5>
+                        <p class="text-secondary mb-0">${item.uploader}</p>
                     </div>
                     <div class="d-flex align-items-center gap-3">
-                        <span class="text-secondary">${e.duration}</span>
+                        <span class="text-secondary">${item.duration}</span>
                         <button class="btn btn-link text-light demo-btn result-item-demo" title="Demo">
                             <i class="bi bi-youtube"></i>
                         </button>
-                        <button class="btn btn-link text-light download-btn result-iten-download" title="Download">
-                            <i class="bi bi-download"></i>
+                        <button class="btn btn-link text-light download-btn result-iten-download" 
+                                title="${item.downloaded ? 'Already downloaded' : 'Download'}"
+                                ${item.downloaded ? 'disabled' : ''}>
+                            <i class="bi ${item.downloaded ? 'bi-check-lg' : 'bi-download'}"></i>
                         </button>
-                        <button class="btn btn-link text-light play-btn result-item-play" title="Play">
+                        <button class="btn btn-link text-light play-btn result-item-play" title="Play" ${item.downloaded ? '' : 'downloaded'}>
                             <i class="bi bi-play-fill"></i>
                         </button>
                     </div>`;
@@ -422,15 +490,17 @@ function searchFunc(query) {
             $(".search-results").append(div);
         });
 
-        $(".result-item-play").click(async function () {
+        $(".result-item-play").click(async function (ee) {
             try {
-                toasty("Playing", "This song is downloading and will be played soon", "info");
+                if (!this.hasAttribute("downloaded")) {
+                    toasty("Playing", "This song is downloading and will be played soon", "info");
+                }
                 $(this).attr("disabled", true);
                 $(this).find("i").removeClass("bi-play-fill").addClass("bi-hourglass-split");
                 const id = $(this).closest(".result-item").attr("video_id");
                 const data = await downloadSong(id);
-                const song = new Song(data.id, data.title, data.uploader, host + data.path, data.thumbnail, data.duration);
-                player.setSongs([song]);
+                // const song = new Song(data.id, data.title, data.uploader, host + data.path, data.thumbnail, data.duration);
+                player.setSongs(recommendedSongs(data));
                 player.playIndex(0);
                 $("#player-screen-bg").addClass("active");
                 // updatePlaylist(player.getPlaylist());
@@ -455,7 +525,7 @@ function searchFunc(query) {
                 toasty("Error", "An error occurred while downloading the song", "error");
                 console.error(error);
             } finally {
-                $(this).attr("disabled", false);
+                $(this).removeClass("bi-download").addClass("bi-check-lg");
                 $(this).find("i").removeClass("bi-hourglass-split").addClass("bi-download");
             }
         });
@@ -480,6 +550,19 @@ function searchFunc(query) {
     .finally(() => {
         $(".search-container input").attr("disabled", false);
     });
+}
+
+function recommendedSongs(song) {
+    const pl = []
+    pl.push(new Song(song.id, song.title, song.uploader, host + song.path, song.thumbnail, song.duration));
+
+    allSongCache.forEach((e) => {
+        if (e.lang === song.lang && e.id !== song.id) {
+            pl.push(e);
+        }
+    });
+    pl.sort(() => Math.random() - 0.5);
+    return pl;
 }
 
 async function getSongs(params) {
@@ -512,6 +595,8 @@ async function initHome() {
     let allSongs = [];
     try {
         allSongs = await getSongs();
+        // Sort by title
+        allSongs.data.sort((a, b) => a.title.localeCompare(b.title));
     } catch (error) {
         console.error("Error loading songs:", error);
         toasty("Error", "An error occurred while loading songs\n" + error.message, "error");
@@ -544,6 +629,10 @@ async function initHome() {
         });
         $("#all-for-you").append(div);
     });
+    $("#all-for-you").parent().find('.see-more').click(() => {
+        showPlayDetail(allSongs.data);
+    });
+
     // Recently played
     const recentlyPlayed = JSON.parse(localStorage.getItem('recentlyPlayed')) || [];
     updateRecentlyPlayed(recentlyPlayed);
@@ -583,7 +672,7 @@ async function initHome() {
 
         $groupDiv.html(`
             <img class="card-img-top" src="${uploader.avatar}" alt="Artist" 
-                style="height: 200px; object-fit: cover;">
+                style="height: 150px; object-fit: cover;">
             <div class="card-body">
                 <h5 class="card-title">${uploader.name}</h5>
                 <p class="card-text">${uploader.songs.length} songs</p>
@@ -647,6 +736,18 @@ async function initHome() {
     usukSongs.forEach((song, index) => {
         $('#usuk').append(createSongCard(song, usukSongs, index));
     });
+
+    // See-more
+    $("#v-pop").parent().find('.see-more').click(() => {
+        showPlayDetail(vpopSongs);
+    });
+    $("#j-pop").parent().find('.see-more').click(() => {
+        showPlayDetail(jpopSongs);
+    });
+    $("#usuk").parent().find('.see-more').click(() => {
+        showPlayDetail(usukSongs);
+    });
+
 
 }
 

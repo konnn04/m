@@ -94,6 +94,7 @@
                                 <span class="input-group-text bg-dark border-secondary">
                                     <i class="bi bi-search text-light"></i>
                                 </span>
+                                
                                 <input type="text" name="" id="" class="form-control bg-dark text-light border-secondary"
                                     placeholder="Search for songs, artists..." aria-label="Search music">
                             </div>
@@ -103,7 +104,7 @@
                     <div class="playlist-row p-4">
                         <div class="d-flex justify-content-between align-items-center">
                             <h3>Singles</h3>
-                            <span>See more</span>
+                            <span class="see-more">See more</span>
                         </div>
                         <div class="playlist d-flex gap-4 py-2" id="singles">
                         
@@ -113,7 +114,7 @@
                     <div class="playlist-row p-4">
                         <div class="d-flex justify-content-between align-items-center">
                             <h3>V-Pop</h3>
-                            <span>See more</span>
+                            <span class="see-more">See more</span>
                         </div>
                         <div class="playlist d-flex gap-4 py-2" id="v-pop">
                         
@@ -123,7 +124,7 @@
                     <div class="playlist-row p-4">
                         <div class="d-flex justify-content-between align-items-center">
                             <h3>J-Pop</h3>
-                            <span>See more</span>
+                            <span class="see-more">See more</span>
                         </div>
                         <div class="playlist d-flex gap-4 py-2" id="j-pop">
                         
@@ -133,7 +134,7 @@
                     <div class="playlist-row p-4">
                         <div class="d-flex justify-content-between align-items-center">
                             <h3>US-UK</h3>
-                            <span>See more</span>
+                            <span class="see-more">See more</span>
                         </div>
                         <div class="playlist d-flex gap-4 py-2" id="usuk">
                         
@@ -147,7 +148,7 @@
                     <div class="playlist-row p-4">
                         <div class="d-flex justify-content-between align-items-center">
                             <h3>All for you</h3>
-                            <span>See more</span>
+                            <span class="see-more">See more</span>
                         </div>
                         <div class="playlist d-flex gap-4 py-2" id="all-for-you">
                             
@@ -172,7 +173,7 @@
                     <div class="playlist-row p-4">
                         <div class="d-flex justify-content-between align-items-center">
                             <h3>Recently</h3>
-                            <span>See more</span>
+                            <span class="see-more">See more</span>
                         </div>
                         <div class="playlist d-flex gap-4 py-2" id="recently">
                             <!-- <div class="song-item card pointer position-relative">
@@ -280,6 +281,36 @@
                     </div>
                     
                     
+                </div>
+
+                <div id="playlist-detail">
+                    <div class="header p-4">
+                        <button id="back-to-home" class="btn btn-link text-light">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </button>
+                    </div>
+                    <div class="d-flex p-4 gap-4">
+                        <div class="col-4">
+                            <div class="playlist-img position-relative mb-5" style="height: 300px; aspect-ratio: 1;" id="playlist-detail-img">
+                                <img src="https://i.ytimg.com/vi/-LwBbLa_Vhc/hqdefault.jpg" alt="" width="100%" height="100%" style="object-fit: cover; position: relative; z-index: 3;">
+                                <img src="https://i.ytimg.com/vi/-LwBbLa_Vhc/hqdefault.jpg" alt="" width="100%" height="100%" style="object-fit: cover; position: absolute; top: 15px; left: 15px; z-index: 2;">
+                                <img src="https://i.ytimg.com/vi/-LwBbLa_Vhc/hqdefault.jpg" alt="" width="100%" height="100%" style="object-fit: cover; position: absolute; top: 30px; left: 30px; z-index: 1;">
+                            </div>
+                            <h4 class="playlist-title">ABC</h4>
+                            <div class="playlist-controls">
+                                <button id="play-playlist-detail" class="btn btn-primary">
+                                    <i class="bi bi-play-fill"></i> 
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-8 playlist-songs">
+                            <h4>Songs</h4>
+                            <div class="playlist-songs-list" id="playlist-detail-list">
+                                
+                            </div>
+                        </div>
+                    </div>
+                                    
                 </div>
 
                 <div id="player-screen-bg" class="player_bg_cover">

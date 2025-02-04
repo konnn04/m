@@ -356,6 +356,20 @@ body {
   margin-bottom: 10px;
 }
 
+#playlist-detail,
+#manager-music{
+  display: none;
+}
+
+#playlist-detail.active,
+#manager-music.active{
+  display: block;
+}
+
+#singles{
+  max-height: 60vh;
+}
+
 #player-screen-bg {
   position: absolute;
   z-index: 5;

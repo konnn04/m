@@ -123,7 +123,7 @@ async function getInfo(id) {
             avatar: await getAvatarUploader(data?.basic_info?.channel_id) || 'https://img.youtube.com/vi/' + data?.basic_info?.id + '/hqdefault.jpg',
             lang: franc(data?.basic_info?.title + ' ' + data?.basic_info?.short_description),
         }
-        console.log(video);
+        console.log(data)
         await writeFile(JSON.stringify(video), path.join(INFOS_PATH, video.id + '.json'));
         return video;
     } catch (error) {
@@ -133,7 +133,7 @@ async function getInfo(id) {
 }
 
 
-// getInfo('-tKVN2mAKRI').then(console.log).catch(console.error);
+// getInfo('cnHHCR7EW10').then(console.log).catch(console.error);
 
 async function searchVideo(query) {
     const youtube = await Innertube.create({
