@@ -95,7 +95,8 @@ async function getAvatarUploader(channel_id) {
     return youtube.getChannel(channel_id).then((data) => {
         return data?.metadata?.avatar[0]?.url;
     }).catch((error) => {
-        console.error(error);
+        console.error('Error in getAvatarUploader:', error);
+        return null;
     });
 }
 
@@ -135,7 +136,7 @@ async function getInfo(id) {
 }
 
 
-getInfo('-tKVN2mAKRI').then(console.log).catch(console.error);
+// getInfo('-tKVN2mAKRI').then(console.log).catch(console.error);
 
 async function searchVideo(query) {
     const youtube = await Innertube.create({
