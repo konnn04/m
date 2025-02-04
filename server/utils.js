@@ -120,7 +120,6 @@ async function getInfo(url) {
         timestamp: new Date().getTime(),
         avatar: await getAvatarUploader(data?.basic_info?.channel_id),
         lang: await franc(data?.basic_info?.title + ' ' + data?.secondary_info?.description?.text),
-        data: data,
     }
     console.log(video.data)
     await writeFile(JSON.stringify(video), path.join(INFOS_PATH, video.id + '.json'));

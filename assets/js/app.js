@@ -171,12 +171,10 @@ const initEvent = () => {
                 toasty("Error", "No URLs to import", "error");
                 return;
             }
-
             // if (urls.length > 30) {
             //     toasty("Error", "Too many URLs to import, minimun is 30 urls", "error");
             //     return;
             // }
-
             try {
                 await downloadSong(urls[0]);
                 toasty("Success", "Song 1 imported successfully", "success");
