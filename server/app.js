@@ -1,10 +1,10 @@
-const express = require('express');
-const path = require('path');
-const ytdlp = require("./yt-dlp")
-const rateLimit = require('express-rate-limit');
-const cors = require('cors');
-const fs = require('fs');
-const { getTranscript, fetchTranscript, searchVideo } = require('./utils');
+import express from 'express';
+import path from 'path';
+import ytdlp from "./yt-dlp";
+import rateLimit from 'express-rate-limit';
+import cors from 'cors';
+import fs from 'fs';
+import { getTranscript, fetchTranscript, searchVideo } from './utils';
 
 const app = express();
 const port = process.env.PORT || 3000;
