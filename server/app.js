@@ -1,10 +1,10 @@
 import express from 'express';
 import path from 'path';
-import ytdlp from "./yt-dlp";
+import ytdlp from "./yt-dlp.js";
 import rateLimit from 'express-rate-limit';
 import cors from 'cors';
 import fs from 'fs';
-import { getTranscript, fetchTranscript, searchVideo } from './utils';
+import { fetchTranscript, searchVideo } from './utils.js';
 
 const app = express();
 const port = process.env.PORT || 3000;

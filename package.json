@@ -11,6 +11,7 @@
   "engines": {
     "node": "18.x"
   },
+  "type": "module",
   "scripts": {
     "start": "cd server && ls && chmod +x lib/yt-dlp && node app.js",
     "postinstall": "chmod +x ./server/lib/yt-dlp && cd server && mkdir -p tmp/lib tmp/public/audios tmp/public/infos && cp -r lib/* tmp/lib/ && chmod -R 777 tmp/lib/yt-dlp && export YTDLP_PATH=tmp/lib/yt-dlp && npm install"

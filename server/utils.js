@@ -115,16 +115,19 @@ async function getInfo(url) {
         uploader: data?.basic_info?.author,
         category: data?.basic_info?.category,
         publish_date: data?.primary_info?.published?.text,
-        description: data?.secondary_info?.description?.text,
+        description: data?.basic_info?.short_description,
         thumbnail : 'https://img.youtube.com/vi/' + data?.basic_info?.id + '/hqdefault.jpg',
         timestamp: new Date().getTime(),
         avatar: await getAvatarUploader(data?.basic_info?.channel_id),
         lang: await franc(data?.basic_info?.title + ' ' + data?.secondary_info?.description?.text),
+        data: data,
     }
-
+    console.log(video.data)
     await writeFile(JSON.stringify(video), path.join(INFOS_PATH, video.id + '.json'));
     return video;
 }
+
+// getInfo('QQzt-veR3fY').then(console.log).catch(console.error);
 
 async function searchVideo(query) {
     const youtube = await Innertube.create({
@@ -163,7 +166,7 @@ function writeFile(data, path) {
 
 
 
-module.exports = {
+export default {
     getTranscript,
     fetchTranscript,
     getInfo,
@@ -171,25 +174,12 @@ module.exports = {
     getAvatarUploader
 };
 
-// getInfo('ZRtdQ81jPUQ').then((data) => {
-//     console.log(data);
-// }).catch((error) => {
-//     console.error(error);
-// });
-
-// // Example usage of getTranscript
-// getTranscript('https://youtu.be/QQzt-veR3fY?list=RDabPmZCZZrFA').then((transcript) => {
-//     console.log(transcript);
-// }).catch((error) => {
-//     console.error(error);
-// });
-
-// // Example usage of fetchTranscript
-// const url = 'kPa7bsKwL-c';
-// fetchTranscript(url).then((transcript) => {
-//     console.log(transcript);
-// }).catch((error) => {
-//     console.error(error);
-// });
+export {
+    getTranscript,
+    fetchTranscript,
+    getInfo,
+    searchVideo,
+    getAvatarUploader
+};
 
 

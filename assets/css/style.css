@@ -119,7 +119,7 @@ body {
 }
 
 .card {
-  width: 200px;
+  width: 250px;
   background-color: var(--bg2);
   overflow: hidden;
   flex-shrink: 0;
@@ -375,6 +375,10 @@ body {
 
 #toggle-menu {
   display: none;
+}
+
+.card-title{
+  font-size: 1.2rem!important;
 }
 
 @media screen and (max-width: 960px) {

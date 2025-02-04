@@ -1,7 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import { getInfo, searchVideo } from './utils';
+import { getInfo } from './utils.js';
 import { spawn, execSync } from 'child_process';
+
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 // const YTDLP_PATH = path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
 const YTDLP_PATH = process.env.YTDLP_PATH || path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
@@ -336,12 +341,20 @@ function setCookies(cookies) {
     });
 }
 
-module.exports = {
-    searchByKeyword: searchByKeyword,
-    getAudio: getAudio,
-    getInformation: getInformation,
-    getIDYT: getIDYT,
-    getMusicList: getMusicList,
-    deleteAudio: deleteAudio,
-    setCookies: setCookies
+export default {
+    getAudio,
+    getMusicList,
+    deleteAudio,
+    setCookies,
+    searchByKeyword,
+    getInformation
+};
+
+export {
+    getAudio,
+    getMusicList,
+    deleteAudio,
+    setCookies,
+    searchByKeyword,
+    getInformation
 }
