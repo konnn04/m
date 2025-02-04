@@ -552,14 +552,15 @@ async function initHome() {
     const uploaderGroups = {};
 
     allSongs.data.forEach(song => {
-        if (!uploaderGroups[song.uploader]) {
-            uploaderGroups[song.uploader] = {
-                name: song.uploader,
+        const uploaderName = (song.uploader.includes(" - Topic")) ? song.uploader.split(" - Topic")[0] : song.uploader;
+        if (!uploaderGroups[uploaderName]) {
+            uploaderGroups[uploaderName] = {
+                name: uploaderName,
                 avatar: song.avatar,
                 songs: []
             };
         }
-        uploaderGroups[song.uploader].songs.push(song);
+        uploaderGroups[uploaderName].songs.push(song);
     });
 
     // Sort uploaders by number of songs
