@@ -83,14 +83,17 @@ const secToTime = (sec) => {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
-async function getAvatarUploader(url) {
+async function getAvatarUploader(channel_id) {
+    if (!channel_id) {
+        throw new Error('channel_id is missing');
+    }
     const youtube = await Innertube.create({
         gl: 'VN',
         hl: 'vi',
         retrieve_player: false,
     });
-    return youtube.getChannel(url).then((data) => {
-        return data?.metadata?.avatar[0]?.url
+    return youtube.getChannel(channel_id).then((data) => {
+        return data?.metadata?.avatar[0]?.url;
     }).catch((error) => {
         console.error(error);
     });
@@ -119,10 +122,10 @@ async function getInfo(id) {
             description: data?.basic_info?.short_description,
             thumbnail : 'https://img.youtube.com/vi/' + data?.basic_info?.id + '/hqdefault.jpg',
             timestamp: new Date().getTime(),
-            avatar: await getAvatarUploader(data?.basic_info?.channel_id),
-            lang: franc(data?.basic_info?.title + ' ' + data?.secondary_info?.description?.text),
+            avatar: await getAvatarUploader(data?.basic_info?.channel_id) || 'https://img.youtube.com/vi/' + data?.basic_info?.id + '/hqdefault.jpg',
+            lang: franc(data?.basic_info?.title + ' ' + data?.basic_info?.short_description),
         }
-
+        console.log(video);
         await writeFile(JSON.stringify(video), path.join(INFOS_PATH, video.id + '.json'));
         return video;
     } catch (error) {
@@ -131,7 +134,8 @@ async function getInfo(id) {
     }
 }
 
-// getInfo('QQzt-veR3fY').then(console.log).catch(console.error);
+
+getInfo('-tKVN2mAKRI').then(console.log).catch(console.error);
 
 async function searchVideo(query) {
     const youtube = await Innertube.create({
