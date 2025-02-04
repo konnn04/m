@@ -60,7 +60,7 @@ function updateRecentlyPlayed(recentlyPlayed) {
             player.setSongs(playlist);
             player.playIndex(index);
             // updatePlaylist(player.getPlaylist());
-            $("#player-screen-bg").addClass("active");
+            $("#main").addClass("active");
         });
         recentlyContainer.appendChild(div);
     });
@@ -122,7 +122,7 @@ function refreshPlaylistIndex() {
 const initEvent = () => {
     $("#back-to-home").click(function () {
         $("#home").addClass("active");
-        $("#player-screen-bg").removeClass("active");
+        $("#main").removeClass("active");
         $("#playlist-detail").removeClass("active");
         $("#search").removeClass("active");
         $("manager-music").removeClass("active");
@@ -132,7 +132,7 @@ const initEvent = () => {
         e.preventDefault();
         $(".nav-item").removeClass("active");
         $(this).addClass("active");
-        $("#player-screen-bg").removeClass("active");
+        $("#main").removeClass("active");
         $("#playlist-detail").removeClass("active");
         $("#search").removeClass("active");
         $("#home").removeClass("active");
@@ -145,7 +145,7 @@ const initEvent = () => {
     //Toggle player screen
     $("#info").click(function (e) {
         e.preventDefault();
-        $("#player-screen-bg").toggleClass("active");
+        $("#main").toggleClass("active");
     });
     // Search
     $(".search-container input").keypress(async function (e) {
@@ -346,7 +346,7 @@ const initEvent = () => {
             const end = parseFloat(lyric.getAttribute("duration")) + start;
             if (currentTime >= start && currentTime <= end) {
                 lyric.classList.add("active");
-                if ($("#player-screen-bg").hasClass("active") && $("#container-toggle").hasClass("active") && !userInteracting) {
+                if ($("#main").hasClass("active") && $("#container-toggle").hasClass("active") && !userInteracting) {
                     document.querySelector(".lyric-box").scrollTo({
                         top: lyric.offsetTop - document.querySelector(".lyric-box").offsetTop - document.querySelector(".lyric-box").clientHeight / 2 + lyric.clientHeight / 2,
                         behavior: 'smooth'
@@ -388,7 +388,7 @@ const initEvent = () => {
 function showPlayDetail(songs, title = "All Songs") {
     $("#playlist-detail").toggleClass("active");
     $("#home").removeClass("active");
-    $("#player-screen-bg").removeClass("active");
+    $("#main").removeClass("active");
     $("#manager-music").removeClass("active");
 
     $("#playlist-detail-img img:nth-child(1)").attr("src", songs[0]?.thumbnail);
@@ -402,7 +402,7 @@ function showPlayDetail(songs, title = "All Songs") {
         player.setSongs(pl);
         player.playIndex(0);
         // updatePlaylist(player.getPlaylist());
-        $("#player-screen-bg").addClass("active");
+        $("#main").addClass("active");
     });
 
     $("#playlist-detail-list").empty();
@@ -426,7 +426,7 @@ function showPlayDetail(songs, title = "All Songs") {
             const pl = createPlaylist(songs);
             player.setSongs(pl); 
             player.playIndex(index);
-            $("#player-screen-bg").addClass("active");
+            $("#main").addClass("active");
         });
         $("#playlist-detail-list").append(div);
     });
@@ -436,7 +436,7 @@ function showPlayDetail(songs, title = "All Songs") {
 function searchFunc(query) {
     $(".search-container input").attr("disabled", true);
     $("#home").removeClass("active");
-    $("#player-screen-bg").removeClass("active");    
+    $("#main").removeClass("active");    
     $("manager-music").removeClass("active");
     $("#playlist-detail").removeClass("active");
 
@@ -500,7 +500,7 @@ function searchFunc(query) {
                 // const song = new Song(data.id, data.title, data.uploader, host + data.path, data.thumbnail, data.duration);
                 player.setSongs(recommendedSongs(data));
                 player.playIndex(0);
-                $("#player-screen-bg").addClass("active");
+                $("#main").addClass("active");
                 // updatePlaylist(player.getPlaylist());
             } catch (error) {
                 toasty("Error", "An error occurred while downloading the song", "error");
@@ -627,7 +627,7 @@ async function initHome() {
             player.setSongs(pl);
             player.playIndex(i);
             // updatePlaylist(player.getPlaylist());
-            $("#player-screen-bg").addClass("active");
+            $("#main").addClass("active");
         });
         $("#all-for-you").append(div);
     });
@@ -642,8 +642,14 @@ async function initHome() {
     // Singles section
     const uploaderGroups = {};
 
+    const paransWords = [" Official"]
     allSongs.data.forEach(song => {
-        const uploaderName = (song.uploader.includes(" - Topic")) ? song.uploader.split(" - Topic")[0] : song.uploader;
+        
+        let uploaderName = (song.uploader.includes(" - Topic")) ? song.uploader.split(" - Topic")[0] : song.uploader;
+        paransWords.forEach(word => {
+            uploaderName = uploaderName.replace(word, "");
+        });
+
         if (!uploaderGroups[uploaderName]) {
             uploaderGroups[uploaderName] = {
                 name: uploaderName,
@@ -689,7 +695,7 @@ async function initHome() {
             const playlist = createPlaylist(uploader.songs);
             player.setSongs(playlist);
             player.playIndex(0);
-            $("#player-screen-bg").addClass("active");
+            $("#main").addClass("active");
         });
 
         $artistSection.append($groupDiv);
@@ -717,7 +723,7 @@ async function initHome() {
             const pl = createPlaylist(playlist);
             player.setSongs(pl);
             player.playIndex(index);
-            $("#player-screen-bg").addClass("active");
+            $("#main").addClass("active");
         });
     };
 

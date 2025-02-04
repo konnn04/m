@@ -59,7 +59,7 @@
                             <i class="bi bi-house-door"></i>
                             <span>Home</span>
                         </a>
-                        <a class="nav-item px-4  nav-link" href="#playlist_">
+                        <a class="nav-item px-4  nav-link" href="#playlist-manager">
                             <i class="bi bi-music-note-list"></i>
                             <span>Playlist</span>
                         </a>
@@ -364,6 +364,9 @@
                                         <button id="m-loop-song" class="btn btn-link text-light rounded-circle player_loop" style="font-size: 1.4rem; backdrop-filter: blur(5px) brightness(50%);">
                                             <i class="bi bi-arrow-repeat"></i>
                                         </button>
+                                        <button id="add-to-playlist" class="btn btn-link text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to playlist">
+                                            <i class="bi bi-plus-circle"></i>
+                                        </button>
                                     </div>
                                     <div class="d-flex justify-content-between w-100 px-4">
                                         <span class="player_currentTime">0:00</span>
@@ -387,6 +390,10 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="playlist-manager">
+
+                </div>
             </div>
         </div>
         <div id="player-bar">
@@ -409,7 +416,7 @@
                     <span>/</span>
                     <span class="player_duration"></span>
                 </div>
-                <div id="info">
+                <div id="info" class="d-flex align-items-center gap-2">
                     <div class="d-flex align-items-center gap-2">
                         <img id="thumbnail" src="" alt="thumbnail" style="width: 60px; height: 60px; object-fit: cover;"
                             class="player_cover rounded">
@@ -418,9 +425,15 @@
                             <div id="artist" class="player_artist">Unknown</div>
                         </div>
                     </div>
+                    <div class="toggle-player-status">
+                        <i class="bi bi-caret-up-fill "></i>
+                    </div>
                 </div>
                 <div id="util">
                     <div class="d-flex align-items-center gap-2">
+                        <button id="add-to-playlist" class="btn btn-link text-light">
+                            <i class="bi bi-plus-circle"></i>
+                        </button>
                         <button id="shuffle" class="btn btn-link text-light player_shuffle">
                             <i class="bi bi-shuffle"></i>
                         </button>

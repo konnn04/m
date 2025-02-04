@@ -356,12 +356,23 @@ body {
   margin-bottom: 10px;
 }
 
-#playlist-detail,
+#playlist-detail{
+  transition: transform 0.3s, opacity 0.3s;
+  opacity: 0;
+  transform: translateY(150%);
+
+}
+
+#playlist-detail.active{
+  opacity: 1!important;
+  transform: translateY(0)!important;
+}
+
+
 #manager-music{
   display: none;
 }
 
-#playlist-detail.active,
 #manager-music.active{
   display: block;
 }
@@ -388,10 +399,20 @@ body {
   transition: all 0.3s;
 }
 
-#player-screen-bg.active {
+#main.active #player-screen-bg{
   opacity: 1;
   transform: translateY(0);
 }
+
+#main + #player-bar .toggle-player-status{
+  transition: all 0.3s;
+  transform: rotate(180deg)!important;
+}
+
+#main.active + #player-bar .toggle-player-status{
+  transform: rotate(0deg)!important;
+}
+
 
 #player-screen-bg > div {
   backdrop-filter: blur(50px) brightness(0.3);
@@ -631,13 +652,7 @@ body {
     height: 80px;
   }
 
-  .volume-control,
-  #player-bar span,
-  #loop,
-  #prev,
-  #next,
-  #progress-bar,
-  #shuffle {
+  #util {
     display: none !important;
   }
 
