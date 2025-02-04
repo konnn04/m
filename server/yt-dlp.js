@@ -1,7 +1,7 @@
-const fs = require('fs');
-const path = require('path');
-const { getInfo, searchVideo } = require('./utils');
-const { spawn, execSync } = require('child_process');
+import fs from 'fs';
+import path from 'path';
+import { getInfo, searchVideo } from './utils';
+import { spawn, execSync } from 'child_process';
 
 // const YTDLP_PATH = path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
 const YTDLP_PATH = process.env.YTDLP_PATH || path.join(__dirname, 'lib', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');

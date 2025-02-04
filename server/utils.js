@@ -1,11 +1,8 @@
-
-
-const { text } = require('express');
-const { YoutubeTranscript } = require('youtube-transcript')
-const {Innertube}  = require('youtubei.js')
-const fs = require('fs');
-const path = require('path');
-const { franc } = require('franc');
+import { YoutubeTranscript } from 'youtube-transcript';
+import { Innertube } from 'youtubei.js';
+import fs from 'fs';
+import path from 'path';
+import { franc } from 'franc';
 
 const STORAGE_DIR = '/tmp';
 const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
