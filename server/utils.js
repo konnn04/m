@@ -84,9 +84,6 @@ const secToTime = (sec) => {
 }
 
 async function getAvatarUploader(channel_id) {
-    if (!channel_id) {
-        throw new Error('channel_id is missing');
-    }
     const youtube = await Innertube.create({
         gl: 'VN',
         hl: 'vi',
