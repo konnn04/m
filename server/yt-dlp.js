@@ -144,7 +144,7 @@ async function getAudio(videoId) {
                 // '--cookies', COOKIE_PATH,
                 '--force-ipv4',
                 '--no-playlist', // Không tải playlist
-                videoId,
+                `https://www.youtube.com/watch?v=${videoId}`,
             ]);
 
             ytProcess.stderr.on('data', (data) => {
