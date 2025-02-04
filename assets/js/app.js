@@ -552,16 +552,14 @@ async function initHome() {
     const uploaderGroups = {};
 
     allSongs.data.forEach(song => {
-        if (song.category === 'Music') {
-            if (!uploaderGroups[song.uploader]) {
-                uploaderGroups[song.uploader] = {
-                    name: song.uploader,
-                    avatar: song.avatar,
-                    songs: []
-                };
-            }
-            uploaderGroups[song.uploader].songs.push(song);
+        if (!uploaderGroups[song.uploader]) {
+            uploaderGroups[song.uploader] = {
+                name: song.uploader,
+                avatar: song.avatar,
+                songs: []
+            };
         }
+        uploaderGroups[song.uploader].songs.push(song);
     });
 
     // Sort uploaders by number of songs
