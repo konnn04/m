@@ -136,7 +136,7 @@ const initEvent = () => {
         $("#playlist-detail").removeClass("active");
         $("#search").removeClass("active");
         $("#home").removeClass("active");
-        $("manager-music").removeClass("active");
+        $("#manager-music").removeClass("active");
         
 
         $($(this).attr("href")).addClass("active");
