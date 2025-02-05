@@ -66,7 +66,7 @@ function updateRecentlyPlayed(recentlyPlayed) {
     });
 
     $("#recently").parent().find('.see-more').click(() => {
-        showPlayDetail(recentlyPlayed);
+        showPlayDetail(recentlyPlayed, "Recently Played", "Songs you've recently listened to");
     });
 }
 
@@ -379,13 +379,14 @@ const initEvent = () => {
         // $("#request-lyric").show();
         $(".lyric-content").empty();
         $("#request-lyric").click();
+        $("title").text(player.getCurrentSong().getInfo().title);
     });
 
     // See more detail
 
 };
 
-function showPlayDetail(songs, title = "All Songs") {
+function showPlayDetail(songs, title = "All Songs", desciprion = "All Songs") {
     $("#playlist-detail").toggleClass("active");
     $("#home").removeClass("active");
     $("#main").removeClass("active");
@@ -396,6 +397,7 @@ function showPlayDetail(songs, title = "All Songs") {
     $("#playlist-detail-img img:nth-child(3)").attr("src", songs[2]?.thumbnail || songs[0]?.thumbnail);
 
     $(".playlist-title").text(title);
+    $(".playlist-description").text(desciprion);
     $("#play-playlist-detail").off("click");
     $("#play-playlist-detail").click(function () {
         const pl = createPlaylist(songs);
@@ -598,7 +600,16 @@ async function initHome() {
     try {
         allSongs = await getSongs();
         // Sort by title
-        allSongs.data.sort((a, b) => a.title.localeCompare(b.title));
+        allSongs.data.sort((a, b) => {
+            // Sort by language first
+            if (a.lang !== b.lang) {
+            // Priority order: jpn, eng, vie
+            const langOrder = { jpn: 1, eng: 2, vie: 3 };
+            return (langOrder[a.lang] || 4) - (langOrder[b.lang] || 4); 
+            }
+            // Within same language, sort by title
+            return a.title.localeCompare(b.title);
+        });
     } catch (error) {
         console.error("Error loading songs:", error);
         toasty("Error", "An error occurred while loading songs\n" + error.message, "error");
@@ -632,7 +643,7 @@ async function initHome() {
         $("#all-for-you").append(div);
     });
     $("#all-for-you").parent().find('.see-more').click(() => {
-        showPlayDetail(allSongs.data);
+        showPlayDetail(allSongs.data, "All Songs", "All Songs available on the platform");
     });
 
     // Recently played
@@ -747,16 +758,140 @@ async function initHome() {
 
     // See-more
     $("#v-pop").parent().find('.see-more').click(() => {
-        showPlayDetail(vpopSongs);
+        showPlayDetail(vpopSongs, "V-Pop Songs", "Nhạc V-Pop mang âm hưởng giai điệu du dương, trẻ trung và đầy cá tính. Từ những ca khúc ballad sâu lắng đến những bản hit sôi động, V-Pop thể hiện được nét đẹp văn hóa và tinh thần của âm nhạc Việt Nam hiện đại.");
     });
     $("#j-pop").parent().find('.see-more').click(() => {
-        showPlayDetail(jpopSongs);
-    });
+        showPlayDetail(jpopSongs, "J-Pop Songs", "J-Pop brings captivating anime soundtracks and infectious pop melodies. From energetic anime openings to emotional ballads, Japanese music creates a unique atmosphere that resonates with listeners worldwide.");
+        });
     $("#usuk").parent().find('.see-more').click(() => {
-        showPlayDetail(usukSongs);
+        showPlayDetail(usukSongs, "US-UK Songs", "US-UK Songs are known for their catchy tunes and relatable lyrics. From pop to rock, these songs have a global appeal and are loved by music enthusiasts of all ages.");
     });
+    //
+    $(".add-to-playlist").click(() => {
+        const playlistBox = document.createElement('div');
+        playlistBox.className = 'modal fade';
+        playlistBox.id = 'playlistModal';
 
+        // Get stored playlist names or use defaults
+        const playlistNames = JSON.parse(localStorage.getItem('playlistNames')) || {
+            playlist1: 'Playlist 1',
+            playlist2: 'Playlist 2',
+            playlist3: 'Playlist 3'
+        };
 
+        playlistBox.innerHTML = `
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-dark text-light">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add to Playlist</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="playlist-item mb-2 d-flex align-items-center">
+                            <div class="form-check flex-grow-1">
+                                <input class="form-check-input" type="checkbox" id="playlist1Check">
+                                <input type="text" class="playlist-name-input bg-dark text-light border-0" 
+                                    data-playlist="playlist1" value="${playlistNames.playlist1}">
+                            </div>
+                            <button class="btn btn-sm btn-outline-light save-name-btn" data-playlist="playlist1">
+                                <i class="bi bi-check"></i>
+                            </button>
+                        </div>
+                        <div class="playlist-item mb-2 d-flex align-items-center">
+                            <div class="form-check flex-grow-1">
+                                <input class="form-check-input" type="checkbox" id="playlist2Check">
+                                <input type="text" class="playlist-name-input bg-dark text-light border-0" 
+                                    data-playlist="playlist2" value="${playlistNames.playlist2}">
+                            </div>
+                            <button class="btn btn-sm btn-outline-light save-name-btn" data-playlist="playlist2">
+                                <i class="bi bi-check"></i>
+                            </button>
+                        </div>
+                        <div class="playlist-item mb-2 d-flex align-items-center">
+                            <div class="form-check flex-grow-1">
+                                <input class="form-check-input" type="checkbox" id="playlist3Check">
+                                <input type="text" class="playlist-name-input bg-dark text-light border-0" 
+                                    data-playlist="playlist3" value="${playlistNames.playlist3}">
+                            </div>
+                            <button class="btn btn-sm btn-outline-light save-name-btn" data-playlist="playlist3">
+                                <i class="bi bi-check"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="saveToPlaylists">Save</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(playlistBox);
+
+        // Handle playlist name changes
+        playlistBox.querySelectorAll('.save-name-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const playlistKey = this.dataset.playlist;
+                const newName = playlistBox.querySelector(`.playlist-name-input[data-playlist="${playlistKey}"]`).value.trim();
+                
+                if (newName) {
+                    playlistNames[playlistKey] = newName;
+                    localStorage.setItem('playlistNames', JSON.stringify(playlistNames));
+                    toasty("Success", "Playlist name updated", "success");
+                }
+            });
+        });
+
+        // Load existing playlists and check boxes if song exists
+        const currentSong = player.getCurrentSong().getInfo();
+        const savedPlaylists = JSON.parse(localStorage.getItem('userPlaylists')) || {
+            playlist1: [],
+            playlist2: [],
+            playlist3: []
+        };
+
+        // Check boxes based on song presence in playlists
+        document.getElementById('playlist1Check').checked = savedPlaylists.playlist1.some(song => song.id === currentSong.id);
+        document.getElementById('playlist2Check').checked = savedPlaylists.playlist2.some(song => song.id === currentSong.id);
+        document.getElementById('playlist3Check').checked = savedPlaylists.playlist3.some(song => song.id === currentSong.id);
+
+        const modal = new bootstrap.Modal(playlistBox);
+        modal.show();
+
+        document.getElementById('saveToPlaylists').addEventListener('click', function() {
+            const playlists = ['playlist1', 'playlist2', 'playlist3'];
+            
+            playlists.forEach(playlistName => {
+                const checkbox = document.getElementById(`${playlistName}Check`);
+                
+                if(checkbox.checked) {
+                    // Add song if not already in playlist
+                    if(!savedPlaylists[playlistName].some(song => song.id === currentSong.id)) {
+                        savedPlaylists[playlistName].push(currentSong);
+                    }
+                } else {
+                    // Remove song if checkbox is unchecked
+                    savedPlaylists[playlistName] = savedPlaylists[playlistName].filter(
+                        song => song.id !== currentSong.id
+                    );
+                }
+            });
+
+            // Save updated playlists to localStorage
+            localStorage.setItem('userPlaylists', JSON.stringify(savedPlaylists));
+            
+            toasty("Success", "Playlists updated successfully", "success");
+            modal.hide();
+            
+            // Clean up modal
+            playlistBox.remove();
+        });
+
+        // Clean up modal when closed
+        playlistBox.addEventListener('hidden.bs.modal', function() {
+            playlistBox.remove();
+        });
+    });
 }
 
 async function downloadSong(url) {
@@ -784,6 +919,7 @@ document.getElementById('refresh').addEventListener('click', function() {
 
 function deleteSong(id) {
     // Example delete call to remove a song
+    confirm("Are you sure you want to delete this song?") && 
     axios.delete(host + `/api/song/${id}`)
         .then(response => {
             fetchSongs(); // Refresh the song list after deletion
@@ -844,7 +980,118 @@ function toasty(header, text, type) {
     })
 }
 
+function loadPlaylists() {
+    const savedPlaylists = JSON.parse(localStorage.getItem('userPlaylists')) || {
+        playlist1: [],
+        playlist2: [],
+        playlist3: []
+    };
 
+    const playlistNames = JSON.parse(localStorage.getItem('playlistNames')) || {
+        playlist1: 'Playlist 1',
+        playlist2: 'Playlist 2',
+        playlist3: 'Playlist 3'
+    };
+    document.getElementById('playlist-manager').innerHTML = `
+        <h4>Playlists</h4>
+        <div id="saved-playlists" class="d-flex flex-column gap-2">
+            <!-- Playlists will be dynamically inserted here -->
+        </div>
+    `;
+    const savedPlaylistsContainer = document.getElementById('saved-playlists');
+    savedPlaylistsContainer.innerHTML = '';
+
+    Object.keys(savedPlaylists).forEach(playlistKey => {
+        const playlistItem = document.createElement('div');
+        playlistItem.className = 'playlist-item d-flex justify-content-between align-items-center p-2 bg-dark text-light rounded';
+        playlistItem.innerHTML = `
+            <span>${playlistNames[playlistKey]}</span>
+            <button class="btn btn-link text-light" data-playlist="${playlistKey}">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+        `;
+
+        playlistItem.querySelector('button').addEventListener('click', () => {
+            showPlaylistSongs(playlistKey, savedPlaylists[playlistKey], playlistNames[playlistKey]);
+        });
+
+        savedPlaylistsContainer.appendChild(playlistItem);
+    });
+}
+
+// Function to show songs in a playlist
+function showPlaylistSongs(playlistKey, songs, playlistName) {
+    const playlistDetailContainer = document.getElementById('playlist-manager');
+    playlistDetailContainer.innerHTML = `
+        <h4>${playlistName}</h4>
+        <div id="playlist-songs" class="d-flex flex-column gap-2">
+            <!-- Songs will be dynamically inserted here -->
+        </div>
+    `;
+
+    const playlistSongsContainer = document.getElementById('playlist-songs');
+    playlistSongsContainer.innerHTML = 
+                    `<div id="back-to-playlists" class="p-4">
+                        <button class="btn btn-link text-light">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </button>
+                    </div>`;
+
+    songs.forEach((song, index) => {
+        const songItem = document.createElement('div');
+        songItem.className = 'song-item d-flex justify-content-between align-items-center p-2 text-light rounded';
+        songItem.innerHTML = `
+            <div class="d-flex align-items-center gap-2">
+                <img src="${song.cover}" alt="thumbnail" style="width: 50px; height: 50px; object-fit: cover;" class="rounded">
+                <div>
+                    <h5 class="mb-1">${song.title}</h5>
+                    <p class="mb-0">${song.uploader}</p>
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-link text-light play-song" data-index="${index}">
+                    <i class="bi bi-play-fill"></i>
+                </button>
+                <button class="btn btn-link text-light remove-song" data-index="${index}">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        `;
+
+        songItem.querySelector('.play-song').addEventListener('click', () => {
+            playSongFromPlaylist(songs, index);
+        });
+
+        songItem.querySelector('.remove-song').addEventListener('click', () => {
+            removeSongFromPlaylist(playlistKey, index);
+        });
+
+        playlistSongsContainer.appendChild(songItem);
+    });
+    document.getElementById('back-to-playlists').addEventListener('click', loadPlaylists);
+}
+
+// Function to play a song from a playlist
+function playSongFromPlaylist(songs, index) {
+    const playlist = createPlaylist(songs);
+    player.setSongs(playlist);
+    player.playIndex(index);
+    $("#main").addClass("active");
+}
+
+// Function to remove a song from a playlist
+function removeSongFromPlaylist(playlistKey, songIndex) {
+    const savedPlaylists = JSON.parse(localStorage.getItem('userPlaylists')) || {
+        playlist1: [],
+        playlist2: [],
+        playlist3: []
+    };
+
+    savedPlaylists[playlistKey].splice(songIndex, 1);
+    localStorage.setItem('userPlaylists', JSON.stringify(savedPlaylists));
+    loadPlaylists();
+    showPlaylistSongs(playlistKey, savedPlaylists[playlistKey], JSON.parse(localStorage.getItem('playlistNames'))[playlistKey]);
+}
 
 window.onload = () => {
     setTimeout(() => {
@@ -852,6 +1099,7 @@ window.onload = () => {
             $("#loading").remove();
         });
     }, 1000);
+    loadPlaylists();
     main();
 
     // Request fullscreen on page load

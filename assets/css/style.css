@@ -351,7 +351,8 @@ body {
   background-color: var(--secondary);
 }
 
-.result-item {
+.result-item,
+.song-item {
   background-color: var(--bg2);
   margin-bottom: 10px;
 }
@@ -592,6 +593,11 @@ body {
   font-size: 1.2rem!important;
 }
 
+#playlist-manager.active{
+  display: block;
+  transform: translateY(-100%);
+}
+
 @media screen and (max-width: 960px) {
   #singles{
     max-height: 40vh;
@@ -652,7 +658,10 @@ body {
     height: 80px;
   }
 
-  #util {
+  #util,
+  #prev,
+  #next,
+  #control span {
     display: none !important;
   }
 

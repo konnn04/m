@@ -297,6 +297,7 @@
                                 <img src="https://i.ytimg.com/vi/-LwBbLa_Vhc/hqdefault.jpg" alt="" width="100%" height="100%" style="object-fit: cover; position: absolute; top: 30px; left: 30px; z-index: 1;">
                             </div>
                             <h4 class="playlist-title">ABC</h4>
+                            <p class="playlist-description">Description</p>
                             <div class="playlist-controls">
                                 <button id="play-playlist-detail" class="btn btn-primary">
                                     <i class="bi bi-play-fill"></i> 
@@ -364,7 +365,7 @@
                                         <button id="m-loop-song" class="btn btn-link text-light rounded-circle player_loop" style="font-size: 1.4rem; backdrop-filter: blur(5px) brightness(50%);">
                                             <i class="bi bi-arrow-repeat"></i>
                                         </button>
-                                        <button id="add-to-playlist" class="btn btn-link text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to playlist">
+                                        <button id="add-to-playlist" class="btn btn-link text-light add-to-playlist" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to playlist">
                                             <i class="bi bi-plus-circle"></i>
                                         </button>
                                     </div>
@@ -391,8 +392,11 @@
                     </div>
                 </div>
 
-                <div id="playlist-manager">
+                <div id="playlist-manager" class="p-4">
 
+                    <h4>Saved Playlists</h4>
+                    <div id="saved-playlists" class="d-flex flex-column gap-2">
+                    </div>
                 </div>
             </div>
         </div>
@@ -417,7 +421,7 @@
                     <span class="player_duration"></span>
                 </div>
                 <div id="info" class="d-flex align-items-center gap-2">
-                    <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2 w-75">
                         <img id="thumbnail" src="" alt="thumbnail" style="width: 60px; height: 60px; object-fit: cover;"
                             class="player_cover rounded">
                         <div>
@@ -431,7 +435,7 @@
                 </div>
                 <div id="util">
                     <div class="d-flex align-items-center gap-2">
-                        <button id="add-to-playlist" class="btn btn-link text-light">
+                        <button id="add-to-playlist" class="btn btn-link text-light add-to-playlist" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to playlist">
                             <i class="bi bi-plus-circle"></i>
                         </button>
                         <button id="shuffle" class="btn btn-link text-light player_shuffle">
