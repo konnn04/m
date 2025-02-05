@@ -125,7 +125,8 @@ const initEvent = () => {
         $("#main").removeClass("active");
         $("#playlist-detail").removeClass("active");
         $("#search").removeClass("active");
-        $("manager-music").removeClass("active");
+        $("#manager-music").removeClass("active");
+        $("#playlist-manager").removeClass("active");
     });
 
     $(".nav-item").click(function (e) {
