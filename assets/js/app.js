@@ -133,6 +133,7 @@ const initEvent = () => {
         e.preventDefault();
         $(".nav-item").removeClass("active");
         $(this).addClass("active");
+        $("#playlist-manager").removeClass("active");
         $("#main").removeClass("active");
         $("#playlist-detail").removeClass("active");
         $("#search").removeClass("active");
