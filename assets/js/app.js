@@ -688,12 +688,12 @@ async function initHome() {
         if (uploader.songs.length < 2) return;
         const $groupDiv = $('<div>', {
             class: 'artist-group card pointer position-relative',
-            css: { width: '200px' }
+            css: { width: '190px' }
         });
 
         $groupDiv.html(`
             <img class="card-img-top" src="${uploader.avatar}" alt="Artist" 
-                style="height: 150px; object-fit: cover;">
+                style="object-fit: cover;">
             <div class="card-body">
                 <h5 class="card-title">${uploader.name}</h5>
                 <p class="card-text">${uploader.songs.length} songs</p>

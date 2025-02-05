@@ -220,6 +220,10 @@ body {
   overflow: hidden;
 }
 
+.nav-item span{
+  font-size: 1rem;
+}
+
 .nav-item.active {
   background-color: var(--primary);
 }
@@ -238,7 +242,7 @@ body {
 }
 
 #player-bar {
-  height: 78px;
+  height: 70px;
   background-color: var(--bg2);
   position: relative;
 }
@@ -589,13 +593,32 @@ body {
   display: none;
 }
 
-.card-title{
-  font-size: 1.2rem!important;
-}
-
 #playlist-manager.active{
   display: block;
   transform: translateY(-100%);
+}
+
+.card-title{
+  font-size: 1rem!important;
+}
+
+.card-text{
+  font-size: 0.8rem!important;
+  color: #d9d9d9!important;
+}
+
+.song-item .card-img-top{
+  aspect-ratio: 16/9;
+}
+
+.artist-group .card-img-top{
+  aspect-ratio: 1;
+}
+
+.artist-group .card-title{
+  max-height: 2.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media screen and (max-width: 960px) {
@@ -655,7 +678,7 @@ body {
   }
 
   #player-bar {
-    height: 80px;
+    height: 70px;
   }
 
   #util,
