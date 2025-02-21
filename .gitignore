@@ -132,3 +132,4 @@ dist
 
 public/audios/*
 public/infos/*
+server/lib/yt-dlp.exe
