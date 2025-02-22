@@ -1140,4 +1140,8 @@ window.onload = () => {
     }
 
     console.log("%cHey there! Please don't open the Dev Tools. Let's keep the magic alive! 🎩✨", "font-size: 32px;");
+
+
 };
+
+const socketUrl = `Host: ${host} \n Path: /socket.io/ \n Query: song-update-${localStorage.getItem("clientId")}`;
