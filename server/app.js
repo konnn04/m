@@ -15,7 +15,7 @@ const port = process.env.PORT || 3000;
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*", // Allow all origins during development.  Restrict in production!
+    origin: "*", 
     methods: ["GET", "POST"]
   }
 });
@@ -166,10 +166,13 @@ app.use((err, req, res, next) => {
 
 
 // Start the server
-app.listen(port, () => {
+// app.listen(port, () => {
+//     console.log(`Server running at http://localhost:${port}`);
+// });
+
+server.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
-
 
 io.on('connection', (socket) => {
     console.log('a user connected');
@@ -182,3 +185,5 @@ io.on('connection', (socket) => {
       console.log('user disconnected');
     });
 });
+
+
