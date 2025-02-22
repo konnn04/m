@@ -359,7 +359,7 @@ body {
 .result-item,
 .song-item {
   background-color: var(--bg2);
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 #playlist-detail{
@@ -779,7 +779,7 @@ body {
 
   .card-body {
     flex: 1 0;
-    padding: 0;
+    padding: 0.5rem;
     overflow: hidden;
   }
 
