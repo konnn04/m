@@ -5,6 +5,8 @@ import rateLimit from 'express-rate-limit';
 import cors from 'cors';
 import fs from 'fs';
 import { fetchTranscript, searchVideo } from './utils.js';
+import { Server } from "socket.io";
+import { createServer } from 'http';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -179,4 +181,4 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
       console.log('user disconnected');
     });
-  });
+});
