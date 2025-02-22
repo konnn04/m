@@ -221,7 +221,7 @@ body {
 }
 
 .nav-item span{
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .nav-item.active {
@@ -238,13 +238,14 @@ body {
   flex: 1 0 0;
   display: flex;
   width: 100vw;
-  height: calc(100% - 80px);
+  height: calc(100% - 60px);
 }
 
 #player-bar {
-  height: 70px;
+  height: 60px;
   background-color: var(--bg2);
   position: relative;
+  font-size: 0.9rem;
 }
 
 #loop,
@@ -268,8 +269,8 @@ body {
 }
 
 #menu {
-  width: 5rem;
-  font-size: 1.6rem;
+  width: 4rem;
+  font-size: 1.4rem;
   transition: all 0.1s;
 }
 
@@ -295,11 +296,11 @@ body {
 
 #menu:hover span {
   display: inline;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .card {
-  width: 250px;
+  width: 200px;
   background-color: var(--bg2);
   overflow: hidden;
   flex-shrink: 0;
@@ -383,7 +384,7 @@ body {
 }
 
 #singles{
-  max-height: 60vh;
+  max-height: 40vh;
 }
 
 #player-screen-bg {
@@ -441,7 +442,7 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
-  font-size: 1.1rem;
+  font-size: 1rem;
   overflow: hidden;
 }
 
@@ -616,9 +617,14 @@ body {
 }
 
 .artist-group .card-title{
-  max-height: 2.5rem;
+  width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
+
+.see-more:hover{
+  text-decoration: underline;
 }
 
 @media screen and (max-width: 960px) {

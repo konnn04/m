@@ -268,6 +268,7 @@ const initEvent = () => {
     });
 
     player.on("play", async () => {
+        $("title").text(player.getCurrentSong().getInfo().title);
         const currentSong = player.getCurrentSong().getInfo();
         let recentlyPlayed = JSON.parse(localStorage.getItem('recentlyPlayed')) || [];
         recentlyPlayed = recentlyPlayed.filter(song => song.id !== currentSong.id);
@@ -383,7 +384,7 @@ const initEvent = () => {
         // $("#request-lyric").show();
         $(".lyric-content").empty();
         $("#request-lyric").click();
-        $("title").text(player.getCurrentSong().getInfo().title);
+        
     });
 
     // See more detail
@@ -815,14 +816,14 @@ async function initHome() {
         if (uploader.songs.length < 2) return;
         const $groupDiv = $('<div>', {
             class: 'artist-group card pointer position-relative',
-            css: { width: '190px' }
+            css: { width: '170px' }
         });
 
         $groupDiv.html(`
             <img class="card-img-top" src="${uploader.avatar}" alt="Artist" 
                 style="object-fit: cover;">
-            <div class="card-body">
-                <h5 class="card-title">${uploader.name}</h5>
+            <div class="card-body p-3">
+                <h5 class="card-title" style="font-size: 0.9rem" >${uploader.name}</h5>
                 <p class="card-text">${uploader.songs.length} songs</p>
             </div>
             <div class="play-song">
