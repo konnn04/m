@@ -8,6 +8,16 @@ import { fetchTranscript, searchVideo } from './utils.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Create an HTTP server and listen to the port
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*", // Allow all origins during development.  Restrict in production!
+    methods: ["GET", "POST"]
+  }
+});
+
 app.use(cors());
 app.set('trust proxy', 1); 
 
@@ -110,6 +120,7 @@ app.delete('/api/song/:id', async (req, res) => {
 })
 
 app.post('/api/set-cookies', async (req, res) => {
+    return res.json({ message: 'Not implemented' });
     try {
         const cookies = req.body.cookies;
         if (!cookies) {
@@ -157,3 +168,15 @@ app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
 
+
+io.on('connection', (socket) => {
+    console.log('a user connected');
+    socket.on('song-update', (data) => {
+      console.log('song-update', data);
+      io.emit(`song-update-${data.clientId}`, data); // Broadcast to specific client's room
+    });
+  
+    socket.on('disconnect', () => {
+      console.log('user disconnected');
+    });
+  });
