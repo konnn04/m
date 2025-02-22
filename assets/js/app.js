@@ -5,6 +5,11 @@ const player = new MusicPlayer();
 let allSongCache = [];
 let userInteracting = false;
 
+const socket = io(host);
+socket.on("connect", () => {
+    console.log("Connected to Socket.IO server");
+});
+
 uuidv4 = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -13,12 +18,7 @@ uuidv4 = () => {
 };
 
 function sendCurrentSongInfo( data) {
-    const socket = io(host);
-    socket.on("connect", () => {
-        console.log("Connected to Socket.IO server");
-    });
     data.clientId = localStorage.getItem("clientId");
-    // console.log("Sending song-update", data);
     socket.emit('song-update', data);
 }
 
@@ -37,9 +37,10 @@ const main = async () => {
     });
     $("#home").addClass("active");
     await initHome()
-    await initDefaultPlaylist();
+    await checkParams() || await initDefaultPlaylist();
     await initEvent();
     await player.init();
+   
 };
 
 function updateRecentlyPlayed(recentlyPlayed) {
@@ -407,6 +408,9 @@ const initEvent = () => {
         // $("#request-lyric").show();
         $(".lyric-content").empty();
         $("#request-lyric").click();
+        const currentSongId = player.getCurrentSong().getInfo().id;
+        const newUrl = `${window.location.pathname}?id=${currentSongId}`;
+        window.history.replaceState({}, document.title, newUrl);
         sendCurrentSongInfo( player.getCurrentSong().getInfo());
     });
 
@@ -1144,4 +1148,33 @@ window.onload = () => {
 
 };
 
-const socketUrl = `Host: ${host} \n Path: /socket.io/ \n Query: song-update-${localStorage.getItem("clientId")}`;
+async function checkParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    if (id) {
+        try {
+            const res = await axios.get(`${host}/api/download`, {
+                params: { url: id },
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+            });
+            const song = res.data;
+            const pl = createPlaylist([song, ...recommendedSongs(song)]);
+            player.setSongs(pl);
+            setTimeout(() => {
+                player.playIndex(0);
+            }, 1000);
+            $("#main").addClass("active");
+        } catch (error) {
+            console.error("Error playing song:", error);
+            toasty("Error", "An error occurred while playing the song\n" + error.message, "error");
+        }
+        return true;
+    }else{
+        return false;
+    }
+}
+
+const socketUrl = `ID: ${localStorage.getItem("clientId")}`;
