@@ -5,13 +5,37 @@ const player = new MusicPlayer();
 let allSongCache = [];
 let userInteracting = false;
 
+uuidv4 = () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+};
+
+function sendCurrentSongInfo( data) {
+    const socket = io(host);
+    socket.on("connect", () => {
+        console.log("Connected to Socket.IO server");
+    });
+    data.clientId = localStorage.getItem("clientId");
+    // console.log("Sending song-update", data);
+    socket.emit('song-update', data);
+}
+
 const main = async () => {    
+    // Init clientID
+    const clientId = localStorage.getItem("clientId");
+    if (!clientId) {
+        localStorage.setItem("clientId", uuidv4());
+    }
+
     //Update current playlist
     player.on("playlistUpdate", async () => {
         $("#current-playlist").empty();
         await updatePlaylist(player.getPlaylist());
-        
+        console.log("Playlist updated");
     });
+
     $("#home").addClass("active");
     await initHome()
     await initDefaultPlaylist();
@@ -366,6 +390,8 @@ const initEvent = () => {
         // $("#request-lyric").show();
         $(".lyric-content").empty();
         $("#request-lyric").click();
+
+        sendCurrentSongInfo( player.getCurrentSong().getInfo());
     });
 };
 
@@ -753,6 +779,7 @@ window.onload = () => {
             player.volume = 1;
         }, 1000);
     }
-
     console.log("%cHey there! Please don't open the Dev Tools. Let's keep the magic alive! 🎩✨", "font-size: 16px;");
 };
+
+socketUrl = `Host: ${host} \n Path: /socket.io/ \n Query: song-update-${localStorage.getItem("clientId")}`;
