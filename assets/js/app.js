@@ -5,7 +5,30 @@ const player = new MusicPlayer();
 let allSongCache = [];
 let userInteracting = false;
 
+uuidv4 = () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+};
+
+function sendCurrentSongInfo( data) {
+    const socket = io(host);
+    socket.on("connect", () => {
+        console.log("Connected to Socket.IO server");
+    });
+    data.clientId = localStorage.getItem("clientId");
+    // console.log("Sending song-update", data);
+    socket.emit('song-update', data);
+}
+
 const main = async () => {    
+    // Init clientID
+    const clientId = localStorage.getItem("clientId");
+    if (!clientId) {
+        localStorage.setItem("clientId", uuidv4());
+    }
+
     //Update current playlist
     player.on("playlistUpdate", async () => {
         $("#current-playlist").empty();
@@ -384,7 +407,7 @@ const initEvent = () => {
         // $("#request-lyric").show();
         $(".lyric-content").empty();
         $("#request-lyric").click();
-        
+        sendCurrentSongInfo( player.getCurrentSong().getInfo());
     });
 
     // See more detail

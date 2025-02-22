@@ -133,3 +133,4 @@ dist
 public/audios/*
 public/infos/*
 server/tmp
+asset/js/test.js
