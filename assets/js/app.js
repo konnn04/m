@@ -28,6 +28,11 @@ const main = async () => {
     if (!clientId) {
         localStorage.setItem("clientId", uuidv4());
     }
+    $("#client-id").text(localStorage.getItem("clientId"));
+    $("#copy-client-id").click(() => {
+        navigator.clipboard.writeText(localStorage.getItem("clientId"));
+        toasty("Success", "Client ID copied to clipboard", "success");
+    })
 
     //Update current playlist
     player.on("playlistUpdate", async () => {
@@ -1151,6 +1156,7 @@ window.onload = () => {
 async function checkParams() {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
+    const play = urlParams.get('play') || false;
     if (id) {
         try {
             const res = await axios.get(`${host}/api/download`, {
@@ -1163,9 +1169,11 @@ async function checkParams() {
             const song = res.data;
             const pl = createPlaylist([song, ...recommendedSongs(song)]);
             player.setSongs(pl);
-            setTimeout(() => {
-                player.playIndex(0);
-            }, 1000);
+            if (play) {
+                setTimeout(() => {
+                    player.playIndex(0);
+                }, 1000);
+            }
             $("#main").addClass("active");
         } catch (error) {
             console.error("Error playing song:", error);
