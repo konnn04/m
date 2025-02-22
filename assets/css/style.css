@@ -359,7 +359,7 @@ body {
 .result-item,
 .song-item {
   background-color: var(--bg2);
-  margin-bottom: 5px;
+  margin-bottom: 0px;
 }
 
 #playlist-detail{
