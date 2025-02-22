@@ -222,6 +222,8 @@ const initEvent = () => {
 
     // Export songs to local storage
     $("#save-urls").click(async function () {
+        const c = confirm("Are you sure you want to export songs to local storage?") 
+        if (!c) return;
         try {
             const songs = (await getSongs()).data.map(song => song.url).join('\n');
             localStorage.setItem('songs', JSON.stringify(songs));
@@ -385,6 +387,131 @@ const initEvent = () => {
     });
 
     // See more detail
+    $(".add-to-playlist").click(() => {
+        const playlistBox = document.createElement('div');
+        playlistBox.className = 'modal fade';
+        playlistBox.id = 'playlistModal';
+
+        // Get stored playlist names or use defaults
+        const playlistNames = JSON.parse(localStorage.getItem('playlistNames')) || {
+            playlist1: 'Playlist 1',
+            playlist2: 'Playlist 2',
+            playlist3: 'Playlist 3'
+        };
+
+        playlistBox.innerHTML = `
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-dark text-light">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add to Playlist</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="playlist-item mb-2 d-flex align-items-center">
+                            <div class="form-check flex-grow-1">
+                                <input class="form-check-input" type="checkbox" id="playlist1Check">
+                                <input type="text" class="playlist-name-input bg-dark text-light border-0" 
+                                    data-playlist="playlist1" value="${playlistNames.playlist1}">
+                            </div>
+                            <button class="btn btn-sm btn-outline-light save-name-btn" data-playlist="playlist1">
+                                <i class="bi bi-check"></i>
+                            </button>
+                        </div>
+                        <div class="playlist-item mb-2 d-flex align-items-center">
+                            <div class="form-check flex-grow-1">
+                                <input class="form-check-input" type="checkbox" id="playlist2Check">
+                                <input type="text" class="playlist-name-input bg-dark text-light border-0" 
+                                    data-playlist="playlist2" value="${playlistNames.playlist2}">
+                            </div>
+                            <button class="btn btn-sm btn-outline-light save-name-btn" data-playlist="playlist2">
+                                <i class="bi bi-check"></i>
+                            </button>
+                        </div>
+                        <div class="playlist-item mb-2 d-flex align-items-center">
+                            <div class="form-check flex-grow-1">
+                                <input class="form-check-input" type="checkbox" id="playlist3Check">
+                                <input type="text" class="playlist-name-input bg-dark text-light border-0" 
+                                    data-playlist="playlist3" value="${playlistNames.playlist3}">
+                            </div>
+                            <button class="btn btn-sm btn-outline-light save-name-btn" data-playlist="playlist3">
+                                <i class="bi bi-check"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="saveToPlaylists">Save</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(playlistBox);
+
+        // Handle playlist name changes
+        playlistBox.querySelectorAll('.save-name-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const playlistKey = this.dataset.playlist;
+                const newName = playlistBox.querySelector(`.playlist-name-input[data-playlist="${playlistKey}"]`).value.trim();
+                
+                if (newName) {
+                    playlistNames[playlistKey] = newName;
+                    localStorage.setItem('playlistNames', JSON.stringify(playlistNames));
+                    toasty("Success", "Playlist name updated", "success");
+                }
+            });
+        });
+
+        // Load existing playlists and check boxes if song exists
+        const currentSong = player.getCurrentSong().getInfo();
+        const savedPlaylists = JSON.parse(localStorage.getItem('userPlaylists')) || {
+            playlist1: [],
+            playlist2: [],
+            playlist3: []
+        };
+
+        // Check boxes based on song presence in playlists
+        document.getElementById('playlist1Check').checked = savedPlaylists.playlist1.some(song => song.id === currentSong.id);
+        document.getElementById('playlist2Check').checked = savedPlaylists.playlist2.some(song => song.id === currentSong.id);
+        document.getElementById('playlist3Check').checked = savedPlaylists.playlist3.some(song => song.id === currentSong.id);
+
+        const modal = new bootstrap.Modal(playlistBox);
+        modal.show();
+
+        document.getElementById('saveToPlaylists').addEventListener('click', function() {
+            const playlists = ['playlist1', 'playlist2', 'playlist3'];
+            
+            playlists.forEach(playlistName => {
+                const checkbox = document.getElementById(`${playlistName}Check`);
+                
+                if(checkbox.checked) {
+                    // Add song if not already in playlist
+                    if(!savedPlaylists[playlistName].some(song => song.id === currentSong.id)) {
+                        savedPlaylists[playlistName].push(currentSong);
+                    }
+                } else {
+                    // Remove song if checkbox is unchecked
+                    savedPlaylists[playlistName] = savedPlaylists[playlistName].filter(
+                        song => song.id !== currentSong.id
+                    );
+                }
+            });
+
+            // Save updated playlists to localStorage
+            localStorage.setItem('userPlaylists', JSON.stringify(savedPlaylists));
+            
+            toasty("Success", "Playlists updated successfully", "success");
+            modal.hide();
+            
+            // Clean up modal
+            playlistBox.remove();
+        });
+
+        // Clean up modal when closed
+        playlistBox.addEventListener('hidden.bs.modal', function() {
+            playlistBox.remove();
+        });
+    });
 
 };
 
@@ -769,131 +896,7 @@ async function initHome() {
         showPlayDetail(usukSongs, "US-UK Songs", "US-UK Songs are known for their catchy tunes and relatable lyrics. From pop to rock, these songs have a global appeal and are loved by music enthusiasts of all ages.");
     });
     //
-    $(".add-to-playlist").click(() => {
-        const playlistBox = document.createElement('div');
-        playlistBox.className = 'modal fade';
-        playlistBox.id = 'playlistModal';
-
-        // Get stored playlist names or use defaults
-        const playlistNames = JSON.parse(localStorage.getItem('playlistNames')) || {
-            playlist1: 'Playlist 1',
-            playlist2: 'Playlist 2',
-            playlist3: 'Playlist 3'
-        };
-
-        playlistBox.innerHTML = `
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content bg-dark text-light">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add to Playlist</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="playlist-item mb-2 d-flex align-items-center">
-                            <div class="form-check flex-grow-1">
-                                <input class="form-check-input" type="checkbox" id="playlist1Check">
-                                <input type="text" class="playlist-name-input bg-dark text-light border-0" 
-                                    data-playlist="playlist1" value="${playlistNames.playlist1}">
-                            </div>
-                            <button class="btn btn-sm btn-outline-light save-name-btn" data-playlist="playlist1">
-                                <i class="bi bi-check"></i>
-                            </button>
-                        </div>
-                        <div class="playlist-item mb-2 d-flex align-items-center">
-                            <div class="form-check flex-grow-1">
-                                <input class="form-check-input" type="checkbox" id="playlist2Check">
-                                <input type="text" class="playlist-name-input bg-dark text-light border-0" 
-                                    data-playlist="playlist2" value="${playlistNames.playlist2}">
-                            </div>
-                            <button class="btn btn-sm btn-outline-light save-name-btn" data-playlist="playlist2">
-                                <i class="bi bi-check"></i>
-                            </button>
-                        </div>
-                        <div class="playlist-item mb-2 d-flex align-items-center">
-                            <div class="form-check flex-grow-1">
-                                <input class="form-check-input" type="checkbox" id="playlist3Check">
-                                <input type="text" class="playlist-name-input bg-dark text-light border-0" 
-                                    data-playlist="playlist3" value="${playlistNames.playlist3}">
-                            </div>
-                            <button class="btn btn-sm btn-outline-light save-name-btn" data-playlist="playlist3">
-                                <i class="bi bi-check"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="saveToPlaylists">Save</button>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        document.body.appendChild(playlistBox);
-
-        // Handle playlist name changes
-        playlistBox.querySelectorAll('.save-name-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const playlistKey = this.dataset.playlist;
-                const newName = playlistBox.querySelector(`.playlist-name-input[data-playlist="${playlistKey}"]`).value.trim();
-                
-                if (newName) {
-                    playlistNames[playlistKey] = newName;
-                    localStorage.setItem('playlistNames', JSON.stringify(playlistNames));
-                    toasty("Success", "Playlist name updated", "success");
-                }
-            });
-        });
-
-        // Load existing playlists and check boxes if song exists
-        const currentSong = player.getCurrentSong().getInfo();
-        const savedPlaylists = JSON.parse(localStorage.getItem('userPlaylists')) || {
-            playlist1: [],
-            playlist2: [],
-            playlist3: []
-        };
-
-        // Check boxes based on song presence in playlists
-        document.getElementById('playlist1Check').checked = savedPlaylists.playlist1.some(song => song.id === currentSong.id);
-        document.getElementById('playlist2Check').checked = savedPlaylists.playlist2.some(song => song.id === currentSong.id);
-        document.getElementById('playlist3Check').checked = savedPlaylists.playlist3.some(song => song.id === currentSong.id);
-
-        const modal = new bootstrap.Modal(playlistBox);
-        modal.show();
-
-        document.getElementById('saveToPlaylists').addEventListener('click', function() {
-            const playlists = ['playlist1', 'playlist2', 'playlist3'];
-            
-            playlists.forEach(playlistName => {
-                const checkbox = document.getElementById(`${playlistName}Check`);
-                
-                if(checkbox.checked) {
-                    // Add song if not already in playlist
-                    if(!savedPlaylists[playlistName].some(song => song.id === currentSong.id)) {
-                        savedPlaylists[playlistName].push(currentSong);
-                    }
-                } else {
-                    // Remove song if checkbox is unchecked
-                    savedPlaylists[playlistName] = savedPlaylists[playlistName].filter(
-                        song => song.id !== currentSong.id
-                    );
-                }
-            });
-
-            // Save updated playlists to localStorage
-            localStorage.setItem('userPlaylists', JSON.stringify(savedPlaylists));
-            
-            toasty("Success", "Playlists updated successfully", "success");
-            modal.hide();
-            
-            // Clean up modal
-            playlistBox.remove();
-        });
-
-        // Clean up modal when closed
-        playlistBox.addEventListener('hidden.bs.modal', function() {
-            playlistBox.remove();
-        });
-    });
+    
 }
 
 async function downloadSong(url) {
@@ -1112,5 +1115,5 @@ window.onload = () => {
         }, 1000);
     }
 
-    console.log("%cHey there! Please don't open the Dev Tools. Let's keep the magic alive! 🎩✨", "font-size: 16px;");
+    console.log("%cHey there! Please don't open the Dev Tools. Let's keep the magic alive! 🎩✨", "font-size: 32px;");
 };
