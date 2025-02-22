@@ -1156,7 +1156,7 @@ window.onload = () => {
 async function checkParams() {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
-    const play = urlParams.get('play') || false;
+    const autoplay = urlParams.get('autoplay') || false;
     if (id) {
         try {
             const res = await axios.get(`${host}/api/download`, {
@@ -1169,12 +1169,12 @@ async function checkParams() {
             const song = res.data;
             const pl = createPlaylist([song, ...recommendedSongs(song)]);
             player.setSongs(pl);
-            if (play) {
+            if (autoplay) {
                 setTimeout(() => {
+                    $("#main").addClass("active");
                     player.playIndex(0);
                 }, 1000);
             }
-            $("#main").addClass("active");
         } catch (error) {
             console.error("Error playing song:", error);
             toasty("Error", "An error occurred while playing the song\n" + error.message, "error");
