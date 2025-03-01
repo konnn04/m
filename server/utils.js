@@ -3,6 +3,7 @@ import { Innertube } from 'youtubei.js';
 import fs from 'fs';
 import path from 'path';
 import { franc } from 'franc';
+import tlg from './telegram.js';
 
 const STORAGE_DIR = '/tmp';
 const PUBLIC_DIR = path.join(STORAGE_DIR, 'public');
@@ -93,6 +94,8 @@ async function getAvatarUploader(channel_id) {
         return data?.metadata?.avatar[0]?.url;
     }).catch((error) => {
         console.error('Error in getAvatarUploader:', error);
+        tlg.reportError(error, 'getAvatarUploader', {channel_id});
+
         return null;
     });
 }
@@ -128,6 +131,7 @@ async function getInfo(id) {
         return video;
     } catch (error) {
         console.error('Error in getInfo:', error);
+        tlg.reportError(error, 'getInfo', {id});
         throw error; // Re-throw the error to be handled by the caller
     }
 }

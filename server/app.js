@@ -7,6 +7,8 @@ import fs from 'fs';
 import { fetchTranscript, searchVideo } from './utils.js';
 import { Server } from "socket.io";
 import { createServer } from 'http';
+import tlg from './telegram.js';
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -67,6 +69,7 @@ app.get('/api/songs', async (req, res) => {
         res.json(list);
     } catch (error) {
         console.error(error);
+        tlg.reportError(error, '/api/songs', req.query);
         res.status(500).json({ message: 'Internal Server Error' });
     } finally {
         // Any cleanup code if necessary
@@ -85,6 +88,7 @@ app.get('/api/search', async (req, res) => {
         res.json(r);
     } catch (error) {
         console.error(error);
+        tlg.reportError(error, '/api/search', req.query);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 })
@@ -99,9 +103,12 @@ app.get('/api/download', async (req, res) => {
         }
         const r = await ytdlp.getAudio(url);
         r.path = path.join('/audios', r.id + '.webm');
+        const clientIP = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        tlg.sendMessage(`🎵 *New song downloaded*:\n🎶 *Title*: ${r.title}\n🔗 *URL*: ${r.url}\nBy ${clientIP}`)
         res.json(r);
     } catch (error) {
         console.error(error);
+        tlg.reportError(error, '/api/download', req.query);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 })
@@ -114,9 +121,12 @@ app.delete('/api/song/:id', async (req, res) => {
             return;
         }
         const r = await ytdlp.deleteAudio(id);
+        const clientIP = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        tlg.sendMessage(`🗑 *Song deleted*:\n🎶 *Title*: ${r.title}\n🔗 *URL*: ${r.url}\n By ${clientIP}`)
         res.json(r);
     } catch (error) {
         console.error(error);
+        tlg.reportError(error, '/api/song/:id', req.params);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 })
@@ -148,6 +158,7 @@ app.get('/api/get-subtitles', async (req, res) => {
         res.json(r);
     } catch (error) {
         console.error(error);
+        tlg.reportError(error, '/api/get-subtitles', req.query);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 })
@@ -160,6 +171,7 @@ app.use((req, res, next) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
+    tlg.reportError(err, 'Error handling middleware', req);
     res.status(500).send('Something broke!');
 });
 
@@ -171,6 +183,7 @@ app.use((err, req, res, next) => {
 // });
 
 server.listen(port, () => {
+    tlg.testTelegramConnection();
     console.log(`Server running at http://localhost:${port}`);
 });
 
